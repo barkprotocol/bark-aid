@@ -1,20 +1,20 @@
 import type { Config } from "tailwindcss";
 
-const config = {
-  darkMode: ["class"],
+const config: Config = {
+  darkMode: ["class"], // Enable dark mode using class-based strategy
   content: [
     "./pages/**/*.{ts,tsx}",
     "./components/**/*.{ts,tsx}",
     "./app/**/*.{ts,tsx}",
     "./src/**/*.{ts,tsx}",
   ],
-  prefix: "",
+  prefix: "", // Define a prefix if needed to avoid conflicts
   theme: {
     container: {
-      center: true,
-      padding: "2rem",
+      center: true, // Center the container
+      padding: "2rem", // Default padding
       screens: {
-        "2xl": "1400px",
+        "2xl": "1400px", // Container width for extra large screens
       },
     },
     extend: {
@@ -56,6 +56,11 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        customColor: "#D0BFB4", // Example custom color
+      },
+      fontFamily: {
+        poppins: ['Poppins', 'sans-serif'],
+        syne: ['Syne', 'sans-serif'],
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -78,7 +83,7 @@ const config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
-} satisfies Config;
+  plugins: [require("tailwindcss-animate")], // Plugin for animations
+};
 
 export default config;
