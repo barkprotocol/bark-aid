@@ -15,18 +15,6 @@ import { siteConfig } from "@/config/site";
 
 const inter = Inter({ subsets: ["latin"] });
 
-type Viewport = {
-  width: string;
-  initialScale: number;
-  maximumScale: number;
-};
-
-export const viewport: Viewport = {
-  width: "device-width",
-  initialScale: 1,
-  maximumScale: 1,
-};
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -42,14 +30,14 @@ export default function RootLayout({
                 <div className="flex items-center gap-4">
                   {/* Logo with Updated URL */}
                   <Link href="/" legacyBehavior>
-                    <div className="flex items-center space-x-2">
+                    <a className="flex items-center space-x-2">
                       <img
-                        src="https://ucarecdn.com/b2ad5d9c-abe8-4295-9f2b-274835546617/blinklight.png" // Updated Logo URL
+                        src={siteConfig.logoUrl} // Use the logo URL from siteConfig
                         alt="Site Logo"
                         className="h-8 w-8" // Adjust size as needed
                       />
                       <span className="text-lg font-bold">{siteConfig.name}</span>
-                    </div>
+                    </a>
                   </Link>
 
                   {/* Main Navigation */}
@@ -61,12 +49,14 @@ export default function RootLayout({
                     <Link
                       target="_blank"
                       href={siteConfig.links.docs}
-                      className={cn(
+                      legacyBehavior
+                    >
+                      <a className={cn(
                         buttonVariants({ variant: "secondary", size: "sm" }),
                         "px-4"
-                      )}
-                    >
-                      Read the Docs
+                      )}>
+                        Read the Docs
+                      </a>
                     </Link>
                   </Button>
 
