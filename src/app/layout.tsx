@@ -27,7 +27,7 @@ export const metadata: Metadata = {
 
 // Color variables
 const colors = {
-  grey: "#6B7280", // A modern grey
+  grey: "#6B7280", // Modern grey
   white: "#FFFFFF", // Pure white
   black: "#000000", // Pure black
   sand: "#CBB5A7", // Sand
@@ -54,7 +54,7 @@ export default function RootLayout({
                       target="_blank"
                       className={cn(
                         buttonVariants({ variant: "secondary", size: "sm" }),
-                        "px-4",
+                        "px-4"
                       )}
                       style={{ backgroundColor: colors.sand, color: colors.white }}
                     >
@@ -69,7 +69,7 @@ export default function RootLayout({
 
             <div
               className={cn(
-                "before:absolute z-[-1] before:h-[300px] before:w-full before:translate-x-1/4 before:translate-y-52 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-5 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]",
+                "before:absolute z-[-1] before:h-[300px] before:w-full before:translate-x-1/4 before:translate-y-52 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-5 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]"
               )}
               style={{ backgroundColor: colors.grey }}
             ></div>

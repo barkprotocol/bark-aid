@@ -19,7 +19,7 @@ import {
 } from "@solana/web3.js";
 import { DEFAULT_SOL_ADDRESS, DEFAULT_SOL_AMOUNT } from "./const";
 
-// create the standard headers for this route (including CORS)
+// Create the standard headers for this route (including CORS)
 const headers = createActionHeaders();
 
 export const GET = async (req: Request) => {
@@ -34,31 +34,31 @@ export const GET = async (req: Request) => {
 
     const payload: ActionGetResponse = {
       type: "action",
-      title: "Actions Example - Transfer Native SOL",
+      title: "Actions Example - Transfer SOL",
       icon: new URL("/solana_devs.jpg", requestUrl.origin).toString(),
       description: "Transfer SOL to another Solana wallet",
-      label: "Transfer", // this value will be ignored since `links.actions` exists
+      label: "Transfer", // This value will be ignored since `links.actions` exists
       links: {
         actions: [
           {
-            label: "Send 1 SOL", // button text
-            href: `${baseHref}&amount=${"1"}`,
+            label: "Send 1 SOL", // Button text
+            href: `${baseHref}&amount=${"1"}`, // Amount in SOL
           },
           {
-            label: "Send 5 SOL", // button text
-            href: `${baseHref}&amount=${"5"}`,
+            label: "Send 5 SOL", // Button text
+            href: `${baseHref}&amount=${"5"}`, // Amount in SOL
           },
           {
-            label: "Send 10 SOL", // button text
-            href: `${baseHref}&amount=${"10"}`,
+            label: "Send 10 SOL", // Button text
+            href: `${baseHref}&amount=${"10"}`, // Amount in SOL
           },
           {
-            label: "Send SOL", // button text
-            href: `${baseHref}&amount={amount}`, // this href will have a text input
+            label: "Send SOL", // Button text
+            href: `${baseHref}&amount={amount}`, // This href will have a text input
             parameters: [
               {
-                name: "amount", // parameter name in the `href` above
-                label: "Enter the amount of SOL to send", // placeholder of the text input
+                name: "amount", // Parameter name in the `href` above
+                label: "Enter the amount of SOL to send", // Placeholder of the text input
                 required: true,
               },
             ],
@@ -67,13 +67,12 @@ export const GET = async (req: Request) => {
       },
     };
 
-    return Response.json(payload, {
+    return new Response(JSON.stringify(payload), {
       headers,
     });
   } catch (err) {
-    console.log(err);
-    let message = "An unknown error occurred";
-    if (typeof err == "string") message = err;
+    console.error(err);
+    const message = typeof err === "string" ? err : "An unknown error occurred";
     return new Response(message, {
       status: 400,
       headers,
@@ -81,8 +80,7 @@ export const GET = async (req: Request) => {
   }
 };
 
-// DO NOT FORGET TO INCLUDE THE `OPTIONS` HTTP METHOD
-// THIS WILL ENSURE CORS WORKS FOR BLINKS
+// Include the OPTIONS HTTP method for CORS
 export const OPTIONS = async (req: Request) => {
   return new Response(null, { headers });
 };
@@ -94,7 +92,7 @@ export const POST = async (req: Request) => {
 
     const body: ActionPostRequest = await req.json();
 
-    // validate the client provided input
+    // Validate the client-provided input
     let account: PublicKey;
     try {
       account = new PublicKey(body.account);
@@ -106,61 +104,50 @@ export const POST = async (req: Request) => {
     }
 
     const connection = new Connection(
-      process.env.SOLANA_RPC! || clusterApiUrl("devnet"),
+      process.env.SOLANA_RPC || clusterApiUrl("devnet"),
     );
 
-    // ensure the receiving account will be rent exempt
+    // Ensure the receiving account will be rent exempt
     const minimumBalance = await connection.getMinimumBalanceForRentExemption(
-      0, // note: simple accounts that just store native SOL have `0` bytes of data
+      0, // Simple accounts that just store native SOL have `0` bytes of data
     );
     if (amount * LAMPORTS_PER_SOL < minimumBalance) {
-      throw `account may not be rent exempt: ${toPubkey.toBase58()}`;
+      throw new Error(`Account may not be rent exempt: ${toPubkey.toBase58()}`);
     }
 
-    // create an instruction to transfer native SOL from one wallet to another
+    // Create an instruction to transfer native SOL from one wallet to another
     const transferSolInstruction = SystemProgram.transfer({
       fromPubkey: account,
       toPubkey: toPubkey,
       lamports: amount * LAMPORTS_PER_SOL,
     });
 
-    // get the latest blockhash amd block height
+    // Get the latest blockhash and block height
     const { blockhash, lastValidBlockHeight } =
       await connection.getLatestBlockhash();
 
-    // create a legacy transaction
+    // Create a transaction
     const transaction = new Transaction({
       feePayer: account,
       blockhash,
       lastValidBlockHeight,
     }).add(transferSolInstruction);
 
-    // versioned transactions are also supported
-    // const transaction = new VersionedTransaction(
-    //   new TransactionMessage({
-    //     payerKey: account,
-    //     recentBlockhash: blockhash,
-    //     instructions: [transferSolInstruction],
-    //   }).compileToV0Message(),
-    //   // note: you can also use `compileToLegacyMessage`
-    // );
-
     const payload: ActionPostResponse = await createPostResponse({
       fields: {
         transaction,
         message: `Send ${amount} SOL to ${toPubkey.toBase58()}`,
       },
-      // note: no additional signers are needed
+      // No additional signers are needed
       // signers: [],
     });
 
-    return Response.json(payload, {
+    return new Response(JSON.stringify(payload), {
       headers,
     });
   } catch (err) {
-    console.log(err);
-    let message = "An unknown error occurred";
-    if (typeof err == "string") message = err;
+    console.error(err);
+    const message = typeof err === "string" ? err : "An unknown error occurred";
     return new Response(message, {
       status: 400,
       headers,
@@ -168,6 +155,7 @@ export const POST = async (req: Request) => {
   }
 };
 
+// Helper function to validate query parameters
 function validatedQueryParams(requestUrl: URL) {
   let toPubkey: PublicKey = DEFAULT_SOL_ADDRESS;
   let amount: number = DEFAULT_SOL_AMOUNT;
@@ -177,7 +165,7 @@ function validatedQueryParams(requestUrl: URL) {
       toPubkey = new PublicKey(requestUrl.searchParams.get("to")!);
     }
   } catch (err) {
-    throw "Invalid input query parameter: to";
+    throw new Error("Invalid input query parameter: to");
   }
 
   try {
@@ -185,9 +173,9 @@ function validatedQueryParams(requestUrl: URL) {
       amount = parseFloat(requestUrl.searchParams.get("amount")!);
     }
 
-    if (amount <= 0) throw "amount is too small";
+    if (amount <= 0) throw new Error("Amount is too small");
   } catch (err) {
-    throw "Invalid input query parameter: amount";
+    throw new Error("Invalid input query parameter: amount");
   }
 
   return {

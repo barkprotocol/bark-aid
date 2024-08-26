@@ -14,7 +14,7 @@ export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
     <footer className={cn(className, "bg-sand text-black border-t border-gray-200 shadow-md")}>
       <div className="container flex flex-col items-center justify-between gap-8 py-6 md:flex-row md:py-8">
         <div className="flex flex-col items-center gap-6 px-6 md:flex-row md:gap-8 md:px-0">
-          {/* Use the image directly with the src path */}
+          {/* Site icon */}
           <Image src={iconSrc} alt="Site Icon" width={40} height={40} className="text-sand" />
           <p className="text-center text-sm leading-relaxed md:text-left">
             © 2024 BARK Protocol.{" "}

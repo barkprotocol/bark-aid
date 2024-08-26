@@ -6,8 +6,27 @@ import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "@/lib/utils";
 
+// Define label variants using CVA
 const labelVariants = cva(
   "text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70",
+  {
+    variants: {
+      size: {
+        small: "text-xs",
+        medium: "text-sm",
+        large: "text-base",
+      },
+      color: {
+        default: "text-gray-700",
+        primary: "text-blue-500",
+        secondary: "text-gray-500",
+      },
+    },
+    defaultVariants: {
+      size: "medium",
+      color: "default",
+    },
+  }
 );
 
 const Label = React.forwardRef<
@@ -21,6 +40,7 @@ const Label = React.forwardRef<
     {...props}
   />
 ));
+
 Label.displayName = LabelPrimitive.Root.displayName;
 
 export { Label };

@@ -8,17 +8,12 @@ import { siteConfig } from "@/config/site";
 import { useEffect, useState } from "react";
 
 export default function PaymentsPage() {
-  // Update the API path to reflect the payments functionality
   const apiPath = "/api/actions/payments";
   const [apiEndpoint, setApiEndpoint] = useState("");
 
   useEffect(() => {
     setApiEndpoint(new URL(apiPath, window.location.href).toString());
-
-    return () => {
-      setApiEndpoint(new URL(apiPath, window.location.href).toString());
-    };
-  }, []);
+  }, [apiPath]);
 
   return (
     <section
@@ -36,7 +31,7 @@ export default function PaymentsPage() {
 
       <Card className="group-hover:border-primary size-[400px] rounded overflow-hidden text-center flex items-center justify-center w-min mx-auto">
         <SolanaQRCode
-          url={apiPath}
+          url={apiEndpoint}
           color="white"
           background="black"
           size={400}
@@ -47,10 +42,11 @@ export default function PaymentsPage() {
       <div className="mx-auto text-center md:max-w-[58rem]">
         <p className="leading-normal text-muted-foreground sm:text-lg sm:leading-7">
           View the{" "}
-          <Button variant={"link"} asChild>
+          <Button variant="link" asChild>
             <Link
               href={`${siteConfig.links.github}/src/app${apiPath}/route.ts`}
               target="_blank"
+              rel="noopener noreferrer"
             >
               source code for this payments Action
             </Link>
@@ -69,7 +65,8 @@ export default function PaymentsPage() {
               href={apiEndpoint}
               target="_blank"
               className="underline hover:text-primary"
-              legacyBehavior>
+              rel="noopener noreferrer"
+            >
               {apiEndpoint}
             </Link>
           </p>

@@ -8,17 +8,14 @@ import { siteConfig } from "@/config/site";
 import { useEffect, useState } from "react";
 
 export default function WalletPage() {
-  // Update the API path to reflect the wallet functionality
+  // Define the API path for wallet functionality
   const apiPath = "/api/actions/wallet";
   const [apiEndpoint, setApiEndpoint] = useState("");
 
   useEffect(() => {
-    setApiEndpoint(new URL(apiPath, window.location.href).toString());
-
-    return () => {
-      setApiEndpoint(new URL(apiPath, window.location.href).toString());
-    };
-  }, []);
+    const endpoint = new URL(apiPath, window.location.href).toString();
+    setApiEndpoint(endpoint);
+  }, [apiPath]);
 
   return (
     <section
@@ -47,10 +44,11 @@ export default function WalletPage() {
       <div className="mx-auto text-center md:max-w-[58rem]">
         <p className="leading-normal text-muted-foreground sm:text-lg sm:leading-7">
           View the{" "}
-          <Button variant={"link"} asChild>
+          <Button variant="link" asChild>
             <Link
               href={`${siteConfig.links.github}/src/app${apiPath}/route.ts`}
               target="_blank"
+              rel="noopener noreferrer"
             >
               source code for this wallet Action
             </Link>
@@ -69,7 +67,8 @@ export default function WalletPage() {
               href={apiEndpoint}
               target="_blank"
               className="underline hover:text-primary"
-              legacyBehavior>
+              rel="noopener noreferrer"
+            >
               {apiEndpoint}
             </Link>
           </p>

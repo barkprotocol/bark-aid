@@ -15,7 +15,7 @@ import {
   SettingsIcon,     // Icon for Manage Wallet
 } from "lucide-react";
 
-// Define color variables
+// Define color variables for consistent styling
 const colors = {
   grey: "#6B7280", // Modern grey
   white: "#FFFFFF", // Pure white
@@ -24,12 +24,8 @@ const colors = {
   sand: "#CBB5A7", // Sand color
 };
 
-const actionCards: Array<{
-  title: string;
-  href: string;
-  description: React.ReactNode;
-  icon: React.ReactNode;
-}> = [
+// Array of action cards with title, href, description, and icon
+const actionCards = [
   {
     title: "On-chain Memo",
     href: "/memo",
@@ -49,9 +45,9 @@ const actionCards: Array<{
     icon: <WalletIcon className="size-12" />,
   },
   {
-    title: "Transfer SPL Tokens",
-    href: "/transfer-spl",
-    description: "Easily transfer SPL tokens to any other Solana wallet.",
+    title: "Transfer BARK",
+    href: "/transfer-bark",
+    description: "Easily transfer BARK tokens to any other Solana wallet.",
     icon: <CoinsIcon className="size-12" />,
   },
   {

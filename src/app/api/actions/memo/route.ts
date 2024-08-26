@@ -19,7 +19,7 @@ import {
   TransactionInstruction,
 } from "@solana/web3.js";
 
-// create the standard headers for this route (including CORS)
+// Create the standard headers for this route (including CORS)
 const headers = createActionHeaders();
 
 export const GET = async (req: Request) => {
@@ -31,7 +31,7 @@ export const GET = async (req: Request) => {
     label: "Send Memo",
   };
 
-  return Response.json(payload, {
+  return new Response(JSON.stringify(payload), {
     headers,
   });
 };
@@ -57,45 +57,40 @@ export const POST = async (req: Request) => {
     }
 
     const connection = new Connection(
-      process.env.SOLANA_RPC! || clusterApiUrl("devnet"),
+      process.env.SOLANA_RPC || clusterApiUrl("devnet"),
     );
 
     const transaction = new Transaction().add(
-      // note: `createPostResponse` requires at least 1 non-memo instruction
+      // Note: `createPostResponse` requires at least 1 non-memo instruction
       ComputeBudgetProgram.setComputeUnitPrice({
-        microLamports: 1000,
+        microLamports: 1000, // Adjust if needed
       }),
       new TransactionInstruction({
         programId: new PublicKey(MEMO_PROGRAM_ID),
-        data: Buffer.from("this is a simple memo message2", "utf8"),
-        keys: [],
+        data: Buffer.from("this is a simple memo message", "utf8"),
+        keys: [], // No accounts required for Memo Program
       }),
     );
 
-    // set the end user as the fee payer
+    // Set the end user as the fee payer
     transaction.feePayer = account;
-
-    transaction.recentBlockhash = (
-      await connection.getLatestBlockhash()
-    ).blockhash;
+    transaction.recentBlockhash = (await connection.getLatestBlockhash()).blockhash;
 
     const payload: ActionPostResponse = await createPostResponse({
       fields: {
         transaction,
         message: "Post this memo on-chain",
       },
-      // no additional signers are required for this transaction
+      // No additional signers required for this transaction
       // signers: [],
     });
 
-    return Response.json(payload, {
+    return new Response(JSON.stringify(payload), {
       headers,
     });
   } catch (err) {
-    console.log(err);
-    let message = "An unknown error occurred";
-    if (typeof err == "string") message = err;
-    return new Response(message, {
+    console.error("An error occurred:", err);
+    return new Response("An unknown error occurred", {
       status: 400,
       headers,
     });

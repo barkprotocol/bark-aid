@@ -16,20 +16,24 @@ export function SolanaQRCode({
   className,
   background = "transparent",
   color = "#080808", // Default color if not provided
-  size = 400,
+  size = 400, // Default size if not provided
 }: ComponentProps) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // Helper function to validate and resolve the URL
+    const resolveURL = (url: string | URL) => {
+      try {
+        return new URL(url, window.location.href);
+      } catch {
+        throw new Error("Invalid URL provided.");
+      }
+    };
+
     try {
-      // Ensure the URL is valid
-      const resolvedUrl = new URL(url, window.location.href);
-      const encodedUrl = encodeURL(
-        {
-          link: resolvedUrl,
-        },
-        "solana:"
-      );
+      // Resolve and encode the URL
+      const resolvedUrl = resolveURL(url);
+      const encodedUrl = encodeURL({ link: resolvedUrl }, "solana:");
 
       console.log("encodedUrl:", encodedUrl.toString());
 
@@ -44,7 +48,10 @@ export function SolanaQRCode({
     } catch (error) {
       console.error("Error generating QR code:", error);
     }
-  }, [url, background, color, size]); // Added dependencies to ensure effect is accurate
+  }, [url, background, color, size]);
 
-  return <div ref={ref} className={className} />;
+  // Ensure size is a positive number
+  const validSize = Math.max(size, 100);
+
+  return <div ref={ref} className={className} style={{ width: validSize, height: validSize }} />;
 }

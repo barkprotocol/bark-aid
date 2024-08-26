@@ -1,5 +1,5 @@
 /**
- * Solana Actions Example
+ * Solana Actions Example - Staking SOL
  */
 
 import {
@@ -21,7 +21,7 @@ import {
 } from "@solana/web3.js";
 import { DEFAULT_STAKE_AMOUNT, DEFAULT_VALIDATOR_VOTE_PUBKEY } from "./const";
 
-// create the standard headers for this route (including CORS)
+// Create the standard headers for this route (including CORS)
 const headers = createActionHeaders();
 
 export const GET = async (req: Request) => {
@@ -39,28 +39,28 @@ export const GET = async (req: Request) => {
       title: "Actions Example - Staking SOL",
       icon: new URL("/solana_devs.jpg", requestUrl.origin).toString(),
       description: `Stake your SOL to the ${validator.toBase58()} validator to secure the Solana network`,
-      label: "Stake your SOL", // this value will be ignored since `links.actions` exists
+      label: "Stake your SOL", // This value will be ignored since `links.actions` exists
       links: {
         actions: [
           {
-            label: "Stake 1 SOL", // button text
-            href: `${baseHref}&amount=${"1"}`,
+            label: "Stake 1 SOL", // Button text
+            href: `${baseHref}&amount=${"1"}`, // Amount in SOL
           },
           {
-            label: "Stake 5 SOL", // button text
-            href: `${baseHref}&amount=${"5"}`,
+            label: "Stake 5 SOL", // Button text
+            href: `${baseHref}&amount=${"5"}`, // Amount in SOL
           },
           {
-            label: "Stake 10 SOL", // button text
-            href: `${baseHref}&amount=${"10"}`,
+            label: "Stake 10 SOL", // Button text
+            href: `${baseHref}&amount=${"10"}`, // Amount in SOL
           },
           {
-            label: "Stake SOL", // button text
-            href: `${baseHref}&amount={amount}`, // this href will have a text input
+            label: "Stake SOL", // Button text
+            href: `${baseHref}&amount={amount}`, // This href will have a text input
             parameters: [
               {
-                name: "amount", // parameter name in the `href` above
-                label: "Enter the amount of SOL to stake", // placeholder of the text input
+                name: "amount", // Parameter name in the `href` above
+                label: "Enter the amount of SOL to stake", // Placeholder of the text input
                 required: true,
               },
             ],
@@ -69,13 +69,12 @@ export const GET = async (req: Request) => {
       },
     };
 
-    return Response.json(payload, {
+    return new Response(JSON.stringify(payload), {
       headers,
     });
   } catch (err) {
-    console.log(err);
-    let message = "An unknown error occurred";
-    if (typeof err == "string") message = err;
+    console.error(err);
+    const message = typeof err === "string" ? err : "An unknown error occurred";
     return new Response(message, {
       status: 400,
       headers,
@@ -83,8 +82,7 @@ export const GET = async (req: Request) => {
   }
 };
 
-// DO NOT FORGET TO INCLUDE THE `OPTIONS` HTTP METHOD
-// THIS WILL ENSURE CORS WORKS FOR BLINKS
+// Include the OPTIONS HTTP method for CORS
 export const OPTIONS = async () => {
   return new Response(null, { headers });
 };
@@ -96,7 +94,7 @@ export const POST = async (req: Request) => {
 
     const body: ActionPostRequest = await req.json();
 
-    // validate the client provided input
+    // Validate the client-provided input
     let account: PublicKey;
     try {
       account = new PublicKey(body.account);
@@ -108,13 +106,13 @@ export const POST = async (req: Request) => {
     }
 
     const connection = new Connection(
-      process.env.SOLANA_RPC! || clusterApiUrl("devnet"),
+      process.env.SOLANA_RPC || clusterApiUrl("devnet"),
     );
 
     const minStake = await connection.getStakeMinimumDelegation();
-    if (amount < minStake.value) {
-      console.log("minimum stake:", minStake);
-      throw `The minimum stake amount is ${minStake.value}`;
+    if (amount < minStake.value / LAMPORTS_PER_SOL) {
+      console.error("Minimum stake:", minStake);
+      throw new Error(`The minimum stake amount is ${minStake.value / LAMPORTS_PER_SOL} SOL`);
     }
 
     const stakeKeypair = Keypair.generate();
@@ -124,8 +122,8 @@ export const POST = async (req: Request) => {
         stakePubkey: stakeKeypair.publicKey,
         authorized: new Authorized(account, account),
         fromPubkey: account,
-        lamports: 1 * LAMPORTS_PER_SOL,
-        // note: if you want to time lock the stake account for any time period, this is how
+        lamports: amount * LAMPORTS_PER_SOL,
+        // Note: You can time lock the stake account with Lockup if needed
         // lockup: new Lockup(0, 0, account),
       }),
       StakeProgram.delegate({
@@ -135,7 +133,7 @@ export const POST = async (req: Request) => {
       }),
     );
 
-    // set the end user as the fee payer
+    // Set the end user as the fee payer
     transaction.feePayer = account;
 
     transaction.recentBlockhash = (
@@ -147,17 +145,15 @@ export const POST = async (req: Request) => {
         transaction,
         message: `Stake ${amount} SOL to validator ${validator.toBase58()}`,
       },
-      // note: creating a new stake account requires the account's keypair to sign
       signers: [stakeKeypair],
     });
 
-    return Response.json(payload, {
+    return new Response(JSON.stringify(payload), {
       headers,
     });
   } catch (err) {
-    console.log(err);
-    let message = "An unknown error occurred";
-    if (typeof err == "string") message = err;
+    console.error(err);
+    const message = typeof err === "string" ? err : "An unknown error occurred";
     return new Response(message, {
       status: 400,
       headers,
@@ -165,6 +161,7 @@ export const POST = async (req: Request) => {
   }
 };
 
+// Helper function to validate query parameters
 function validatedQueryParams(requestUrl: URL) {
   let validator: PublicKey = DEFAULT_VALIDATOR_VOTE_PUBKEY;
   let amount: number = DEFAULT_STAKE_AMOUNT;
@@ -174,16 +171,16 @@ function validatedQueryParams(requestUrl: URL) {
       validator = new PublicKey(requestUrl.searchParams.get("validator")!);
     }
   } catch (err) {
-    throw "Invalid input query parameter: validator";
+    throw new Error("Invalid input query parameter: validator");
   }
 
   try {
     if (requestUrl.searchParams.get("amount")) {
       amount = parseFloat(requestUrl.searchParams.get("amount")!);
     }
-    if (amount <= 0) throw "amount is too small";
+    if (amount <= 0) throw new Error("Amount is too small");
   } catch (err) {
-    throw "Invalid input query parameter: amount";
+    throw new Error("Invalid input query parameter: amount");
   }
 
   return {
