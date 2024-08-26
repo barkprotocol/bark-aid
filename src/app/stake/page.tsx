@@ -78,7 +78,7 @@ export default function Pages() {
               href={apiEndpoint}
               target="_blank"
               className="underline hover:text-primary"
-            >
+              legacyBehavior>
               {apiEndpoint}
             </Link>
           </p>

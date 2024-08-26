@@ -69,23 +69,23 @@ export default function Pages() {
 
       <div className="mx-auto grid justify-center gap-4 sm:grid-cols-2 md:max-w-[64rem] md:grid-cols-3">
         {actionCards.map((item, index) => (
-          <Link key={index} href={item.href} passHref>
-            <a className="group">
-              <Card className="group-hover:border-primary">
-                <CardHeader>
-                  <CardTitle className="space-y-3">
-                    {item.icon}
-                    <span className="block font-bold group-hover:text-pretty">
-                      {item.title}
-                    </span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-2">
-                  <p className="text-muted-foreground">{item.description}</p>
-                </CardContent>
-              </Card>
-            </a>
-          </Link>
+          (<Link key={index} href={item.href} passHref className="group">
+
+            <Card className="group-hover:border-primary">
+              <CardHeader>
+                <CardTitle className="space-y-3">
+                  {item.icon}
+                  <span className="block font-bold group-hover:text-pretty">
+                    {item.title}
+                  </span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-2">
+                <p className="text-muted-foreground">{item.description}</p>
+              </CardContent>
+            </Card>
+
+          </Link>)
         ))}
       </div>
 

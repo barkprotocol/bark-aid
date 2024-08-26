@@ -25,7 +25,7 @@ export function MainNav({ items, children }: MainNavProps) {
       <Link
         href="/"
         className="hidden text-lg items-center space-x-2 md:flex hover:underline underline-offset-4"
-      >
+        legacyBehavior>
         <Icons.logo />
         <span className="hidden font-bold sm:inline-block">
           {siteConfig.name}
@@ -45,7 +45,7 @@ export function MainNav({ items, children }: MainNavProps) {
                     : "text-foreground/60",
                   item.disabled && "cursor-not-allowed opacity-80",
                 )}
-              >
+                legacyBehavior>
                 {item.title}
               </Link>
             </Button>

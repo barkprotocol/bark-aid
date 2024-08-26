@@ -41,7 +41,7 @@ export default function RootLayout({
               <div className="flex h-20 items-center justify-between py-6">
                 <div className="flex items-center gap-4">
                   {/* Logo with Updated URL */}
-                  <Link href="/">
+                  <Link href="/" legacyBehavior>
                     <div className="flex items-center space-x-2">
                       <img
                         src="https://ucarecdn.com/b2ad5d9c-abe8-4295-9f2b-274835546617/blinklight.png" // Updated Logo URL
