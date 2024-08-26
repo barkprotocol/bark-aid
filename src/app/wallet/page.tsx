@@ -7,8 +7,9 @@ import Link from "next/link";
 import { siteConfig } from "@/config/site";
 import { useEffect, useState } from "react";
 
-export default function Pages() {
-  const apiPath = "/api/actions/transfer-sol";
+export default function WalletPage() {
+  // Update the API path to reflect the wallet functionality
+  const apiPath = "/api/actions/wallet";
   const [apiEndpoint, setApiEndpoint] = useState("");
 
   useEffect(() => {
@@ -21,18 +22,15 @@ export default function Pages() {
 
   return (
     <section
-      id="action"
-      className={
-        "container space-y-12 bg-slate-50 py-8 dark:bg-transparent md:py-12 lg:py-24"
-      }
+      id="wallet"
+      className="container space-y-12 bg-slate-50 py-8 dark:bg-transparent md:py-12 lg:py-24"
     >
       <div className="mx-auto flex max-w-[58rem] flex-col items-center space-y-6 text-center">
         <h2 className="font-heading text-3xl leading-[1.1] sm:text-3xl md:text-6xl">
-          Transfer SOL
+          Wallet
         </h2>
         <p className="max-w-[85%] leading-normal text-muted-foreground sm:text-lg sm:leading-7">
-          The following example demonstrates how to transfer native SOL to using
-          an Action.
+          Manage your Solana wallet and view your balances directly from the platform.
         </p>
       </div>
 
@@ -54,7 +52,7 @@ export default function Pages() {
               href={`${siteConfig.links.github}/src/app${apiPath}/route.ts`}
               target="_blank"
             >
-              source code for this sample Action
+              source code for this wallet Action
             </Link>
           </Button>{" "}
           on GitHub.

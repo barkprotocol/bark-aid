@@ -61,26 +61,26 @@ const actionCards: Array<{
     icon: <ImageIcon className="size-12" />,
   },
   {
-    title: "Donate", // Updated Card
+    title: "Donate",
     href: "/donate",
     description: "Support a cause or project by making a donation.",
     icon: <HeartIcon className="size-12" />,
   },
   {
-    title: "Payments", // Updated Card
+    title: "Payments",
     href: "/payments",
     description: "Manage or make payments for various services.",
     icon: <CreditCardIcon className="size-12" />,
   },
   {
-    title: "Vote", // Updated Card
+    title: "Vote",
     href: "/vote",
     description: "Participate in community or governance voting.",
     icon: <CheckCircleIcon className="size-12" />,
   },
   {
-    title: "Manage Wallet", // New Card
-    href: "/manage-wallet",
+    title: "Manage Wallet",
+    href: "/wallet",
     description: "View and manage your wallet settings and details.",
     icon: <SettingsIcon className="size-12" />,
   },
