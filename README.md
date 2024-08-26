@@ -1,44 +1,142 @@
 # Solana Actions and Blinks
 
-**BARK (Blockchain Asset and Reward Keeper)** is a platform that simplifies and enhances interactions with blockchain-based assets, particularly focusing on the Solana network. Here’s a concise description and logical flow of its functionality:
+**BARK (Blockchain Asset and Reward Keeper)** is a platform designed to simplify and enhance interactions with blockchain-based assets, particularly on the Solana network. BARK Blink is a core feature of this platform, aimed at making blockchain actions more accessible and user-friendly.
 
-### BARK Blink Description
+![Project Screenshot](.github/assets/screenshot.png)
 
-**BARK Blink** is a feature of the BARK platform designed to facilitate and streamline several key actions on the Solana blockchain. It provides a user-friendly interface to perform tasks such as sending messages, staking tokens, and transferring assets. The goal is to make blockchain interactions more accessible and efficient for users.
+## BARK Blink Description
 
-### Key Features
+**BARK Blink** is a feature of the BARK platform that streamlines key interactions on the Solana blockchain. It offers a user-friendly interface for performing various tasks, such as sending messages, staking tokens, and transferring assets. The goal of BARK Blink is to enhance the efficiency and accessibility of blockchain operations for users.
 
-1. **On-chain Memo**: Allows users to send simple text messages directly onto the blockchain using an SPL Memo. This can be useful for annotating transactions or sending messages that are permanently recorded on-chain.
+## Key Features
 
-2. **Staking SOL**: Provides users with the ability to stake their SOL tokens to a validator. Staking helps secure the Solana network and can also yield rewards for users who participate.
+1. **On-chain Memo**: 
+   - **Description**: Send simple text messages directly to the blockchain using an SPL Memo. Useful for annotating transactions or recording messages permanently on-chain.
 
-3. **Transfer Native SOL**: Facilitates the transfer of native SOL tokens between Solana wallets. This is a fundamental operation for moving assets within the Solana ecosystem.
+2. **Staking SOL**: 
+   - **Description**: Stake SOL tokens to a validator to help secure the Solana network and earn rewards. 
 
-4. **(Optional) Transfer SPL Tokens**: Allows users to transfer SPL tokens, which are tokens built on the Solana network. This feature is commented out but can be enabled to support a wider range of token transfers.
+3. **Transfer Native SOL**: 
+   - **Description**: Transfer native SOL tokens between Solana wallets. Essential for moving assets within the Solana ecosystem.
 
-5. **(Optional) Mint an NFT**: Enables users to mint NFTs (Non-Fungible Tokens), which are unique digital collectibles on the Solana blockchain. This feature is also commented out and can be enabled for broader functionality.
+4. **Transfer SPL Tokens** (Optional): 
+   - **Description**: Transfer SPL tokens, which are tokens built on the Solana network. This feature is currently commented out but can be enabled for additional functionality.
 
-### Logical Flow
+5. **Mint an NFT** (Optional): 
+   - **Description**: Mint NFTs (Non-Fungible Tokens) on the Solana blockchain. This feature allows users to create unique digital collectibles. It is currently commented out and can be enabled as needed.
+
+6. **Donate**: 
+   - **Description**: Make donations to support causes or projects. 
+
+7. **Payments**: 
+   - **Description**: Manage or make payments for various services.
+
+8. **Vote**: 
+   - **Description**: Participate in community or governance voting.
+
+9. **Manage Wallet**: 
+   - **Description**: View and manage wallet settings and details.
+
+## Logical Flow
 
 1. **Landing Page**:
-   - **Overview**: Users are greeted with a description of BARK and its features.
-   - **Call to Action**: Options to explore the functionalities, such as starting with on-chain memos, staking SOL, or transferring assets.
+   - **Overview**: Users are welcomed with an introduction to BARK and its features.
+   - **Call to Action**: Options to explore functionalities like sending memos, staking SOL, or transferring assets.
 
 2. **Feature Selection**:
-   - Users choose the action they wish to perform from a list of available features.
-   - Each feature is presented with a brief description and an icon representing the action.
+   - Users select the action they wish to perform from a list of available features.
+   - Each feature includes a description and an icon for easy identification.
 
 3. **Execution of Actions**:
-   - **On-chain Memo**: Users can input a message and submit it to be recorded on-chain.
-   - **Staking SOL**: Users select a validator and specify the amount of SOL to stake. The platform handles the staking transaction.
-   - **Transfer Native SOL**: Users enter the recipient's wallet address and the amount of SOL to transfer.
-   - **Transfer SPL Tokens**: Similar to native SOL transfers but for SPL tokens (if this feature is enabled).
-   - **Mint an NFT**: Users can choose a collection and mint a new NFT (if this feature is enabled).
+   - **On-chain Memo**: Input and submit a message to be recorded on-chain.
+   - **Staking SOL**: Choose a validator and specify the amount of SOL to stake. The platform processes the staking transaction.
+   - **Transfer Native SOL**: Enter the recipient's wallet address and the amount of SOL to transfer.
+   - **Transfer SPL Tokens**: Similar to native SOL transfers but for SPL tokens (if enabled).
+   - **Mint an NFT**: Select a collection and mint a new NFT (if enabled).
+   - **Donate**: Make a donation to a selected cause or project.
+   - **Payments**: Manage or make payments as needed.
+   - **Vote**: Participate in governance or community voting.
+   - **Manage Wallet**: Access and adjust wallet settings and details.
 
 4. **Confirmation and Feedback**:
-   - After performing an action, users receive confirmation of the transaction's success or failure.
-   - Feedback and transaction details are displayed, and users can view their updated balances or records.
+   - Receive confirmation of transaction success or failure.
+   - View transaction details and updated balances or records.
 
 5. **Integration and User Experience**:
-   - The interface is designed to be intuitive and easy to navigate, ensuring that users can complete their tasks efficiently.
-   - Additional resources or help options are available for users needing assistance with any of the features.
+   - Designed for intuitive navigation and efficient task completion.
+   - Provides additional resources or help options for users needing assistance.
+
+## Installation
+
+To get started with BARK Blink, follow these steps:
+
+1. **Clone the Repository**
+
+   ```bash
+   git clone https://github.com/barkprotocol/solana-actions-blink.git
+   ```
+
+2. **Navigate to the Project Directory**
+
+   ```bash
+   cd solana-actions-blink
+   ```
+
+3. **Install Dependencies**
+
+   ```bash
+   npm install
+   ```
+
+   or
+
+   ```bash
+   yarn install
+   ```
+
+4. **Run the Development Server**
+
+   ```bash
+   npm run dev
+   ```
+
+   or
+
+   ```bash
+   yarn dev
+   ```
+
+   The app will be available at `http://localhost:3000`.
+
+## Configuration
+
+### Environment Variables
+
+Ensure you have a `.env.local` file in the root of the project with the necessary configuration. For example:
+
+```env
+NEXT_PUBLIC_SOLANA_NETWORK=devnet
+NEXT_PUBLIC_SOLANA_RPC_URL=https://api.devnet.solana.com
+```
+
+Replace the values with your actual configuration details.
+
+## Contributing
+
+Contributions are welcome! To contribute:
+
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature/your-feature`).
+3. Commit your changes (`git commit -am 'Add new feature'`).
+4. Push to the branch (`git push origin feature/your-feature`).
+5. Create a new Pull Request.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+
+- **Solana**: [Solana](https://solana.com) for the blockchain infrastructure.
+- **Next.js**: [Next.js](https://nextjs.org) for the React framework.
+- **Lucide Icons**: [Lucide Icons](https://lucide.dev) for the icon library.
