@@ -1,5 +1,4 @@
-"use client";
-
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
@@ -15,6 +14,25 @@ import { siteConfig } from "@/config/site";
 
 const inter = Inter({ subsets: ["latin"] });
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+};
+
+export const metadata: Metadata = {
+  title: "BARK",
+  description: "Explore example code snippets for Solana actions and blinks.",
+};
+
+// Color variables
+const colors = {
+  grey: "#6B7280", // A modern grey
+  white: "#FFFFFF", // Pure white
+  black: "#000000", // Pure black
+  sand: "#CBB5A7", // Sand
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -22,41 +40,25 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={inter.className} style={{ backgroundColor: colors.sand }}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <div className="flex min-h-screen flex-col">
-            <header className="container z-40 bg-background">
-              <div className="flex h-20 items-center justify-between py-6">
-                <div className="flex items-center gap-4">
-                  {/* Logo with Updated URL */}
-                  <Link href="/" legacyBehavior>
-                    <a className="flex items-center space-x-2">
-                      <img
-                        src={siteConfig.logoUrl} // Use the logo URL from siteConfig
-                        alt="Site Logo"
-                        className="h-8 w-8" // Adjust size as needed
-                      />
-                      <span className="text-lg font-bold">{siteConfig.name}</span>
-                    </a>
-                  </Link>
+            <header className="container z-40" style={{ backgroundColor: colors.white }}>
+              <div className="flex h-20 items-center justify-between py-6" style={{ color: colors.black }}>
+                <MainNav items={marketingConfig.mainNav} />
 
-                  {/* Main Navigation */}
-                  <MainNav items={marketingConfig.mainNav} />
-                </div>
-                
                 <nav className="flex items-center gap-2">
                   <Button asChild>
                     <Link
-                      target="_blank"
                       href={siteConfig.links.docs}
-                      legacyBehavior
-                    >
-                      <a className={cn(
+                      target="_blank"
+                      className={cn(
                         buttonVariants({ variant: "secondary", size: "sm" }),
-                        "px-4"
-                      )}>
-                        Read the Docs
-                      </a>
+                        "px-4",
+                      )}
+                      style={{ backgroundColor: colors.sand, color: colors.white }}
+                    >
+                      Read the Docs
                     </Link>
                   </Button>
 
@@ -67,15 +69,16 @@ export default function RootLayout({
 
             <div
               className={cn(
-                "before:absolute z-[-1] before:h-[300px] before:w-full before:translate-x-1/4 before:translate-y-52 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-5 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]"
+                "before:absolute z-[-1] before:h-[300px] before:w-full before:translate-x-1/4 before:translate-y-52 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-5 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]",
               )}
+              style={{ backgroundColor: colors.grey }}
             ></div>
 
             <main className="flex-1 space-y-10 max-w-screen-xl mx-auto">
               {children}
             </main>
 
-            <SiteFooter />
+            <SiteFooter style={{ backgroundColor: colors.white, color: colors.black }} />
           </div>
         </ThemeProvider>
       </body>
