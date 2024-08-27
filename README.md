@@ -2,10 +2,6 @@
 
 **BARK (Blockchain Asset and Reward Keeper)** is a platform designed to simplify and enhance interactions with blockchain-based assets, particularly on the Solana network. BARK Blink is a core feature of this platform, aimed at making blockchain actions more accessible and user-friendly.
 
-![UI Screenshot](.github/assets/screenshot.png)
-![Transfer SOL Screenshot](.github/assets/transfer-sol.png)
-![Donate Screenshot](.github/assets/donate.png)
-
 ## BARK Blink Description
 
 **BARK Blink** is a feature of the BARK platform that streamlines key interactions on the Solana blockchain. It offers a user-friendly interface for performing various tasks, such as sending messages, staking tokens, and transferring assets. The goal of BARK Blink is to enhance the efficiency and accessibility of blockchain operations for users.
@@ -44,6 +40,17 @@
 1. **Landing Page**:
    - **Overview**: Users are welcomed with an introduction to BARK and its features.
    - **Call to Action**: Options to explore functionalities like sending memos, staking SOL, or transferring assets.
+  
+**Application Screenshots**
+
+Application UI/UX```
+![UI Screenshot](.github/assets/screenshot.png)
+
+Transactions```
+![Transfer SOL Screenshot](.github/assets/transfer-sol.png)
+
+Donate```
+![Donate Screenshot](.github/assets/donate.png)
 
 2. **Feature Selection**:
    - Users select the action they wish to perform from a list of available features.
