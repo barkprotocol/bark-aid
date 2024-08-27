@@ -41,7 +41,7 @@
    - **Overview**: Users are welcomed with an introduction to BARK and its features.
    - **Call to Action**: Options to explore functionalities like sending memos, staking SOL, or transferring assets.
   
-### Application Screenshots
+#### Application Screenshots
 
 **Application UI/UX**
 ![UI Screenshot](.github/assets/screenshot.png)
@@ -51,6 +51,7 @@
 
 **Donate**
 ![Donate Screenshot](.github/assets/donate.png)
+```
 
 2. **Feature Selection**:
    - Users select the action they wish to perform from a list of available features.
