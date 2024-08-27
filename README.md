@@ -51,7 +51,6 @@
 
 **Donate**
 ![Donate Screenshot](.github/assets/donate.png)
-```
 
 2. **Feature Selection**:
    - Users select the action they wish to perform from a list of available features.
