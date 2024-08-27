@@ -41,22 +41,22 @@
    - **Overview**: Users are welcomed with an introduction to BARK and its features.
    - **Call to Action**: Options to explore functionalities like sending memos, staking SOL, or transferring assets.
   
-#### Application Screenshots
+2. **Application Screenshots**
 
-**Application UI/UX**
+2.1. **Application UI/UX**
 ![UI Screenshot](.github/assets/screenshot.png)
 
 **Transactions**
 ![Transfer SOL Screenshot](.github/assets/transfer-sol.png)
 
-**Donate**
+2.2 **Donate**
 ![Donate Screenshot](.github/assets/donate.png)
 
-2. **Feature Selection**:
+3. **Feature Selection**:
    - Users select the action they wish to perform from a list of available features.
    - Each feature includes a description and an icon for easy identification.
 
-3. **Execution of Actions**:
+4. **Execution of Actions**:
    - **On-chain Memo**: Input and submit a message to be recorded on-chain.
    - **Staking SOL**: Choose a validator and specify the amount of SOL to stake. The platform processes the staking transaction.
    - **Transfer Native SOL**: Enter the recipient's wallet address and the amount of SOL to transfer.
@@ -67,11 +67,11 @@
    - **Vote**: Participate in governance or community voting.
    - **Manage Wallet**: Access and adjust wallet settings and details.
 
-4. **Confirmation and Feedback**:
+5. **Confirmation and Feedback**:
    - Receive confirmation of transaction success or failure.
    - View transaction details and updated balances or records.
 
-5. **Integration and User Experience**:
+6. **Integration and User Experience**:
    - Designed for intuitive navigation and efficient task completion.
    - Provides additional resources or help options for users needing assistance.
 
