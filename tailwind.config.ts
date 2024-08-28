@@ -1,26 +1,25 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
-  darkMode: ["class"], // Enable dark mode using class-based strategy
+  darkMode: ["class"], // Dark mode using class strategy
   content: [
-    "./pages/**/*.{ts,tsx}",
+    "./pages/**/*.{ts,tsx}", // Scan these directories for class names
     "./components/**/*.{ts,tsx}",
     "./app/**/*.{ts,tsx}",
     "./src/**/*.{ts,tsx}",
   ],
-  prefix: "", // Define a prefix if needed to avoid conflicts
   theme: {
     container: {
       center: true, // Center the container
       padding: {
-        DEFAULT: "2rem", // Default padding
+        DEFAULT: "2rem", // Set default padding
         sm: "1.5rem",
         md: "2rem",
         lg: "2.5rem",
         xl: "3rem",
       },
       screens: {
-        "2xl": "1400px", // Container width for extra large screens
+        "2xl": "1400px", // Max width for extra-large screens
       },
     },
     extend: {
@@ -33,6 +32,7 @@ const config: Config = {
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
+          dark: "hsl(var(--primary-dark))", // Ensure this variable is in your CSS
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
@@ -63,16 +63,15 @@ const config: Config = {
           foreground: "hsl(var(--card-foreground))",
         },
         customColor: "#D0BFB4", // Example custom color
-        "fallback-color": "#D0BFB4", // Optional: Add fallback colors
       },
       fontFamily: {
-        poppins: ['Poppins', 'sans-serif'],
-        syne: ['Syne', 'sans-serif'],
+        poppins: ['Poppins', 'sans-serif'], // Add Poppins font
+        syne: ['Syne', 'sans-serif'], // Add Syne font
       },
       borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
+        lg: "var(--radius)", // Use CSS variable for large radius
+        md: "calc(var(--radius) - 2px)", // Medium radius
+        sm: "calc(var(--radius) - 4px)", // Small radius
       },
       keyframes: {
         "accordion-down": {
@@ -85,12 +84,15 @@ const config: Config = {
         },
       },
       animation: {
-        "accordion-down": "accordion-down 0.2s ease-out",
-        "accordion-up": "accordion-up 0.2s ease-out",
+        "accordion-down": "accordion-down 0.2s ease-out", // Accordion down animation
+        "accordion-up": "accordion-up 0.2s ease-out", // Accordion up animation
       },
     },
   },
-  plugins: [require("tailwindcss-animate")], // Plugin for animations
+  plugins: [
+    require("tailwindcss-animate"), // Plugin for animations
+    // Add more plugins here if needed
+  ],
 };
 
 export default config;

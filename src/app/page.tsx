@@ -1,6 +1,9 @@
+// app/page.tsx (or pages/index.tsx)
+
 "use client";
 
 import Link from "next/link";
+import HeroSection from "@/components/HeroSection";
 import { cn } from "@/lib/utils";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -32,63 +35,63 @@ const actionCards = [
     href: "/memo",
     description: "Send and record simple messages on the Solana blockchain using SPL Memo, ensuring transparent communication.",
     icon: <FileTextIcon className="size-12" />,
-    badge: "New", // Badge for On-chain Memo
+    badge: "New",
   },
   {
     title: "Staking SOL",
     href: "/stake",
     description: "Contribute to the security and efficiency of the Solana network by staking SOL with validators.",
     icon: <ShieldIcon className="size-12" />,
-    badge: "Popular", // Badge for Staking SOL
+    badge: "Popular",
   },
   {
     title: "Transfer SOL",
     href: "/transfer-sol",
     description: "Seamlessly transfer native SOL tokens between Solana wallets for quick and secure transactions.",
     icon: <WalletIcon className="size-12" />,
-    badge: "Essential", // Badge for Transfer SOL
+    badge: "Essential",
   },
   {
     title: "Transfer BARK",
     href: "/transfer-bark",
     description: "Transfer BARK tokens between Solana wallets to manage and move your assets with ease.",
     icon: <CoinsIcon className="size-12" />,
-    badge: "Essential", // Badge for Transfer BARK
+    badge: "Essential",
   },
   {
     title: "Mint an NFT",
     href: "/mint",
     description: "Create and distribute unique digital collectibles on the Solana blockchain, enabling digital ownership and creativity.",
     icon: <ImageIcon className="size-12" />,
-    badge: "New", // Badge for Mint an NFT
+    badge: "New",
   },
   {
     title: "Donate",
     href: "/donate",
     description: "Support causes and projects by making donations through the Solana blockchain, fostering community and growth.",
     icon: <HeartIcon className="size-12" />,
-    badge: "Support", // Badge for Donate
+    badge: "Support",
   },
   {
     title: "Payments",
     href: "/payments",
     description: "Manage and process payments for various services using secure Solana-based transactions.",
     icon: <CreditCardIcon className="size-12" />,
-    badge: "New", // Badge for Payments
+    badge: "New",
   },
   {
     title: "Vote",
     href: "/vote",
     description: "Engage in governance by casting your vote on proposals and decisions within the Solana ecosystem.",
     icon: <CheckCircleIcon className="size-12" />,
-    badge: "Governance", // Badge for Vote
+    badge: "Governance",
   },
   {
     title: "Manage Wallet",
     href: "/wallet",
     description: "View and configure your wallet settings, track your assets, and ensure the security of your holdings.",
     icon: <SettingsIcon className="size-12" />,
-    badge: "Essential", // Badge for Manage Wallet
+    badge: "Essential",
   },
 ];
 
@@ -96,22 +99,25 @@ export default function Pages() {
   return (
     <>
       {/* Hero Section */}
+      <HeroSection />
+
+      {/* About Section */}
       <section
-        id="hero"
-        className="container flex flex-col items-center justify-center space-y-6 bg-sand py-16 text-center dark:bg-transparent md:py-24"
+        id="about"
+        className="container flex flex-col items-center space-y-6 py-16 text-center dark:bg-black dark:text-white md:py-24"
       >
-        <h1 className="font-heading text-4xl sm:text-5xl md:text-6xl lg:text-7xl" style={{ color: colors.black }}>
-          Unlock the Power of Solana with BARK Actions & Blinks
-        </h1>
-        <p className="max-w-2xl leading-relaxed text-grey sm:text-lg sm:leading-7">
-          Dive into a wide range of actions that leverage the speed and security of Solana blockchain. From managing tokens to participating in governance, explore how BARK Actions and Blinks can enhance your blockchain experience.
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-black dark:text-white">
+          About Us
+        </h2>
+        <p className="max-w-2xl text-lg leading-relaxed text-grey sm:text-xl sm:leading-8">
+          We are dedicated to leveraging the full potential of the Solana blockchain to deliver innovative solutions and features. Our goal is to offer a seamless experience for managing assets, participating in governance, and more. Join us as we support the growth and adoption of the Solana ecosystem.
         </p>
-        <div className="space-x-4">
-          <Link href="/get-started" className={cn(buttonVariants({ size: "lg" }))}>
-            Get Started
+        <div className="flex gap-4">
+          <Link href="/services" className={cn(buttonVariants({ size: "lg", variant: "primary" }))}>
+            Services
           </Link>
-          <Link href="/learn-more" className={cn(buttonVariants({ variant: "outline", size: "lg" }))}>
-            Learn More
+          <Link href="https://whitepaper.barkprotocol.net" className={cn(buttonVariants({ size: "lg", variant: "outline" }))}>
+            Whitepaper
           </Link>
         </div>
       </section>
@@ -121,23 +127,31 @@ export default function Pages() {
         id="features"
         className="container space-y-12 py-8 dark:bg-black dark:text-white md:py-12 lg:py-24"
       >
-        <div className="mx-auto flex max-w-[58rem] flex-col items-center space-y-6 text-center">
-          <h2 className="font-heading text-3xl leading-[1.1] sm:text-4xl md:text-6xl" style={{ color: colors.black }}>
-            Explore BARK Actions & Blinks
-          </h2>
-          <p className="max-w-[85%] leading-normal text-grey sm:text-lg sm:leading-7">
-            Discover various functionalities and actions that showcase the versatility of Solana. Each action is designed to provide seamless interaction with blockchain technology, enhancing your digital experience.
+        <div className="text-center">
+          <h3 className="text-4xl sm:text-5xl md:text-6xl font-bold text-black dark:text-white">
+            Features
+          </h3>
+        </div>
+
+        {/* Subtitle */}
+        <div className="text-center max-w-3xl mx-auto">
+          <h4 className="text-3xl sm:text-4xl font-semibold text-sand">
+            Explore Innovative Solutions
+          </h4>
+          <p className="text-lg leading-relaxed text-grey dark:text-sand sm:text-xl sm:leading-8">
+            Discover various functionalities and actions that showcase the versatility of Solana. Each action is designed to provide seamless interaction with blockchain technology, enhancing your digital experience. From creating NFTs to managing your assets, our features are designed to make blockchain interaction smooth and intuitive.
           </p>
         </div>
 
-        <div className="mx-auto grid justify-center gap-4 sm:grid-cols-2 md:max-w-[64rem] md:grid-cols-3">
+        {/* Action Cards */}
+        <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
           {actionCards.map((item, key) => (
             <Link key={key} href={item.href} className="group">
-              <Card className="group-hover:border-sand transition-colors duration-300 dark:border-white">
+              <Card className="group-hover:border-sand transition-colors duration-300 border-2 rounded-lg shadow-md hover:shadow-lg dark:border-white dark:hover:border-sand">
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
+                  <CardTitle className="flex items-center gap-2 text-lg font-semibold">
                     {item.icon}
-                    <span className="block font-bold group-hover:text-sand">
+                    <span className="block font-semibold group-hover:text-sand">
                       {item.title}
                     </span>
                     {item.badge && (
@@ -155,17 +169,17 @@ export default function Pages() {
           ))}
         </div>
 
-        <div className="mx-auto text-center md:max-w-[58rem]">
-          <p className="leading-normal text-grey dark:text-sand sm:text-lg sm:leading-7">
+        <div className="text-center md:max-w-3xl mx-auto">
+          <p className="text-grey dark:text-sand text-lg leading-relaxed sm:text-xl sm:leading-8">
             Powered by{" "}
             <Button variant={"link"} asChild>
-              <Link href="https://solana.com" target="_blank" style={{ color: colors.sand }}>
+              <Link href="https://solana.com" target="_blank" className="text-sand">
                 Solana
               </Link>
             </Button>{" "}
             and{" "}
             <Button variant={"link"} asChild>
-              <Link href="https://barkprotocol.com/" target="_blank" style={{ color: colors.sand }}>
+              <Link href="https://barkprotocol.com/" target="_blank" className="text-sand">
                 BARK Protocol
               </Link>
             </Button>
