@@ -46,11 +46,11 @@
    2.1. **UI/UX**
    ![UI Screenshot](.github/assets/screenshot.png)
 
-   2.2. **Transactions**
-   ![Transfer SOL Screenshot](.github/assets/transfer-sol.png)
+   2.2. **Features**
+   ![Transfer SOL Screenshot](.github/assets/features.png)
 
-   2.3. **Donate**
-   ![Donate Screenshot](.github/assets/donate.png)
+   2.3. **Action**
+   ![Transaction Screenshot](.github/assets/transfer-sol.png)
 
 3. **Feature Selection**:
    - Users select the action they wish to perform from a list of available features.
