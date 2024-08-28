@@ -3,17 +3,17 @@ import type { Icon } from "lucide-react";
 
 import { Icons } from "@/components/icons";
 
-// Defines a basic navigation item with optional disabled state
+// Defines a basic navigation item with an optional disabled state
 export type NavItem = {
   title: string;   // Title of the navigation item
   href: string;    // URL or path the navigation item links to
   disabled?: boolean; // Optional flag to disable the navigation item
 };
 
-// Main navigation item, extends the basic NavItem
+// Main navigation item, extending the basic NavItem
 export type MainNavItem = NavItem;
 
-// Sidebar navigation item with optional icon and items
+// Sidebar navigation item with optional icon, external flag, and nested items
 export type SidebarNavItem = {
   title: string;     // Title of the sidebar item
   disabled?: boolean; // Optional flag to disable the sidebar item
@@ -69,13 +69,14 @@ export type SubscriptionPlan = {
 };
 
 // User-specific subscription plan including Stripe details
-export type UserSubscriptionPlan = SubscriptionPlan &
-  Pick<User, "stripeCustomerId" | "stripeSubscriptionId"> & {
-    stripeCurrentPeriodEnd: number; // End timestamp of the current Stripe billing period
-    isPro: boolean; // Indicates if the user has a Pro subscription
-  };
+export type UserSubscriptionPlan = SubscriptionPlan & {
+  stripeCustomerId: string; // Stripe customer ID
+  stripeSubscriptionId: string; // Stripe subscription ID
+  stripeCurrentPeriodEnd: number; // End timestamp of the current Stripe billing period
+  isPro: boolean; // Indicates if the user has a Pro subscription
+};
 
-// Define the NavLink type if it's missing; example placeholder
+// Define the NavLink type for nested navigation items
 export type NavLink = {
   title: string; // Title of the link
   href: string;  // URL or path for the link

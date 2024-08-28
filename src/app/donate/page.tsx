@@ -14,20 +14,21 @@ export default function DonatePage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    try {
-      const fullApiUrl = new URL(apiPath, window.location.href).toString();
-      setApiEndpoint(fullApiUrl);
-    } catch (err) {
-      console.error("Error constructing API URL:", err);
-      setError("Failed to construct the donation API URL.");
-    } finally {
-      setLoading(false);
-    }
-
-    return () => {
-      setApiEndpoint("");
+    const constructApiUrl = () => {
+      try {
+        // Construct the full API URL
+        const fullApiUrl = new URL(apiPath, window.location.href).toString();
+        setApiEndpoint(fullApiUrl);
+      } catch (err) {
+        console.error("Error constructing API URL:", err);
+        setError("Failed to construct the donation API URL.");
+      } finally {
+        setLoading(false);
+      }
     };
-  }, []);
+
+    constructApiUrl();
+  }, [apiPath]);
 
   if (loading) {
     return (
@@ -57,7 +58,7 @@ export default function DonatePage() {
       className="container space-y-12 bg-slate-50 py-8 dark:bg-transparent md:py-12 lg:py-24"
     >
       <div className="mx-auto flex max-w-[58rem] flex-col items-center space-y-6 text-center">
-        <h2 className="font-heading text-3xl leading-[1.1] sm:text-3xl md:text-6xl">
+        <h2 className="font-heading text-3xl leading-tight sm:text-3xl md:text-6xl">
           Donate
         </h2>
         <p className="max-w-[85%] leading-normal text-muted-foreground sm:text-lg sm:leading-7">
@@ -65,15 +66,18 @@ export default function DonatePage() {
         </p>
       </div>
 
-      <Card className="group-hover:border-primary rounded overflow-hidden text-center flex items-center justify-center mx-auto w-min">
-        <SolanaQRCode
-          url={apiPath}
-          color="white"
-          background="black"
-          size={400}
-          className="rounded-lg min-w-[400px]"
-        />
-      </Card>
+      {apiEndpoint && (
+        <Card className="group-hover:border-primary rounded overflow-hidden text-center flex items-center justify-center mx-auto">
+          <SolanaQRCode
+            url={apiEndpoint}
+            color="white"
+            background="black"
+            size={400}
+            className="rounded-lg w-full max-w-[400px]"
+            aria-label="QR code for donation endpoint"
+          />
+        </Card>
+      )}
 
       <div className="mx-auto text-center md:max-w-[58rem]">
         <p className="leading-normal text-muted-foreground sm:text-lg sm:leading-7">
@@ -103,7 +107,7 @@ export default function DonatePage() {
               className="underline hover:text-primary"
               rel="noopener noreferrer"
             >
-              {apiEndpoint}
+              {apiEndpoint || "Unavailable"}
             </Link>
           </p>
         </CardContent>

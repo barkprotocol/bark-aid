@@ -1,5 +1,6 @@
+"use client";
+
 import Link from "next/link";
-import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -9,10 +10,10 @@ import {
   ImageIcon,
   ShieldIcon,
   WalletIcon,
-  HeartIcon,       // Icon for Donate
-  CreditCardIcon,   // Icon for Payments
-  CheckCircleIcon,  // Icon for Vote
-  SettingsIcon,     // Icon for Manage Wallet
+  HeartIcon,
+  CreditCardIcon,
+  CheckCircleIcon,
+  SettingsIcon,
 } from "lucide-react";
 
 // Define color variables for consistent styling
@@ -29,122 +30,125 @@ const actionCards = [
   {
     title: "On-chain Memo",
     href: "/memo",
-    description: "Send a simple message on-chain using an SPL Memo.",
+    description: "Send and record simple messages on the Solana blockchain using SPL Memo, ensuring transparent communication.",
     icon: <FileTextIcon className="size-12" />,
+    badge: "New", // Badge for On-chain Memo
   },
   {
     title: "Staking SOL",
     href: "/stake",
-    description: "Help secure the Solana network by staking SOL to a validator.",
+    description: "Contribute to the security and efficiency of the Solana network by staking SOL with validators.",
     icon: <ShieldIcon className="size-12" />,
+    badge: "Popular", // Badge for Staking SOL
   },
   {
     title: "Transfer SOL",
     href: "/transfer-sol",
-    description: "Easily transfer native SOL to any other Solana wallet.",
+    description: "Seamlessly transfer native SOL tokens between Solana wallets for quick and secure transactions.",
     icon: <WalletIcon className="size-12" />,
+    badge: "Essential", // Badge for Transfer SOL
   },
   {
     title: "Transfer BARK",
     href: "/transfer-bark",
-    description: "Easily transfer BARK tokens to any other Solana wallet.",
+    description: "Transfer BARK tokens between Solana wallets to manage and move your assets with ease.",
     icon: <CoinsIcon className="size-12" />,
+    badge: "Essential", // Badge for Transfer BARK
   },
   {
     title: "Mint an NFT",
-    href: "/mint-nft",
-    description: "Allow anyone to claim a digital collectible from a Collection.",
+    href: "/mint",
+    description: "Create and distribute unique digital collectibles on the Solana blockchain, enabling digital ownership and creativity.",
     icon: <ImageIcon className="size-12" />,
+    badge: "New", // Badge for Mint an NFT
   },
   {
     title: "Donate",
     href: "/donate",
-    description: "Support a cause or project by making a donation.",
+    description: "Support causes and projects by making donations through the Solana blockchain, fostering community and growth.",
     icon: <HeartIcon className="size-12" />,
+    badge: "Support", // Badge for Donate
   },
   {
     title: "Payments",
     href: "/payments",
-    description: "Manage or make payments for various services.",
+    description: "Manage and process payments for various services using secure Solana-based transactions.",
     icon: <CreditCardIcon className="size-12" />,
+    badge: "New", // Badge for Payments
   },
   {
     title: "Vote",
     href: "/vote",
-    description: "Participate in community or governance voting.",
+    description: "Engage in governance by casting your vote on proposals and decisions within the Solana ecosystem.",
     icon: <CheckCircleIcon className="size-12" />,
+    badge: "Governance", // Badge for Vote
   },
   {
     title: "Manage Wallet",
     href: "/wallet",
-    description: "View and manage your wallet settings and details.",
+    description: "View and configure your wallet settings, track your assets, and ensure the security of your holdings.",
     icon: <SettingsIcon className="size-12" />,
+    badge: "Essential", // Badge for Manage Wallet
   },
 ];
 
 export default function Pages() {
   return (
     <>
-      {/* Uncomment and adjust the introductory section if needed */}
-      {/* <section className="space-y-6 pb-8 pt-6 md:pb-12 md:pt-10 lg:pt-32">
-        <div className="container flex max-w-[64rem] flex-col items-center gap-4 text-center">
-          <Link
-            href={siteConfig.links.twitter}
-            className="rounded-2xl bg-muted px-4 py-1.5 text-sm font-medium"
-            target="_blank"
-          >
-            Follow along on Twitter
+      {/* Hero Section */}
+      <section
+        id="hero"
+        className="container flex flex-col items-center justify-center space-y-6 bg-sand py-16 text-center dark:bg-transparent md:py-24"
+      >
+        <h1 className="font-heading text-4xl sm:text-5xl md:text-6xl lg:text-7xl" style={{ color: colors.black }}>
+          Unlock the Power of Solana with BARK Actions & Blinks
+        </h1>
+        <p className="max-w-2xl leading-relaxed text-grey sm:text-lg sm:leading-7">
+          Dive into a wide range of actions that leverage the speed and security of Solana blockchain. From managing tokens to participating in governance, explore how BARK Actions and Blinks can enhance your blockchain experience.
+        </p>
+        <div className="space-x-4">
+          <Link href="/get-started" className={cn(buttonVariants({ size: "lg" }))}>
+            Get Started
           </Link>
-          <h1 className="font-heading text-3xl sm:text-5xl md:text-6xl lg:text-7xl">
-            An example app built using Next.js 13 server components.
-          </h1>
-          <p className="max-w-[42rem] leading-normal text-muted-foreground sm:text-xl sm:leading-8">
-            I&apos;m building a web app with Next.js 13 and open sourcing
-            everything. Follow along as we figure this out together.
-          </p>
-          <div className="space-x-4">
-            <Link href="/login" className={cn(buttonVariants({ size: "lg" }))}>
-              Get Started
-            </Link>
-            <Link
-              href={siteConfig.links.github}
-              target="_blank"
-              rel="noreferrer"
-              className={cn(buttonVariants({ variant: "outline", size: "lg" }))}
-            >
-              GitHub
-            </Link>
-          </div>
+          <Link href="/learn-more" className={cn(buttonVariants({ variant: "outline", size: "lg" }))}>
+            Learn More
+          </Link>
         </div>
-      </section> */}
+      </section>
 
+      {/* Features Section */}
       <section
         id="features"
-        className="container space-y-12 bg-sand py-8 dark:bg-transparent md:py-12 lg:py-24"
+        className="container space-y-12 py-8 dark:bg-black dark:text-white md:py-12 lg:py-24"
       >
         <div className="mx-auto flex max-w-[58rem] flex-col items-center space-y-6 text-center">
           <h2 className="font-heading text-3xl leading-[1.1] sm:text-4xl md:text-6xl" style={{ color: colors.black }}>
-            Solana Actions
+            Explore BARK Actions & Blinks
           </h2>
           <p className="max-w-[85%] leading-normal text-grey sm:text-lg sm:leading-7">
-            This project contains example code snippets for creating Solana Actions.
+            Discover various functionalities and actions that showcase the versatility of Solana. Each action is designed to provide seamless interaction with blockchain technology, enhancing your digital experience.
           </p>
         </div>
 
         <div className="mx-auto grid justify-center gap-4 sm:grid-cols-2 md:max-w-[64rem] md:grid-cols-3">
           {actionCards.map((item, key) => (
             <Link key={key} href={item.href} className="group">
-              <Card className="group-hover:border-sand transition-colors duration-300">
+              <Card className="group-hover:border-sand transition-colors duration-300 dark:border-white">
                 <CardHeader>
-                  <CardTitle className="space-y-3 flex items-center gap-2">
+                  <CardTitle className="flex items-center gap-2">
                     {item.icon}
                     <span className="block font-bold group-hover:text-sand">
                       {item.title}
                     </span>
+                    {item.badge && (
+                      <span className="ml-2 inline-block rounded-full bg-orange px-2 py-1 text-xs font-medium text-white">
+                        {item.badge}
+                      </span>
+                    )}
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-2">
-                  <p className="text-grey">{item.description}</p>
+                  <p className="text-grey dark:text-sand">{item.description}</p>
                 </CardContent>
               </Card>
             </Link>
@@ -152,7 +156,7 @@ export default function Pages() {
         </div>
 
         <div className="mx-auto text-center md:max-w-[58rem]">
-          <p className="leading-normal text-grey sm:text-lg sm:leading-7">
+          <p className="leading-normal text-grey dark:text-sand sm:text-lg sm:leading-7">
             Powered by{" "}
             <Button variant={"link"} asChild>
               <Link href="https://solana.com" target="_blank" style={{ color: colors.sand }}>
@@ -161,41 +165,14 @@ export default function Pages() {
             </Button>{" "}
             and{" "}
             <Button variant={"link"} asChild>
-              <Link href="https://solana.com/actions" target="_blank" style={{ color: colors.sand }}>
-                Solana Actions
+              <Link href="https://barkprotocol.com/" target="_blank" style={{ color: colors.sand }}>
+                BARK Protocol
               </Link>
             </Button>
-            . You can find the full source code for this entire repo on{" "}
-            <Button variant={"link"} asChild>
-              <Link href={siteConfig.links.github} target="_blank" style={{ color: colors.sand }}>
-                GitHub
-              </Link>
-            </Button>.
+            . Explore the potential of blockchain technology with Solana’s robust infrastructure.
           </p>
         </div>
       </section>
-
-      {/* Uncomment and adjust the open-source section if needed */}
-      {/* <section id="open-source" className="container py-8 md:py-12 lg:py-24">
-        <div className="mx-auto flex max-w-[58rem] flex-col items-center justify-center gap-4 text-center">
-          <h2 className="font-heading text-3xl leading-[1.1] sm:text-4xl md:text-6xl">
-            Proudly Open Source
-          </h2>
-          <p className="max-w-[85%] leading-normal text-muted-foreground sm:text-lg sm:leading-7">
-            Taxonomy is open source and powered by open source software. <br />{" "}
-            The code is available on{" "}
-            <Link
-              href={siteConfig.links.github}
-              target="_blank"
-              rel="noreferrer"
-              className="underline underline-offset-4"
-            >
-              GitHub
-            </Link>
-            .{" "}
-          </p>
-        </div>
-      </section> */}
     </>
   );
 }

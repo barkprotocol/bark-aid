@@ -1,7 +1,3 @@
-/**
- * Solana Actions Example - Staking SOL
- */
-
 import {
   ActionPostResponse,
   createPostResponse,
@@ -31,36 +27,36 @@ export const GET = async (req: Request) => {
 
     const baseHref = new URL(
       `/api/actions/stake?validator=${validator.toBase58()}`,
-      requestUrl.origin,
+      requestUrl.origin
     ).toString();
 
     const payload: ActionGetResponse = {
       type: "action",
-      title: "Actions Example - Staking SOL",
+      title: "Actions - Staking SOL",
       icon: new URL("/solana_devs.jpg", requestUrl.origin).toString(),
       description: `Stake your SOL to the ${validator.toBase58()} validator to secure the Solana network`,
-      label: "Stake your SOL", // This value will be ignored since `links.actions` exists
+      label: "Stake your SOL",
       links: {
         actions: [
           {
-            label: "Stake 1 SOL", // Button text
-            href: `${baseHref}&amount=${"1"}`, // Amount in SOL
+            label: "Stake 1 SOL",
+            href: `${baseHref}&amount=${"1"}`,
           },
           {
-            label: "Stake 5 SOL", // Button text
-            href: `${baseHref}&amount=${"5"}`, // Amount in SOL
+            label: "Stake 5 SOL",
+            href: `${baseHref}&amount=${"5"}`,
           },
           {
-            label: "Stake 10 SOL", // Button text
-            href: `${baseHref}&amount=${"10"}`, // Amount in SOL
+            label: "Stake 10 SOL",
+            href: `${baseHref}&amount=${"10"}`,
           },
           {
-            label: "Stake SOL", // Button text
-            href: `${baseHref}&amount={amount}`, // This href will have a text input
+            label: "Stake SOL",
+            href: `${baseHref}&amount={amount}`,
             parameters: [
               {
-                name: "amount", // Parameter name in the `href` above
-                label: "Enter the amount of SOL to stake", // Placeholder of the text input
+                name: "amount",
+                label: "Enter the amount of SOL to stake",
                 required: true,
               },
             ],
@@ -74,7 +70,7 @@ export const GET = async (req: Request) => {
     });
   } catch (err) {
     console.error(err);
-    const message = typeof err === "string" ? err : "An unknown error occurred";
+    const message = err instanceof Error ? err.message : "An unknown error occurred";
     return new Response(message, {
       status: 400,
       headers,
@@ -98,7 +94,7 @@ export const POST = async (req: Request) => {
     let account: PublicKey;
     try {
       account = new PublicKey(body.account);
-    } catch (err) {
+    } catch {
       return new Response('Invalid "account" provided', {
         status: 400,
         headers,
@@ -123,8 +119,6 @@ export const POST = async (req: Request) => {
         authorized: new Authorized(account, account),
         fromPubkey: account,
         lamports: amount * LAMPORTS_PER_SOL,
-        // Note: You can time lock the stake account with Lockup if needed
-        // lockup: new Lockup(0, 0, account),
       }),
       StakeProgram.delegate({
         stakePubkey: stakeKeypair.publicKey,
@@ -135,7 +129,6 @@ export const POST = async (req: Request) => {
 
     // Set the end user as the fee payer
     transaction.feePayer = account;
-
     transaction.recentBlockhash = (
       await connection.getLatestBlockhash()
     ).blockhash;
@@ -153,7 +146,7 @@ export const POST = async (req: Request) => {
     });
   } catch (err) {
     console.error(err);
-    const message = typeof err === "string" ? err : "An unknown error occurred";
+    const message = err instanceof Error ? err.message : "An unknown error occurred";
     return new Response(message, {
       status: 400,
       headers,
@@ -167,19 +160,23 @@ function validatedQueryParams(requestUrl: URL) {
   let amount: number = DEFAULT_STAKE_AMOUNT;
 
   try {
-    if (requestUrl.searchParams.get("validator")) {
-      validator = new PublicKey(requestUrl.searchParams.get("validator")!);
+    const validatorParam = requestUrl.searchParams.get("validator");
+    if (validatorParam) {
+      validator = new PublicKey(validatorParam);
     }
-  } catch (err) {
+  } catch {
     throw new Error("Invalid input query parameter: validator");
   }
 
   try {
-    if (requestUrl.searchParams.get("amount")) {
-      amount = parseFloat(requestUrl.searchParams.get("amount")!);
+    const amountParam = requestUrl.searchParams.get("amount");
+    if (amountParam) {
+      amount = parseFloat(amountParam);
+      if (!Number.isFinite(amount) || amount <= 0) {
+        throw new Error("Amount is too small or invalid");
+      }
     }
-    if (amount <= 0) throw new Error("Amount is too small");
-  } catch (err) {
+  } catch {
     throw new Error("Invalid input query parameter: amount");
   }
 

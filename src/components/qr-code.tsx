@@ -1,7 +1,7 @@
 "use client";
 
 import { createSolanaQR, encodeURL } from "@solana/actions";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useCallback } from "react";
 
 type ComponentProps = {
   url: string | URL;
@@ -20,17 +20,17 @@ export function SolanaQRCode({
 }: ComponentProps) {
   const ref = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    // Helper function to validate and resolve the URL
-    const resolveURL = (url: string | URL) => {
-      try {
-        return new URL(url, window.location.href);
-      } catch {
-        console.error("Invalid URL provided:", url);
-        throw new Error("Invalid URL provided.");
-      }
-    };
+  // Helper function to validate and resolve the URL
+  const resolveURL = useCallback((url: string | URL): URL => {
+    try {
+      return new URL(url, window.location.href);
+    } catch {
+      console.error("Invalid URL provided:", url);
+      throw new Error("Invalid URL provided.");
+    }
+  }, []);
 
+  useEffect(() => {
     try {
       // Resolve and encode the URL
       const resolvedUrl = resolveURL(url);
@@ -44,15 +44,22 @@ export function SolanaQRCode({
       // Append the QR code to the ref element
       if (ref.current) {
         ref.current.innerHTML = ''; // Clear previous content
+        // Directly append the QR code element to the ref
         ref.current.appendChild(qr);
       }
     } catch (error) {
       console.error("Error generating QR code:", error);
     }
-  }, [url, background, color, size]);
+  }, [url, background, color, size, resolveURL]);
 
   // Ensure size is a positive number
   const validSize = Math.max(size, 100);
 
-  return <div ref={ref} className={className} style={{ width: validSize, height: validSize }} />;
+  return (
+    <div
+      ref={ref}
+      className={className}
+      style={{ width: validSize, height: validSize }}
+    />
+  );
 }

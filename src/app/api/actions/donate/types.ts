@@ -1,5 +1,3 @@
-// actions/donate/types.ts
-
 // Define the structure of a donation request
 export interface DonationRequest {
     amount: number; // The amount of SOL to donate
@@ -26,5 +24,13 @@ export interface DonationRequest {
   // Define the structure for successful API responses
   export interface ApiSuccessResponse<T> {
     data: T; // Data to be returned in a successful response
+  }
+  
+  // Optional: Define validation error details if needed
+  export interface DonationRequestValidation {
+    amount?: string; // Error message if amount is invalid
+    recipientAddress?: string; // Error message if recipientAddress is invalid
+    donorAddress?: string; // Error message if donorAddress is invalid
+    tokenMintAddress?: string; // Error message if tokenMintAddress is invalid
   }
   

@@ -9,11 +9,12 @@ import { useEffect, useState } from "react";
 
 export default function PaymentsPage() {
   const apiPath = "/api/actions/payments";
-  const [apiEndpoint, setApiEndpoint] = useState("");
+  const [apiEndpoint, setApiEndpoint] = useState<string>("");
 
   useEffect(() => {
-    setApiEndpoint(new URL(apiPath, window.location.href).toString());
-  }, [apiPath]);
+    const endpoint = new URL(apiPath, window.location.href).toString();
+    setApiEndpoint(endpoint);
+  }, []); // apiPath is static, no need to include it in dependency array
 
   return (
     <section
@@ -21,7 +22,7 @@ export default function PaymentsPage() {
       className="container space-y-12 bg-slate-50 py-8 dark:bg-transparent md:py-12 lg:py-24"
     >
       <div className="mx-auto flex max-w-[58rem] flex-col items-center space-y-6 text-center">
-        <h2 className="font-heading text-3xl leading-[1.1] sm:text-3xl md:text-6xl">
+        <h2 className="font-heading text-3xl leading-tight sm:text-3xl md:text-6xl">
           Payments
         </h2>
         <p className="max-w-[85%] leading-normal text-muted-foreground sm:text-lg sm:leading-7">
@@ -29,13 +30,13 @@ export default function PaymentsPage() {
         </p>
       </div>
 
-      <Card className="group-hover:border-primary size-[400px] rounded overflow-hidden text-center flex items-center justify-center w-min mx-auto">
+      <Card className="group-hover:border-primary rounded overflow-hidden text-center flex items-center justify-center mx-auto w-[400px]">
         <SolanaQRCode
           url={apiEndpoint}
           color="white"
           background="black"
           size={400}
-          className="rounded-lg overflow-clip min-w-[400px]"
+          className="rounded-lg"
         />
       </Card>
 

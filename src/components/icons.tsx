@@ -22,7 +22,6 @@ import {
   Settings,
   SunMedium,
   Trash,
-  Twitter,
   User,
   X,
   type Icon as LucideIcon,
@@ -70,6 +69,6 @@ export const Icons = {
       ></path>
     </svg>
   ),
-  twitter: Twitter,
+  x: X,
   check: Check,
 };

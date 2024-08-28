@@ -3,6 +3,9 @@
 @tailwind utilities;
 
 @layer base {
+  /* Importing Google Fonts */
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Syne:wght@400;700&display=swap');
+
   :root {
     --background: 0 0% 100%;
     --foreground: 224 71.4% 4.1%;
@@ -38,6 +41,10 @@
     --radius: 0.5rem;
 
     --custom-color: 29 20% 80%; /* HSL equivalent of #D0BFB4 */
+
+    /* Font Variables */
+    --font-poppins: 'Poppins', sans-serif;
+    --font-syne: 'Syne', sans-serif;
   }
 
   .dark {
@@ -71,17 +78,49 @@
 
     --custom-color: 29 20% 80%;
   }
-}
 
-@layer base {
   * {
     @apply border-border;
   }
+
   body {
     @apply !bg-background text-foreground;
-    font-family: var(--font-poppins, sans-serif);
+    font-family: var(--font-poppins);
   }
+
   h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-syne, sans-serif);
+    font-family: var(--font-syne);
+  }
+
+  /* Responsive Text Sizes */
+  h1 {
+    @apply text-3xl sm:text-4xl md:text-5xl lg:text-6xl;
+  }
+
+  h2 {
+    @apply text-2xl sm:text-3xl md:text-4xl;
+  }
+
+  h3 {
+    @apply text-xl sm:text-2xl md:text-3xl;
+  }
+
+  p {
+    @apply text-base sm:text-lg md:text-xl;
+  }
+
+  /* Responsive Layout Adjustments */
+  .container {
+    @apply max-w-full px-4 sm:px-6 md:px-8;
+  }
+
+  /* Form Elements Styling */
+  input, textarea, select, button {
+    @apply border border-input rounded-lg px-4 py-2;
+    font-family: var(--font-poppins);
+  }
+
+  button {
+    @apply bg-primary text-primary-foreground hover:bg-primary;
   }
 }

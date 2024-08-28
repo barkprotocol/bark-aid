@@ -2,8 +2,8 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { useSelectedLayoutSegment } from "next/navigation";
 import Image from "next/image";
+import { useSelectedLayoutSegment } from "next/navigation";
 
 import { MainNavItem } from "@/types";
 import { siteConfig } from "@/config/site";
@@ -30,13 +30,15 @@ export function MainNav({ items, children }: MainNavProps) {
       {/* Desktop Logo and Site Name */}
       <Link
         href="/"
-        className="hidden text-lg items-center space-x-2 md:flex hover:underline underline-offset-4"
+        className="hidden items-center space-x-2 text-lg md:flex hover:text-foreground/80"
+        aria-label={`Go to ${siteConfig.name}`}
       >
         <Image
-          src="/icon.png" // Use Image for optimized loading
+          src="/icon.png"
           alt="Site Logo"
-          width={32} // Adjust the width as needed
-          height={32} // Adjust the height as needed
+          width={32}
+          height={32}
+          className="rounded-full" // Add class for rounded corners if needed
         />
         <span className="hidden font-bold sm:inline-block">
           {siteConfig.name}
@@ -51,13 +53,13 @@ export function MainNav({ items, children }: MainNavProps) {
               <Link
                 href={item.disabled ? "#" : item.href}
                 className={cn(
-                  "flex items-center text-lg font-medium transition-colors hover:text-foreground/80",
+                  "flex items-center text-lg font-medium transition-colors",
                   item.href.startsWith(`/${segment}`)
                     ? "text-foreground"
                     : "text-foreground/60",
                   item.disabled && "cursor-not-allowed opacity-80"
                 )}
-                aria-disabled={item.disabled} // Accessibility improvement
+                aria-disabled={item.disabled}
               >
                 {item.title}
               </Link>
@@ -70,7 +72,7 @@ export function MainNav({ items, children }: MainNavProps) {
       <button
         className="flex items-center space-x-2 md:hidden"
         onClick={handleMenuToggle}
-        aria-label={showMobileMenu ? "Close menu" : "Open menu"} // Accessibility improvement
+        aria-label={showMobileMenu ? "Close menu" : "Open menu"}
       >
         {showMobileMenu ? <Icons.close /> : <Icons.menu />}
         <span className="font-bold sr-only">Menu</span>

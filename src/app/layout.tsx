@@ -12,42 +12,48 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { ThemeModeToggle } from "@/components/theme-mode-toggle";
 import { siteConfig } from "@/config/site";
 
+// Import Inter font
 const inter = Inter({ subsets: ["latin"] });
 
+// Define viewport settings
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
 };
 
+// Metadata for the page
 export const metadata: Metadata = {
   title: "BARK",
   description: "Explore example code snippets for Solana actions and blinks.",
 };
 
-// Color variables
+// Color variables for consistent styling
 const colors = {
   grey: "#6B7280", // Modern grey
   white: "#FFFFFF", // Pure white
   black: "#000000", // Pure black
-  sand: "#CBB5A7", // Sand
+  sand: "#CBB5A7", // Sand color
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
       <body className={inter.className} style={{ backgroundColor: colors.sand }}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <div className="flex min-h-screen flex-col">
+            {/* Header Section */}
             <header className="container z-40" style={{ backgroundColor: colors.white }}>
               <div className="flex h-20 items-center justify-between py-6" style={{ color: colors.black }}>
+                {/* Main Navigation */}
                 <MainNav items={marketingConfig.mainNav} />
 
                 <nav className="flex items-center gap-2">
+                  {/* Read the Docs Button */}
                   <Button asChild>
                     <Link
                       href={siteConfig.links.docs}
@@ -62,11 +68,13 @@ export default function RootLayout({
                     </Link>
                   </Button>
 
+                  {/* Theme Toggle */}
                   <ThemeModeToggle />
                 </nav>
               </div>
             </header>
 
+            {/* Background Effects */}
             <div
               className={cn(
                 "before:absolute z-[-1] before:h-[300px] before:w-full before:translate-x-1/4 before:translate-y-52 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-5 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]"
@@ -74,10 +82,12 @@ export default function RootLayout({
               style={{ backgroundColor: colors.grey }}
             ></div>
 
+            {/* Main Content */}
             <main className="flex-1 space-y-10 max-w-screen-xl mx-auto">
               {children}
             </main>
 
+            {/* Footer Section */}
             <SiteFooter style={{ backgroundColor: colors.white, color: colors.black }} />
           </div>
         </ThemeProvider>

@@ -9,24 +9,39 @@ export const dashboardConfig: DashboardConfig = {
     {
       title: "Support",
       href: "/support",
-      disabled: true,
+      disabled: true, // You can enable this later when support functionality is ready
     },
   ],
   sidebarNav: [
     {
-      title: "Posts",
-      href: "/dashboard",
-      icon: "post",
+      title: "Payments",
+      href: "/dashboard/payments",
+      icon: "payments", // Ensure this icon exists in your icons set
+    },
+    {
+      title: "Donations",
+      href: "/dashboard/donate",
+      icon: "donate", // Ensure this icon exists in your icons set
+    },
+    {
+      title: "Voting",
+      href: "/dashboard/vote",
+      icon: "vote", // Ensure this icon exists in your icons set
+    },
+    {
+      title: "Staking",
+      href: "/dashboard/stake",
+      icon: "stake", // Ensure this icon exists in your icons set
     },
     {
       title: "Billing",
       href: "/dashboard/billing",
-      icon: "billing",
+      icon: "billing", // Ensure this icon exists in your icons set
     },
     {
       title: "Settings",
       href: "/dashboard/settings",
-      icon: "settings",
+      icon: "settings", // Ensure this icon exists in your icons set
     },
   ],
 };

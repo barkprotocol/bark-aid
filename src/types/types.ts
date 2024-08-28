@@ -1,5 +1,6 @@
 import { Icons } from "@/components/icons";
 
+// Site configuration including name, description, and URLs
 export type SiteConfig = {
   name: string;           // Name of the site
   description: string;    // Description of the site

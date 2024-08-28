@@ -1,4 +1,3 @@
-// actions/donate/validate.ts
 import { PublicKey } from "@solana/web3.js";
 import { DONATION_AMOUNT_MIN, DONATION_AMOUNT_MAX } from "./const";
 import { DonationRequest, ValidationError } from "./types";

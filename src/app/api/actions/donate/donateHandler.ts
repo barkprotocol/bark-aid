@@ -1,44 +1,37 @@
-// Define custom error types
-export class CustomError extends Error {
-  public statusCode: number;
+import { Connection, PublicKey, Transaction, SystemProgram } from "@solana/web3.js";
+import { DonationRequest, DonationResponse } from "./types";
 
-  constructor(message: string, statusCode: number) {
-    super(message);
-    this.statusCode = statusCode;
-    this.name = "CustomError";
-    Error.captureStackTrace(this, this.constructor);
-  }
-}
+// Example donation function
+export async function handleDonation(
+  request: DonationRequest,
+  connection: Connection
+): Promise<DonationResponse> {
+  try {
+    const { amount, recipientAddress, donorAddress, tokenMintAddress } = request;
+    const donorPublicKey = new PublicKey(donorAddress);
+    const recipientPublicKey = new PublicKey(recipientAddress);
 
-export class ValidationError extends CustomError {
-  constructor(message: string) {
-    super(message, 400); // HTTP 400 Bad Request
-    this.name = "ValidationError";
-  }
-}
+    // Example logic for SOL donation
+    const transaction = new Transaction().add(
+      SystemProgram.transfer({
+        fromPubkey: donorPublicKey,
+        toPubkey: recipientPublicKey,
+        lamports: amount * 1e9, // Convert SOL to lamports
+      })
+    );
 
-export class NotFoundError extends CustomError {
-  constructor(message: string) {
-    super(message, 404); // HTTP 404 Not Found
-    this.name = "NotFoundError";
-  }
-}
+    const signature = await connection.sendTransaction(transaction, [/* Signers here */], { skipPreflight: false });
+    await connection.confirmTransaction(signature);
 
-export class InternalServerError extends CustomError {
-  constructor(message: string) {
-    super(message, 500); // HTTP 500 Internal Server Error
-    this.name = "InternalServerError";
-  }
-}
-
-// Function to handle errors in API routes
-export function handleApiError(error: unknown, res: NextApiResponse) {
-  if (error instanceof CustomError) {
-    // Handle known custom errors
-    res.status(error.statusCode).json({ error: error.message });
-  } else {
-    // Handle unknown errors
-    console.error("Unexpected error:", error);
-    res.status(500).json({ error: "An unexpected error occurred. Please try again later." });
+    return {
+      success: true,
+      transactionSignature: signature,
+    };
+  } catch (error) {
+    console.error("Donation error:", error);
+    return {
+      success: false,
+      errorMessage: error.message || "An error occurred while processing the donation.",
+    };
   }
 }

@@ -8,7 +8,10 @@ export const siteConfig: SiteConfig = {
   logoUrl: "https://ucarecdn.com/b2ad5d9c-abe8-4295-9f2b-274835546617/blinklight.png",
   links: {
     twitter: "https://twitter.com/bark_protocol",
-    github: "https://github.com/barkprotocol/blink",
-    docs: "https://solana.com/docs/advanced/actions",
+    github: "https://github.com/barkprotocol/bark-blinks-tools",
+    docs: "https://docs.barkprotocol.net/actions",
+    medium: "https://medium.com/@barkprotocol",
+    instagram: "https://instagram.com/bark.protocol",
+    telegram: "https://t.me/bark_protocol",
   },
 };

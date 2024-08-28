@@ -12,7 +12,13 @@ const config: Config = {
   theme: {
     container: {
       center: true, // Center the container
-      padding: "2rem", // Default padding
+      padding: {
+        DEFAULT: "2rem", // Default padding
+        sm: "1.5rem",
+        md: "2rem",
+        lg: "2.5rem",
+        xl: "3rem",
+      },
       screens: {
         "2xl": "1400px", // Container width for extra large screens
       },
@@ -57,6 +63,7 @@ const config: Config = {
           foreground: "hsl(var(--card-foreground))",
         },
         customColor: "#D0BFB4", // Example custom color
+        "fallback-color": "#D0BFB4", // Optional: Add fallback colors
       },
       fontFamily: {
         poppins: ['Poppins', 'sans-serif'],

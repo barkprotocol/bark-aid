@@ -13,25 +13,20 @@ export default function Pages() {
   const [apiEndpoint, setApiEndpoint] = useState("");
 
   useEffect(() => {
+    // Set the API endpoint URL dynamically
     setApiEndpoint(new URL(apiPath, window.location.href).toString());
-
-    return () => {
-      setApiEndpoint(new URL(apiPath, window.location.href).toString());
-    };
-  }, []);
+  }, []); // Empty dependency array to run only once on mount
 
   return (
     <section
       id="action"
-      className={
-        "container space-y-12 bg-slate-50 py-8 dark:bg-transparent md:py-12 lg:py-24"
-      }
+      className="container space-y-12 bg-slate-50 py-8 dark:bg-transparent md:py-12 lg:py-24"
     >
       <DevnetAlert />
 
       <div className="mx-auto flex max-w-[58rem] flex-col items-center space-y-6 text-center">
         <h2 className="font-heading text-3xl leading-[1.1] sm:text-3xl md:text-6xl">
-          Simple Memo
+          Memo
         </h2>
         <p className="max-w-[85%] leading-normal text-muted-foreground sm:text-lg sm:leading-7">
           The following example demonstrates how to publish a simple message
@@ -52,7 +47,7 @@ export default function Pages() {
       <div className="mx-auto text-center md:max-w-[58rem]">
         <p className="leading-normal text-muted-foreground sm:text-lg sm:leading-7">
           View the{" "}
-          <Button variant={"link"} asChild>
+          <Button variant="link" asChild>
             <Link
               href={`${siteConfig.links.github}/src/app${apiPath}/route.ts`}
               target="_blank"

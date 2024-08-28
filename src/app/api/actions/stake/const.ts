@@ -1,8 +1,9 @@
 import { PublicKey } from "@solana/web3.js";
 
-// validator: dv1ZAGvdsz5hHLwWXsVnM94hWf1pjbKVau1QVkaMJ92"
+// Default validator public key for staking
 export const DEFAULT_VALIDATOR_VOTE_PUBKEY: PublicKey = new PublicKey(
-  "5ZWgXcyqrrNpQHCme5SdC5hCeYb2o3fEJhF7Gok3bTVN",
+  "5ZWgXcyqrrNpQHCme5SdC5hCeYb2o3fEJhF7Gok3bTVN" // Replace with the actual default validator public key if necessary
 );
 
-export const DEFAULT_STAKE_AMOUNT: number = 1.0;
+// Default stake amount in SOL
+export const DEFAULT_STAKE_AMOUNT: number = 0.5; // Amount in SOL

@@ -8,9 +8,9 @@ import { siteConfig } from "@/config/site";
 import { useEffect, useState } from "react";
 import { DEFAULT_VALIDATOR_VOTE_PUBKEY } from "../api/actions/stake/const";
 
-export default function Pages() {
+export default function StakeSOLPage() {
   const apiPath = "/api/actions/stake";
-  const [apiEndpoint, setApiEndpoint] = useState("");
+  const [apiEndpoint, setApiEndpoint] = useState<string>("");
 
   // Initialize the validator; allow updates via UI if needed
   const validator = DEFAULT_VALIDATOR_VOTE_PUBKEY.toBase58();
@@ -22,25 +22,25 @@ export default function Pages() {
 
   return (
     <section
-      id="action"
+      id="stake-sol"
       className="container space-y-12 bg-slate-50 py-8 dark:bg-transparent md:py-12 lg:py-24"
     >
       <div className="mx-auto flex max-w-[58rem] flex-col items-center space-y-6 text-center">
-        <h2 className="font-heading text-3xl leading-[1.1] sm:text-3xl md:text-6xl">
+        <h2 className="font-heading text-3xl leading-tight sm:text-3xl md:text-6xl">
           Staking SOL
         </h2>
         <p className="max-w-[85%] leading-normal text-muted-foreground sm:text-lg sm:leading-7">
-          The following example demonstrates how to stake SOL to the Solana network using an Action.
+          This example demonstrates how to stake SOL to the Solana network using an Action.
         </p>
       </div>
 
-      <Card className="group-hover:border-primary size-[400px] rounded overflow-hidden text-center flex items-center justify-center w-min mx-auto">
+      <Card className="rounded overflow-hidden text-center flex items-center justify-center mx-auto w-[400px]">
         <SolanaQRCode
           url={apiEndpoint}
           color="white"
           background="black"
           size={400}
-          className="rounded-lg overflow-clip min-w-[400px]"
+          className="rounded-lg min-w-[400px]"
         />
       </Card>
 
@@ -53,7 +53,7 @@ export default function Pages() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              source code for this sample Action
+              source code for this staking Action
             </Link>
           </Button>{" "}
           on GitHub.

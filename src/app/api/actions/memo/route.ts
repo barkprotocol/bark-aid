@@ -19,7 +19,7 @@ import {
   TransactionInstruction,
 } from "@solana/web3.js";
 
-// Create the standard headers for this route (including CORS)
+// Create standard headers for this route (including CORS)
 const headers = createActionHeaders();
 
 export const GET = async (req: Request) => {
@@ -31,68 +31,56 @@ export const GET = async (req: Request) => {
     label: "Send Memo",
   };
 
-  return new Response(JSON.stringify(payload), {
-    headers,
-  });
+  return new Response(JSON.stringify(payload), { headers });
 };
 
-// DO NOT FORGET TO INCLUDE THE `OPTIONS` HTTP METHOD
-// THIS WILL ENSURE CORS WORKS FOR BLINKS
-export const OPTIONS = async () => {
-  return new Response(null, { headers });
-};
+// Include the OPTIONS HTTP method to ensure CORS works
+export const OPTIONS = async () => new Response(null, { headers });
 
 export const POST = async (req: Request) => {
   try {
+    // Parse the request body
     const body: ActionPostRequest = await req.json();
 
+    // Validate and construct the account PublicKey
     let account: PublicKey;
     try {
       account = new PublicKey(body.account);
-    } catch (err) {
-      return new Response('Invalid "account" provided', {
-        status: 400,
-        headers,
-      });
+    } catch {
+      return new Response('Invalid "account" provided', { status: 400, headers });
     }
 
-    const connection = new Connection(
-      process.env.SOLANA_RPC || clusterApiUrl("devnet"),
-    );
+    // Establish a connection to the Solana cluster
+    const connection = new Connection(process.env.SOLANA_RPC || clusterApiUrl("devnet"));
 
+    // Create a transaction with a memo instruction and a compute budget adjustment
     const transaction = new Transaction().add(
-      // Note: `createPostResponse` requires at least 1 non-memo instruction
       ComputeBudgetProgram.setComputeUnitPrice({
-        microLamports: 1000, // Adjust if needed
+        microLamports: 1000, // Adjust the compute unit price if necessary
       }),
       new TransactionInstruction({
         programId: new PublicKey(MEMO_PROGRAM_ID),
         data: Buffer.from("this is a simple memo message", "utf8"),
-        keys: [], // No accounts required for Memo Program
-      }),
+        keys: [], // Memo Program does not require accounts
+      })
     );
 
-    // Set the end user as the fee payer
+    // Set the end user as the fee payer and add recent blockhash
     transaction.feePayer = account;
     transaction.recentBlockhash = (await connection.getLatestBlockhash()).blockhash;
 
+    // Create and return the post response with the transaction and a message
     const payload: ActionPostResponse = await createPostResponse({
       fields: {
         transaction,
         message: "Post this memo on-chain",
       },
-      // No additional signers required for this transaction
-      // signers: [],
+      // No additional signers are required for this transaction
     });
 
-    return new Response(JSON.stringify(payload), {
-      headers,
-    });
+    return new Response(JSON.stringify(payload), { headers });
   } catch (err) {
     console.error("An error occurred:", err);
-    return new Response("An unknown error occurred", {
-      status: 400,
-      headers,
-    });
+    return new Response("An unknown error occurred", { status: 500, headers });
   }
 };

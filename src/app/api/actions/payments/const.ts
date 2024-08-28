@@ -1,5 +1,3 @@
-// const.ts
-
 import { PublicKey } from "@solana/web3.js";
 
 // Default address for payment processing
@@ -18,6 +16,7 @@ export const TOKEN_MINT_ADDRESSES: { [key: string]: PublicKey } = {
   SOL: new PublicKey("So11111111111111111111111111111111111111112"),
   USDC: new PublicKey("EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"),
   BARK: new PublicKey("2NTvEssJ2i998V2cMGT4Fy3JhyFnAzHFonDo9dbAkVrg"),
+};
 
 // Currency icons
 export const CURRENCY_ICONS: { [key: string]: string } = {

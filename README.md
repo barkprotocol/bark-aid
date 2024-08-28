@@ -1,38 +1,38 @@
 # Solana Actions and Blinks
 
-**BARK (Blockchain Asset and Reward Keeper)** is a platform designed to simplify and enhance interactions with blockchain-based assets, particularly on the Solana network. BARK Blink is a core feature of this platform, aimed at making blockchain actions more accessible and user-friendly.
+**BARK (Blockchain Asset and Reward Keeper)** is a platform designed to simplify and enhance interactions with blockchain-based assets, particularly on the Solana network. **BARK Blink** is a core feature of this platform, aimed at making blockchain actions more accessible and user-friendly.
 
 ## BARK Blink Description
 
-**BARK Blink** is a feature of the BARK platform that streamlines key interactions on the Solana blockchain. It offers a user-friendly interface for performing various tasks, such as sending messages, staking tokens, and transferring assets. The goal of BARK Blink is to enhance the efficiency and accessibility of blockchain operations for users.
+**BARK Blink** streamlines key interactions on the Solana blockchain with a user-friendly interface. It facilitates various tasks such as sending messages, donate, staking tokens, and transferring assets. The goal of BARK Blink is to enhance the efficiency and accessibility of BARK Protocol´s blockchain operations for users.
 
 ## Key Features
 
-1. **On-chain Memo**: 
-   - **Description**: Send simple text messages directly to the blockchain using an SPL Memo. Useful for annotating transactions or recording messages permanently on-chain.
+1. **On-chain Memo**:
+   - **Description**: Send simple text messages directly to the Solana blockchain using an SPL Memo. Useful for annotating transactions or recording messages permanently on-chain.
 
-2. **Staking SOL**: 
-   - **Description**: Stake SOL tokens to a validator to help secure the Solana network and earn rewards. 
+2. **Staking**:
+   - **Description**: Stake SOL or BARK tokens to a validator to help secure the Solana network and earn rewards.
 
-3. **Transfer Native SOL**: 
+3. **Transfer SOL**:
    - **Description**: Transfer native SOL tokens between Solana wallets. Essential for moving assets within the Solana ecosystem.
 
-4. **Transfer SPL Tokens** (Optional): 
-   - **Description**: Transfer SPL tokens, which are tokens built on the Solana network. This feature is currently commented out but can be enabled for additional functionality.
+4. **Transfer SPL Tokens** (Optional):
+   - **Description**: Transfer BARK or SPL tokens, which are tokens built on the Solana network. This feature is currently commented out but can be enabled for additional functionality.
 
-5. **Mint an NFT** (Optional): 
+5. **Mint an NFT** (Optional):
    - **Description**: Mint NFTs (Non-Fungible Tokens) on the Solana blockchain. This feature allows users to create unique digital collectibles. It is currently commented out and can be enabled as needed.
 
-6. **Donate**: 
-   - **Description**: Make donations to support causes or projects. 
+6. **Donate**:
+   - **Description**: Make donations to support causes or projects.
 
-7. **Payments**: 
+7. **Payments**:
    - **Description**: Manage or make payments for various services.
 
-8. **Vote**: 
+8. **Vote**:
    - **Description**: Participate in community or governance voting.
 
-9. **Manage Wallet**: 
+9. **Manage Wallet**:
    - **Description**: View and manage wallet settings and details.
 
 ## Logical Flow
@@ -40,16 +40,16 @@
 1. **Landing Page**:
    - **Overview**: Users are welcomed with an introduction to BARK and its features.
    - **Call to Action**: Options to explore functionalities like sending memos, staking SOL, or transferring assets.
-  
-2. **Application Screenshots**
+
+2. **Application Screenshots**:
 
    2.1. **UI/UX**
    ![UI Screenshot](.github/assets/screenshot.png)
 
-   2.2 **Transactions**
+   2.2. **Transactions**
    ![Transfer SOL Screenshot](.github/assets/transfer-sol.png)
 
-   2.3 **Donate**
+   2.3. **Donate**
    ![Donate Screenshot](.github/assets/donate.png)
 
 3. **Feature Selection**:
@@ -82,13 +82,13 @@ To get started with BARK Blink, follow these steps:
 1. **Clone the Repository**
 
    ```bash
-   git clone https://github.com/barkprotocol/solana-actions-blink.git
+   git clone https://github.com/barkprotocol/bark-actions-blink.git
    ```
 
 2. **Navigate to the Project Directory**
 
    ```bash
-   cd solana-actions-blink
+   cd bark-actions-blink
    ```
 
 3. **Install Dependencies**
@@ -126,6 +126,7 @@ Ensure you have a `.env.local` file in the root of the project with the necessar
 ```env
 NEXT_PUBLIC_SOLANA_NETWORK=devnet
 NEXT_PUBLIC_SOLANA_RPC_URL=https://api.devnet.solana.com
+NEXT_PUBLIC_MINT_API_URL=https://api.actions.barkprotocol.net/mint // Example
 ```
 
 Replace the values with your actual configuration details.

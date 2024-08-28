@@ -1,19 +1,31 @@
-// actions/payments/route.ts
-
 import {
   ActionPostResponse,
   createPostResponse,
   ActionGetResponse,
   ActionPostRequest,
 } from "@solana/actions";
-import { clusterApiUrl, Connection, LAMPORTS_PER_SOL, PublicKey, SystemProgram, Transaction, Keypair } from "@solana/web3.js";
+import {
+  clusterApiUrl,
+  Connection,
+  LAMPORTS_PER_SOL,
+  PublicKey,
+  SystemProgram,
+  Transaction,
+  Keypair
+} from "@solana/web3.js";
 import { Token, TOKEN_PROGRAM_ID } from "@solana/spl-token";
-import { DEFAULT_PAYMENT_ADDRESS, DEFAULT_PAYMENT_AMOUNT, TOKEN_MINT_ADDRESSES, CURRENCY_ICONS } from "./const";
+import {
+  DEFAULT_PAYMENT_ADDRESS,
+  DEFAULT_PAYMENT_AMOUNT,
+  TOKEN_MINT_ADDRESSES,
+  CURRENCY_ICONS
+} from "./const";
 import { validateQueryParams, validateAccount } from "./validate";
 import { handleError, createActionHeaders } from "./errorHandler";
 
 const headers = createActionHeaders();
 
+// Handle GET requests
 export const GET = async (req: Request) => {
   try {
     const requestUrl = new URL(req.url);
@@ -47,8 +59,10 @@ export const GET = async (req: Request) => {
   }
 };
 
+// Handle OPTIONS requests for CORS
 export const OPTIONS = async () => new Response(null, { headers });
 
+// Handle POST requests
 export const POST = async (req: Request) => {
   try {
     const requestUrl = new URL(req.url);
@@ -89,7 +103,7 @@ export const POST = async (req: Request) => {
 async function ensureAccountRentExempt(connection: Connection, toPubkey: PublicKey, amount: number) {
   const minimumBalance = await connection.getMinimumBalanceForRentExemption(0);
   if (amount * LAMPORTS_PER_SOL < minimumBalance) {
-    throw new Error(`Account may not be rent exempt: ${toPubkey.toBase58()}`);
+    throw new Error(`Account ${toPubkey.toBase58()} may not be rent exempt for this amount.`);
   }
 }
 

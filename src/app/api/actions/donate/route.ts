@@ -1,4 +1,3 @@
-// actions/donate/route.ts
 import { NextApiRequest, NextApiResponse } from "next";
 import { Connection, clusterApiUrl } from "@solana/web3.js";
 import { handleDonation } from "./donateHandler";
@@ -14,16 +13,16 @@ function getConnection(): Connection {
 
 // Function to handle POST requests for donation
 async function handlePostRequest(req: NextApiRequest, res: NextApiResponse) {
-  const donationRequest = req.body as DonationRequest;
-
-  // Validate the donation request
-  const validationError = validateDonationRequest(donationRequest);
-  if (validationError) {
-    return res.status(400).json({ error: validationError });
-  }
-
-  // Process the donation
   try {
+    const donationRequest = req.body as DonationRequest;
+
+    // Validate the donation request
+    const validationError = validateDonationRequest(donationRequest);
+    if (validationError) {
+      return res.status(400).json({ error: validationError });
+    }
+
+    // Process the donation
     const connection = getConnection();
     const result: DonationResponse = await handleDonation(donationRequest, connection);
 

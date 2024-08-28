@@ -1,6 +1,5 @@
 import * as React from "react";
 import Link from "next/link";
-
 import { MainNavItem } from "@/types";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
@@ -13,7 +12,7 @@ interface MobileNavProps {
 }
 
 export function MobileNav({ items, children }: MobileNavProps) {
-  useLockBody();
+  useLockBody(); // Prevent scrolling on body when mobile nav is open
 
   return (
     <div
@@ -22,25 +21,40 @@ export function MobileNav({ items, children }: MobileNavProps) {
       )}
     >
       <div className="relative z-20 flex flex-col gap-6 rounded-md bg-popover p-4 text-popover-foreground shadow-md">
-        <Link href="/" className="flex items-center space-x-2 text-lg font-bold" aria-label="Homepage">
+        {/* Logo and Site Name */}
+        <Link
+          href="/"
+          className="flex items-center space-x-2 text-lg font-bold"
+          aria-label={`Go to ${siteConfig.name} homepage`}
+        >
           <Icons.logo className="w-8 h-8 text-sand" />
           <span>{siteConfig.name}</span>
         </Link>
+        
+        {/* Navigation Links */}
         <nav className="flex flex-col gap-2">
-          {items.map((item, index) => (
-            <Link
-              key={index}
-              href={item.disabled ? "#" : item.href}
-              className={cn(
-                "flex items-center rounded-md p-2 text-sm font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors",
-                item.disabled && "cursor-not-allowed opacity-60"
-              )}
-              aria-disabled={item.disabled}
-            >
-              {item.title}
-            </Link>
-          ))}
+          {items.length > 0 ? (
+            items.map((item, index) => (
+              <Link
+                key={index}
+                href={item.disabled ? "#" : item.href}
+                className={cn(
+                  "flex items-center rounded-md p-2 text-sm font-medium transition-colors",
+                  item.disabled
+                    ? "cursor-not-allowed opacity-60"
+                    : "hover:bg-gray-200 dark:hover:bg-gray-700"
+                )}
+                aria-disabled={item.disabled}
+              >
+                {item.title}
+              </Link>
+            ))
+          ) : (
+            <p className="text-center text-sm text-gray-500">No navigation items available</p>
+          )}
         </nav>
+        
+        {/* Additional Children */}
         {children}
       </div>
     </div>
