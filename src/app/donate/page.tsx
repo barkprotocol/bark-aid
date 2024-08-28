@@ -8,17 +8,48 @@ import { siteConfig } from "@/config/site";
 import { useEffect, useState } from "react";
 
 export default function DonatePage() {
-  // Update the API path to reflect the donation functionality
   const apiPath = "/api/actions/donate";
-  const [apiEndpoint, setApiEndpoint] = useState("");
+  const [apiEndpoint, setApiEndpoint] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    setApiEndpoint(new URL(apiPath, window.location.href).toString());
+    try {
+      const fullApiUrl = new URL(apiPath, window.location.href).toString();
+      setApiEndpoint(fullApiUrl);
+    } catch (err) {
+      console.error("Error constructing API URL:", err);
+      setError("Failed to construct the donation API URL.");
+    } finally {
+      setLoading(false);
+    }
 
     return () => {
-      setApiEndpoint(new URL(apiPath, window.location.href).toString());
+      setApiEndpoint("");
     };
   }, []);
+
+  if (loading) {
+    return (
+      <section
+        id="donate"
+        className="container flex items-center justify-center py-8 dark:bg-transparent"
+      >
+        <p className="text-muted-foreground text-lg">Loading...</p>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section
+        id="donate"
+        className="container flex items-center justify-center py-8 dark:bg-transparent"
+      >
+        <p className="text-red-500 text-lg">{error}</p>
+      </section>
+    );
+  }
 
   return (
     <section
@@ -34,25 +65,26 @@ export default function DonatePage() {
         </p>
       </div>
 
-      <Card className="group-hover:border-primary size-[400px] rounded overflow-hidden text-center flex items-center justify-center w-min mx-auto">
+      <Card className="group-hover:border-primary rounded overflow-hidden text-center flex items-center justify-center mx-auto w-min">
         <SolanaQRCode
           url={apiPath}
           color="white"
           background="black"
           size={400}
-          className="rounded-lg overflow-clip min-w-[400px]"
+          className="rounded-lg min-w-[400px]"
         />
       </Card>
 
       <div className="mx-auto text-center md:max-w-[58rem]">
         <p className="leading-normal text-muted-foreground sm:text-lg sm:leading-7">
           View the{" "}
-          <Button variant={"link"} asChild>
+          <Button variant="link" asChild>
             <Link
               href={`${siteConfig.links.github}/src/app${apiPath}/route.ts`}
               target="_blank"
+              rel="noopener noreferrer"
             >
-              source code for this donation Action
+              source code for this donation action
             </Link>
           </Button>{" "}
           on GitHub.
@@ -69,7 +101,8 @@ export default function DonatePage() {
               href={apiEndpoint}
               target="_blank"
               className="underline hover:text-primary"
-              legacyBehavior>
+              rel="noopener noreferrer"
+            >
               {apiEndpoint}
             </Link>
           </p>
