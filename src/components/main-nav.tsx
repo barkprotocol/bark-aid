@@ -3,7 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import { useSelectedLayoutSegment } from "next/navigation";
-import Image from "next/image"; // Import Image from next/image
+import Image from "next/image";
 
 import { MainNavItem } from "@/types";
 import { siteConfig } from "@/config/site";
@@ -21,8 +21,13 @@ export function MainNav({ items, children }: MainNavProps) {
   const segment = useSelectedLayoutSegment();
   const [showMobileMenu, setShowMobileMenu] = React.useState<boolean>(false);
 
+  const handleMenuToggle = () => {
+    setShowMobileMenu(prevState => !prevState);
+  };
+
   return (
     <div className="flex gap-6 md:gap-10">
+      {/* Desktop Logo and Site Name */}
       <Link
         href="/"
         className="hidden text-lg items-center space-x-2 md:flex hover:underline underline-offset-4"
@@ -38,10 +43,11 @@ export function MainNav({ items, children }: MainNavProps) {
         </span>
       </Link>
 
+      {/* Desktop Navigation */}
       {items?.length ? (
         <nav className="hidden gap-2 md:flex">
-          {items.map((item, key) => (
-            <Button key={key} variant={"link"} asChild>
+          {items.map((item) => (
+            <Button key={item.href} variant="link" asChild>
               <Link
                 href={item.disabled ? "#" : item.href}
                 className={cn(
@@ -49,8 +55,9 @@ export function MainNav({ items, children }: MainNavProps) {
                   item.href.startsWith(`/${segment}`)
                     ? "text-foreground"
                     : "text-foreground/60",
-                  item.disabled && "cursor-not-allowed opacity-80",
+                  item.disabled && "cursor-not-allowed opacity-80"
                 )}
+                aria-disabled={item.disabled} // Accessibility improvement
               >
                 {item.title}
               </Link>
@@ -59,13 +66,17 @@ export function MainNav({ items, children }: MainNavProps) {
         </nav>
       ) : null}
 
+      {/* Mobile Menu Toggle */}
       <button
         className="flex items-center space-x-2 md:hidden"
-        onClick={() => setShowMobileMenu(!showMobileMenu)}
+        onClick={handleMenuToggle}
+        aria-label={showMobileMenu ? "Close menu" : "Open menu"} // Accessibility improvement
       >
         {showMobileMenu ? <Icons.close /> : <Icons.menu />}
         <span className="font-bold sr-only">Menu</span>
       </button>
+
+      {/* Mobile Navigation Menu */}
       {showMobileMenu && items && (
         <MobileNav items={items}>{children}</MobileNav>
       )}

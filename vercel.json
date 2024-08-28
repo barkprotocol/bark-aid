@@ -1,0 +1,45 @@
+{
+    "version": 2,
+    "builds": [
+      {
+        "src": "src/**/*.ts",
+        "use": "@vercel/node"
+      },
+      {
+        "src": "public/**/*.png",
+        "use": "@vercel/static"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/api/(.*)",
+        "dest": "/src/api/$1.ts",
+        "methods": ["GET", "POST", "OPTIONS"]
+      },
+      {
+        "src": "/icons/(.*)",
+        "dest": "/public/icons/$1"
+      },
+      {
+        "src": "/(.*)",
+        "dest": "/public/$1",
+        "continue": true
+      }
+    ],
+    "env": {
+      "SOLANA_RPC": "@solana-rpc",
+      "DEFAULT_PAYMENT_ADDRESS": "@default-payment-address",
+      "DEFAULT_PAYMENT_AMOUNT": "@default-payment-amount"
+    },
+    "build": {
+      "env": {
+        "SOLANA_RPC": "@solana-rpc",
+        "DEFAULT_PAYMENT_ADDRESS": "@default-payment-address",
+        "DEFAULT_PAYMENT_AMOUNT": "@default-payment-amount"
+      }
+    },
+    "static": {
+      "public": true
+    }
+  }
+  

@@ -13,6 +13,8 @@ export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
   return (
     <footer className={cn(className, "bg-sand text-black border-t border-gray-200 shadow-md")}>
       <div className="container flex flex-col items-center justify-between gap-8 py-6 md:flex-row md:py-8">
+        
+        {/* Site Info */}
         <div className="flex flex-col items-center gap-6 px-6 md:flex-row md:gap-8 md:px-0">
           {/* Site icon */}
           <Image src={iconSrc} alt="Site Icon" width={40} height={40} className="text-sand" />
@@ -23,7 +25,7 @@ export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
               target="_blank"
               rel="noopener noreferrer"
               className="font-medium text-sand hover:text-orange-600 hover:underline transition-colors"
-              aria-label="Follow us on Twitter"
+              aria-label="Follow BARK Protocol on Twitter"
             >
               All rights reserved
             </a>
@@ -33,13 +35,15 @@ export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
               target="_blank"
               rel="noopener noreferrer"
               className="font-medium text-sand hover:text-orange-600 hover:underline transition-colors"
-              aria-label="View the source code on GitHub"
+              aria-label="View the BARK Protocol source code on GitHub"
             >
               GitHub
             </a>
             .
           </p>
         </div>
+
+        {/* Footer Navigation */}
         <nav className="flex flex-col items-center gap-4 md:flex-row md:gap-6">
           <Button asChild>
             <Link

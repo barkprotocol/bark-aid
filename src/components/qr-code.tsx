@@ -26,6 +26,7 @@ export function SolanaQRCode({
       try {
         return new URL(url, window.location.href);
       } catch {
+        console.error("Invalid URL provided:", url);
         throw new Error("Invalid URL provided.");
       }
     };
@@ -35,15 +36,15 @@ export function SolanaQRCode({
       const resolvedUrl = resolveURL(url);
       const encodedUrl = encodeURL({ link: resolvedUrl }, "solana:");
 
-      console.log("encodedUrl:", encodedUrl.toString());
+      console.log("Encoded URL:", encodedUrl.toString());
 
       // Create the QR code
       const qr = createSolanaQR(encodedUrl, size, background, color);
 
-      // Append the QR code to the ref element if it's not already populated
+      // Append the QR code to the ref element
       if (ref.current) {
         ref.current.innerHTML = ''; // Clear previous content
-        qr.append(ref.current);
+        ref.current.appendChild(qr);
       }
     } catch (error) {
       console.error("Error generating QR code:", error);
