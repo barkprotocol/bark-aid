@@ -1,63 +1,67 @@
-import { Router, Request, Response, NextFunction } from 'express';
-import {
-  MINT_CREATE_ENDPOINT,
-  MINT_STATUS_ENDPOINT,
-  MINT_CANCEL_ENDPOINT,
-  MINT_REQUEST_TYPE,
-  MINTING_SUCCESS_MESSAGE,
-  MINTING_ERROR_MESSAGE,
-  HTTP_STATUS_OK,
-  HTTP_STATUS_BAD_REQUEST,
-  HTTP_STATUS_INTERNAL_SERVER_ERROR
-} from './const';
-import { createMintRequest, checkMintStatus, cancelMintRequest } from './services';
+import { NextApiRequest, NextApiResponse } from "next";
+import { createMintRequest, checkMintStatus, cancelMintRequest } from "./operations";
 
-// Define types for request bodies
-interface MintRequestBody {
-  // Add specific fields according to your API requirements
-  requestId?: string; // Example field
-  amount?: number; // Example field
+// Define the body type for mint requests
+export type MintRequestBody = {
+  requestId: string;
+  amount?: number; // Optional, needed only for creating requests
+  currency?: string; // Optional, needed only for creating requests
+  recipient?: string; // Optional, needed only for creating requests
+};
+
+export async function handler(req: NextApiRequest, res: NextApiResponse) {
+  try {
+    switch (req.method) {
+      case "POST":
+        return await handleMintRequest(req, res);
+      case "GET":
+        return await handleMintStatus(req, res);
+      case "DELETE":
+        return await handleCancelMintRequest(req, res);
+      default:
+        return res.status(400).json({ error: "Invalid request method" });
+    }
+  } catch (error) {
+    console.error("API Error:", error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
 }
 
-// Initialize the router
-const router = Router();
+async function handleMintRequest(req: NextApiRequest, res: NextApiResponse) {
+  const body: MintRequestBody = req.body;
 
-// Route handler for creating a mint request
-router.post(MINT_CREATE_ENDPOINT, async (req: Request<{}, {}, MintRequestBody>, res: Response, next: NextFunction) => {
-  try {
-    const result = await createMintRequest(req.body);
-    if (result.success) {
-      res.status(HTTP_STATUS_OK).json({ message: MINTING_SUCCESS_MESSAGE });
-    } else {
-      res.status(HTTP_STATUS_BAD_REQUEST).json({ message: MINTING_ERROR_MESSAGE });
-    }
-  } catch (error) {
-    next(error);
+  const result = await createMintRequest(body);
+  if (result.success) {
+    return res.status(200).json({ message: "Mint request created successfully." });
+  } else {
+    return res.status(400).json({ error: result.message });
   }
-});
+}
 
-// Route handler for checking mint status
-router.get(MINT_STATUS_ENDPOINT, async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const status = await checkMintStatus();
-    res.status(HTTP_STATUS_OK).json(status);
-  } catch (error) {
-    next(error);
+async function handleMintStatus(req: NextApiRequest, res: NextApiResponse) {
+  const { requestId } = req.query;
+
+  if (typeof requestId !== "string") {
+    return res.status(400).json({ error: "Invalid request ID" });
   }
-});
 
-// Route handler for canceling a mint request
-router.post(MINT_CANCEL_ENDPOINT, async (req: Request<{}, {}, MintRequestBody>, res: Response, next: NextFunction) => {
   try {
-    const result = await cancelMintRequest(req.body);
-    if (result.success) {
-      res.status(HTTP_STATUS_OK).json({ message: 'Mint canceled successfully!' });
-    } else {
-      res.status(HTTP_STATUS_BAD_REQUEST).json({ message: 'Cancellation failed. Please try again.' });
-    }
+    const status = await checkMintStatus(requestId);
+    return res.status(200).json(status);
   } catch (error) {
-    next(error);
+    return res.status(500).json({ error: "Error retrieving mint status" });
   }
-});
+}
 
-export default router;
+async function handleCancelMintRequest(req: NextApiRequest, res: NextApiResponse) {
+  const body: MintRequestBody = req.body;
+
+  const result = await cancelMintRequest(body);
+  if (result.success) {
+    return res.status(200).json({ message: "Mint request canceled successfully." });
+  } else {
+    return res.status(400).json({ error: result.message });
+  }
+}
+
+export default handler;

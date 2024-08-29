@@ -1,5 +1,6 @@
 import { MarketingConfig } from "@/types";
 
+// Define the marketing configuration
 export const marketingConfig: MarketingConfig = {
   mainNav: [
     {
@@ -11,8 +12,8 @@ export const marketingConfig: MarketingConfig = {
       href: "/assets",
     },
     {
-      title: "Token",
-      href: "/token",
+      title: "Payments",
+      href: "/pay",
     },
     {
       title: "About",

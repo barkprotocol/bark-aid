@@ -17,7 +17,7 @@ export default function MintPage() {
   useEffect(() => {
     try {
       // Construct the full API endpoint URL
-      const endpoint = new URL(apiPath, window.location.href).toString();
+      const endpoint = new URL(apiPath, window.location.origin).toString();
       setApiEndpoint(endpoint);
     } catch (err) {
       console.error("Error constructing API URL:", err);
@@ -59,12 +59,12 @@ export default function MintPage() {
           Mint Tokens
         </h2>
         <p className="max-w-[85%] leading-normal text-muted-foreground sm:text-lg sm:leading-7">
-          Use this page to mint new tokens directly on the blockchain.
+          Use this page to mint new tokens directly on the blockchain. Follow the instructions and scan the QR code to get started.
         </p>
       </div>
 
       {apiEndpoint && (
-        <Card className="group-hover:border-primary rounded overflow-hidden text-center flex items-center justify-center mx-auto max-w-[400px]">
+        <Card className="rounded overflow-hidden text-center flex items-center justify-center mx-auto max-w-[400px]">
           <SolanaQRCode
             url={apiEndpoint}
             color="white"
@@ -93,7 +93,7 @@ export default function MintPage() {
       </div>
 
       {apiEndpoint && (
-        <Card className="group-hover:border-primary">
+        <Card className="rounded">
           <CardHeader>
             <CardTitle className="space-y-3">Action Endpoint</CardTitle>
           </CardHeader>

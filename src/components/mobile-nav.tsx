@@ -27,7 +27,7 @@ export function MobileNav({ items, children }: MobileNavProps) {
           className="flex items-center space-x-2 text-lg font-bold"
           aria-label={`Go to ${siteConfig.name} homepage`}
         >
-          <Icons.logo className="w-8 h-8 text-sand" />
+          <Icons.logo className="w-8 h-8 text-sand" aria-hidden="true" />
           <span>{siteConfig.name}</span>
         </Link>
         
@@ -45,6 +45,7 @@ export function MobileNav({ items, children }: MobileNavProps) {
                     : "hover:bg-gray-200 dark:hover:bg-gray-700"
                 )}
                 aria-disabled={item.disabled}
+                aria-label={item.title}
               >
                 {item.title}
               </Link>

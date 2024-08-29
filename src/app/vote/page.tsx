@@ -14,10 +14,11 @@ export default function VotePage() {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
+  // Effect to set the API endpoint URL
   useEffect(() => {
     try {
       // Construct the full API endpoint URL
-      const endpoint = new URL(apiPath, window.location.href).toString();
+      const endpoint = new URL(apiPath, window.location.origin).toString();
       setApiEndpoint(endpoint);
     } catch (err) {
       console.error("Error constructing API URL:", err);
@@ -64,13 +65,13 @@ export default function VotePage() {
       </div>
 
       {apiEndpoint && (
-        <Card className="group-hover:border-primary rounded overflow-hidden text-center flex items-center justify-center mx-auto max-w-[400px]">
+        <Card className="rounded overflow-hidden text-center flex items-center justify-center mx-auto max-w-[400px]">
           <SolanaQRCode
             url={apiEndpoint}
             color="white"
             background="black"
             size={400}
-            className="rounded-lg w-full max-w-[400px]"
+            className="rounded-lg w-full"
             aria-label="QR code for voting endpoint"
           />
         </Card>
@@ -93,7 +94,7 @@ export default function VotePage() {
       </div>
 
       {apiEndpoint && (
-        <Card className="group-hover:border-primary">
+        <Card className="rounded">
           <CardHeader>
             <CardTitle className="space-y-3">Action Endpoint</CardTitle>
           </CardHeader>

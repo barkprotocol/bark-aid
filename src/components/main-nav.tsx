@@ -17,7 +17,7 @@ interface MainNavProps {
   children?: React.ReactNode;
 }
 
-export function MainNav({ items, children }: MainNavProps) {
+export function MainNav({ items = [], children }: MainNavProps) {
   const segment = useSelectedLayoutSegment();
   const [showMobileMenu, setShowMobileMenu] = React.useState<boolean>(false);
 
@@ -34,11 +34,11 @@ export function MainNav({ items, children }: MainNavProps) {
         aria-label={`Go to ${siteConfig.name}`}
       >
         <Image
-          src="/icon.png"
-          alt="Site Logo"
-          width={32}
-          height={32}
-          className="rounded-full" // Add class for rounded corners if needed
+          src={siteConfig.logoUrl || "/icon.png"}  // Use the site's logo URL or fallback to a default
+          alt={`${siteConfig.name} Logo`}
+          width={34}
+          height={34}
+          className="rounded-full"
         />
         <span className="hidden font-bold sm:inline-block">
           {siteConfig.name}
@@ -46,7 +46,7 @@ export function MainNav({ items, children }: MainNavProps) {
       </Link>
 
       {/* Desktop Navigation */}
-      {items?.length ? (
+      {items.length > 0 && (
         <nav className="hidden gap-2 md:flex">
           {items.map((item) => (
             <Button key={item.href} variant="link" asChild>
@@ -66,7 +66,7 @@ export function MainNav({ items, children }: MainNavProps) {
             </Button>
           ))}
         </nav>
-      ) : null}
+      )}
 
       {/* Mobile Menu Toggle */}
       <button
@@ -79,7 +79,7 @@ export function MainNav({ items, children }: MainNavProps) {
       </button>
 
       {/* Mobile Navigation Menu */}
-      {showMobileMenu && items && (
+      {showMobileMenu && items.length > 0 && (
         <MobileNav items={items}>{children}</MobileNav>
       )}
     </div>

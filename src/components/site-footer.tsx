@@ -17,7 +17,14 @@ export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
         {/* Site Info */}
         <div className="flex flex-col items-center gap-6 px-6 md:flex-row md:gap-8 md:px-0">
           {/* Site icon */}
-          <Image src={iconSrc} alt="Site Icon" width={40} height={40} className="text-sand" />
+          <Image
+            src={iconSrc}
+            alt="Site Icon"
+            width={34}
+            height={34}
+            className="text-sand"
+            aria-hidden="true"
+          />
           <p className="text-center text-sm leading-relaxed md:text-left">
             © 2024 BARK Protocol.{" "}
             <a

@@ -11,14 +11,14 @@ import {
   PublicKey,
   SystemProgram,
   Transaction,
-  Keypair
+  Keypair,
 } from "@solana/web3.js";
 import { Token, TOKEN_PROGRAM_ID } from "@solana/spl-token";
 import {
   DEFAULT_PAYMENT_ADDRESS,
   DEFAULT_PAYMENT_AMOUNT,
   TOKEN_MINT_ADDRESSES,
-  CURRENCY_ICONS
+  CURRENCY_ICONS,
 } from "./const";
 import { validateQueryParams, validateAccount } from "./validate";
 import { handleError, createActionHeaders } from "./errorHandler";

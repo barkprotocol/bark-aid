@@ -1,11 +1,10 @@
 /**
- * Solana Actions Example
+ * Solana Actions Example - Sending On-chain Memo
  */
 
 import {
   ActionPostResponse,
   createPostResponse,
-  MEMO_PROGRAM_ID,
   ActionGetResponse,
   ActionPostRequest,
   createActionHeaders,
@@ -22,6 +21,7 @@ import {
 // Create standard headers for this route (including CORS)
 const headers = createActionHeaders();
 
+// Handle GET requests to provide action metadata
 export const GET = async (req: Request) => {
   const payload: ActionGetResponse = {
     type: "action",
@@ -34,9 +34,10 @@ export const GET = async (req: Request) => {
   return new Response(JSON.stringify(payload), { headers });
 };
 
-// Include the OPTIONS HTTP method to ensure CORS works
+// Handle OPTIONS requests to support CORS
 export const OPTIONS = async () => new Response(null, { headers });
 
+// Handle POST requests to create and send a memo transaction
 export const POST = async (req: Request) => {
   try {
     // Parse the request body
@@ -53,13 +54,13 @@ export const POST = async (req: Request) => {
     // Establish a connection to the Solana cluster
     const connection = new Connection(process.env.SOLANA_RPC || clusterApiUrl("devnet"));
 
-    // Create a transaction with a memo instruction and a compute budget adjustment
+    // Create a transaction with a memo instruction
     const transaction = new Transaction().add(
       ComputeBudgetProgram.setComputeUnitPrice({
         microLamports: 1000, // Adjust the compute unit price if necessary
       }),
       new TransactionInstruction({
-        programId: new PublicKey(MEMO_PROGRAM_ID),
+        programId: new PublicKey("MemoProgramID"), // Replace with the actual Memo Program ID
         data: Buffer.from("this is a simple memo message", "utf8"),
         keys: [], // Memo Program does not require accounts
       })

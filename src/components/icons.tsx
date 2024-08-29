@@ -13,7 +13,6 @@ import {
   Image,
   Laptop,
   Loader2,
-  LucideProps,
   MenuIcon,
   Moon,
   MoreVertical,
@@ -27,8 +26,10 @@ import {
   type Icon as LucideIcon,
 } from "lucide-react";
 
-export type Icon = typeof LucideIcon;
+// Define the Icon type based on LucideIcon
+export type Icon = LucideIcon;
 
+// Export the Icons object with correct typing
 export const Icons = {
   logo: EyeIcon,
   menu: MenuIcon,
@@ -52,7 +53,7 @@ export const Icons = {
   sun: SunMedium,
   moon: Moon,
   laptop: Laptop,
-  gitHub: ({ ...props }: LucideProps) => (
+  gitHub: (props: LucideProps) => (
     <svg
       aria-hidden="true"
       focusable="false"
@@ -69,6 +70,4 @@ export const Icons = {
       ></path>
     </svg>
   ),
-  x: X,
-  check: Check,
 };

@@ -15,12 +15,12 @@ export function SolanaQRCode({
   url,
   className,
   background = "transparent",
-  color = "#080808", // Default color if not provided
-  size = 400, // Default size if not provided
+  color = "#080808", // Default color
+  size = 400, // Default size
 }: ComponentProps) {
   const ref = useRef<HTMLDivElement>(null);
 
-  // Helper function to validate and resolve the URL
+  // Function to validate and resolve the URL
   const resolveURL = useCallback((url: string | URL): URL => {
     try {
       return new URL(url, window.location.href);
@@ -38,21 +38,18 @@ export function SolanaQRCode({
 
       console.log("Encoded URL:", encodedUrl.toString());
 
-      // Create the QR code
+      // Create and append the QR code
       const qr = createSolanaQR(encodedUrl, size, background, color);
-
-      // Append the QR code to the ref element
       if (ref.current) {
-        ref.current.innerHTML = ''; // Clear previous content
-        // Directly append the QR code element to the ref
-        ref.current.appendChild(qr);
+        ref.current.innerHTML = ''; // Clear previous QR code
+        ref.current.appendChild(qr); // Append new QR code
       }
     } catch (error) {
       console.error("Error generating QR code:", error);
     }
   }, [url, background, color, size, resolveURL]);
 
-  // Ensure size is a positive number
+  // Ensure the size is a positive number
   const validSize = Math.max(size, 100);
 
   return (

@@ -1,48 +1,47 @@
 {
-    "version": 1,
-    "name": "bark-blinks",
-    "description": "Solana Actions and Blinks",
-    "builds": [
-      {
-        "src": "package.json",
-        "use": "@vercel/static-build",
-        "config": {
-          "distDir": "out"
-        }
-      }
-    ],
-    "routes": [
-      {
-        "src": "/api/(.*)",
-        "dest": "/api/$1",
-        "methods": ["GET", "POST", "OPTIONS"]
-      },
-      {
-        "src": "/(.*)",
-        "dest": "/$1",
-        "headers": {
-          "Cache-Control": "public, max-age=0, must-revalidate"
-        }
-      }
-    ],
-    "env": {
-      "RPC_URL_MAINNET": "@rpc-url-mainnet",
-      "TITLE": "@title",
-      "AVATAR": "@avatar",
-      "DESCRIPTION": "@description"
-    },
-    "build": {
-      "env": {
-        "NEXT_PUBLIC_API_URL": "@api-url",
-        "NEXT_PUBLIC_DEFAULT_TITLE": "@title",
-        "NEXT_PUBLIC_DEFAULT_AVATAR": "@avatar",
-        "NEXT_PUBLIC_DEFAULT_DESCRIPTION": "@description"
-      }
-    },
-    "functions": {
-      "api/**/*.{ts,js}": {
-        "maxDuration": 10
+  "version": 1,
+  "name": "bark-blinks",
+  "description": "Solana Actions and Blinks",
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "out"
       }
     }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/$1",
+      "methods": ["GET", "POST", "OPTIONS"]
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/$1",
+      "headers": {
+        "Cache-Control": "public, max-age=0, must-revalidate"
+      }
+    }
+  ],
+  "env": {
+    "RPC_URL_MAINNET": "@rpc-url-mainnet",
+    "TITLE": "@title",
+    "AVATAR": "@avatar",
+    "DESCRIPTION": "@description"
+  },
+  "build": {
+    "env": {
+      "NEXT_PUBLIC_API_URL": "@api-url",
+      "NEXT_PUBLIC_DEFAULT_TITLE": "@title",
+      "NEXT_PUBLIC_DEFAULT_AVATAR": "@avatar",
+      "NEXT_PUBLIC_DEFAULT_DESCRIPTION": "@description"
+    }
+  },
+  "functions": {
+    "api/**/*.{ts,js}": {
+      "maxDuration": 10
+    }
   }
-  
+}

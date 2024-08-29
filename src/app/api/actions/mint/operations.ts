@@ -5,10 +5,10 @@ import { MintRequestBody } from './route'; // Adjust import if necessary
 const mockMintRequests: { [key: string]: any } = {};
 
 // Example function to create a mint request
-export async function createMintRequest(body: MintRequestBody): Promise<{ success: boolean }> {
+export async function createMintRequest(body: MintRequestBody): Promise<{ success: boolean, message?: string }> {
   try {
     // Validate request body
-    if (!body.requestId || !body.amount) {
+    if (!body.requestId || typeof body.amount !== 'number' || body.amount <= 0) {
       throw new Error("Invalid request body");
     }
 
@@ -20,28 +20,34 @@ export async function createMintRequest(body: MintRequestBody): Promise<{ succes
 
     return { success: true };
   } catch (error) {
-    console.error("Error creating mint request:", error);
-    return { success: false };
+    console.error("Error creating mint request:", error.message);
+    return { success: false, message: error.message };
   }
 }
 
 // Example function to check the status of a mint request
-export async function checkMintStatus(): Promise<any> {
+export async function checkMintStatus(requestId: string): Promise<any> {
   try {
+    // Validate requestId
+    if (!requestId) {
+      throw new Error("Invalid request ID");
+    }
+
     // Simulate fetching status from a database or external service
-    // Return a mock status for demonstration purposes
+    const status = mockMintRequests[requestId] || { status: "not found" };
+
     return {
-      requestId: "example-request-id",
-      status: "pending"
+      requestId,
+      status: status.status || "unknown"
     };
   } catch (error) {
-    console.error("Error checking mint status:", error);
+    console.error("Error checking mint status:", error.message);
     throw error; // Ensure error is propagated to be handled by the route
   }
 }
 
 // Example function to cancel a mint request
-export async function cancelMintRequest(body: MintRequestBody): Promise<{ success: boolean }> {
+export async function cancelMintRequest(body: MintRequestBody): Promise<{ success: boolean, message?: string }> {
   try {
     // Validate request body
     if (!body.requestId) {
@@ -53,10 +59,10 @@ export async function cancelMintRequest(body: MintRequestBody): Promise<{ succes
       delete mockMintRequests[body.requestId];
       return { success: true };
     } else {
-      return { success: false };
+      return { success: false, message: "Request not found" };
     }
   } catch (error) {
-    console.error("Error canceling mint request:", error);
-    return { success: false };
+    console.error("Error canceling mint request:", error.message);
+    return { success: false, message: error.message };
   }
 }

@@ -17,7 +17,7 @@ import {
 } from "@solana/web3.js";
 import { DEFAULT_STAKE_AMOUNT, DEFAULT_VALIDATOR_VOTE_PUBKEY } from "./const";
 
-// Create the standard headers for this route (including CORS)
+// Create headers for the API response
 const headers = createActionHeaders();
 
 export const GET = async (req: Request) => {
@@ -38,18 +38,9 @@ export const GET = async (req: Request) => {
       label: "Stake your SOL",
       links: {
         actions: [
-          {
-            label: "Stake 1 SOL",
-            href: `${baseHref}&amount=${"1"}`,
-          },
-          {
-            label: "Stake 5 SOL",
-            href: `${baseHref}&amount=${"5"}`,
-          },
-          {
-            label: "Stake 10 SOL",
-            href: `${baseHref}&amount=${"10"}`,
-          },
+          { label: "Stake 1 SOL", href: `${baseHref}&amount=1` },
+          { label: "Stake 5 SOL", href: `${baseHref}&amount=5` },
+          { label: "Stake 10 SOL", href: `${baseHref}&amount=10` },
           {
             label: "Stake SOL",
             href: `${baseHref}&amount={amount}`,
@@ -65,16 +56,11 @@ export const GET = async (req: Request) => {
       },
     };
 
-    return new Response(JSON.stringify(payload), {
-      headers,
-    });
+    return new Response(JSON.stringify(payload), { headers });
   } catch (err) {
-    console.error(err);
+    console.error("Error in GET handler:", err);
     const message = err instanceof Error ? err.message : "An unknown error occurred";
-    return new Response(message, {
-      status: 400,
-      headers,
-    });
+    return new Response(message, { status: 400, headers });
   }
 };
 
@@ -95,24 +81,24 @@ export const POST = async (req: Request) => {
     try {
       account = new PublicKey(body.account);
     } catch {
-      return new Response('Invalid "account" provided', {
-        status: 400,
-        headers,
-      });
+      return new Response('Invalid "account" provided', { status: 400, headers });
     }
 
     const connection = new Connection(
-      process.env.SOLANA_RPC || clusterApiUrl("devnet"),
+      process.env.SOLANA_RPC || clusterApiUrl("devnet")
     );
 
+    // Check if the amount is above the minimum stake amount
     const minStake = await connection.getStakeMinimumDelegation();
-    if (amount < minStake.value / LAMPORTS_PER_SOL) {
-      console.error("Minimum stake:", minStake);
-      throw new Error(`The minimum stake amount is ${minStake.value / LAMPORTS_PER_SOL} SOL`);
+    if (amount * LAMPORTS_PER_SOL < minStake.value) {
+      console.error("Minimum stake amount:", minStake.value / LAMPORTS_PER_SOL);
+      return new Response(`The minimum stake amount is ${minStake.value / LAMPORTS_PER_SOL} SOL`, { status: 400, headers });
     }
 
+    // Generate a new keypair for the stake account
     const stakeKeypair = Keypair.generate();
 
+    // Create the transaction
     const transaction = new Transaction().add(
       StakeProgram.createAccount({
         stakePubkey: stakeKeypair.publicKey,
@@ -124,15 +110,23 @@ export const POST = async (req: Request) => {
         stakePubkey: stakeKeypair.publicKey,
         authorizedPubkey: account,
         votePubkey: validator,
-      }),
+      })
     );
 
-    // Set the end user as the fee payer
+    // Set the fee payer and recent blockhash
     transaction.feePayer = account;
-    transaction.recentBlockhash = (
-      await connection.getLatestBlockhash()
-    ).blockhash;
+    const { blockhash, lastValidBlockHeight } = await connection.getLatestBlockhash();
+    transaction.recentBlockhash = blockhash;
+    transaction.lastValidBlockHeight = lastValidBlockHeight;
 
+    // Sign the transaction with the stake account keypair
+    await transaction.sign(stakeKeypair);
+
+    // Send and confirm the transaction
+    const signature = await connection.sendTransaction(transaction, [stakeKeypair], { skipPreflight: false });
+    await connection.confirmTransaction(signature);
+
+    // Create the response payload
     const payload: ActionPostResponse = await createPostResponse({
       fields: {
         transaction,
@@ -141,16 +135,11 @@ export const POST = async (req: Request) => {
       signers: [stakeKeypair],
     });
 
-    return new Response(JSON.stringify(payload), {
-      headers,
-    });
+    return new Response(JSON.stringify(payload), { headers });
   } catch (err) {
-    console.error(err);
+    console.error("Error in POST handler:", err);
     const message = err instanceof Error ? err.message : "An unknown error occurred";
-    return new Response(message, {
-      status: 400,
-      headers,
-    });
+    return new Response(message, { status: 400, headers });
   }
 };
 

@@ -10,15 +10,50 @@ import { DEFAULT_VALIDATOR_VOTE_PUBKEY } from "../api/actions/stake/const";
 
 export default function StakeSOLPage() {
   const apiPath = "/api/actions/stake";
-  const [apiEndpoint, setApiEndpoint] = useState<string>("");
+  const [apiEndpoint, setApiEndpoint] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
   // Initialize the validator; allow updates via UI if needed
   const validator = DEFAULT_VALIDATOR_VOTE_PUBKEY.toBase58();
 
   useEffect(() => {
-    const endpoint = new URL(apiPath, window.location.href).toString() + `?validator=${validator}`;
-    setApiEndpoint(endpoint);
+    const constructApiUrl = () => {
+      try {
+        const fullApiUrl = new URL(apiPath, window.location.origin).toString() + `?validator=${validator}`;
+        setApiEndpoint(fullApiUrl);
+      } catch (err) {
+        console.error("Error constructing API URL:", err);
+        setError("Failed to construct the staking API URL.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    constructApiUrl();
   }, [validator]);
+
+  if (loading) {
+    return (
+      <section
+        id="stake-sol"
+        className="container flex items-center justify-center py-8 dark:bg-transparent"
+      >
+        <p className="text-muted-foreground text-lg">Loading...</p>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section
+        id="stake-sol"
+        className="container flex items-center justify-center py-8 dark:bg-transparent"
+      >
+        <p className="text-red-500 text-lg">{error}</p>
+      </section>
+    );
+  }
 
   return (
     <section
@@ -34,15 +69,18 @@ export default function StakeSOLPage() {
         </p>
       </div>
 
-      <Card className="rounded overflow-hidden text-center flex items-center justify-center mx-auto w-[400px]">
-        <SolanaQRCode
-          url={apiEndpoint}
-          color="white"
-          background="black"
-          size={400}
-          className="rounded-lg min-w-[400px]"
-        />
-      </Card>
+      {apiEndpoint && (
+        <Card className="rounded overflow-hidden text-center flex items-center justify-center mx-auto w-[400px]">
+          <SolanaQRCode
+            url={apiEndpoint}
+            color="white"
+            background="black"
+            size={400}
+            className="rounded-lg min-w-[400px]"
+            aria-label="QR code for staking endpoint"
+          />
+        </Card>
+      )}
 
       <div className="mx-auto text-center md:max-w-[58rem]">
         <p className="leading-normal text-muted-foreground sm:text-lg sm:leading-7">
@@ -60,23 +98,26 @@ export default function StakeSOLPage() {
         </p>
       </div>
 
-      <Card className="group-hover:border-primary">
-        <CardHeader>
-          <CardTitle className="space-y-3">Action Endpoint</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-2">
-          <p className="text-muted-foreground">
-            <Link
-              href={apiEndpoint}
-              target="_blank"
-              className="underline hover:text-primary"
-              rel="noopener noreferrer"
-            >
-              {apiEndpoint}
-            </Link>
-          </p>
-        </CardContent>
-      </Card>
+      {apiEndpoint && (
+        <Card className="rounded">
+          <CardHeader>
+            <CardTitle className="space-y-3">Action Endpoint</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-2">
+            <p className="text-muted-foreground">
+              <Link
+                href={apiEndpoint}
+                target="_blank"
+                className="underline hover:text-primary"
+                rel="noopener noreferrer"
+                aria-label="API endpoint URL"
+              >
+                {apiEndpoint}
+              </Link>
+            </p>
+          </CardContent>
+        </Card>
+      )}
     </section>
   );
 }

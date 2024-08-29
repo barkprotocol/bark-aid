@@ -7,12 +7,21 @@ export async function handleWallet(
   connection: Connection
 ): Promise<WalletResponse> {
   try {
+    // Destructure walletAddress from request
     const { walletAddress } = request;
-    const walletPublicKey = new PublicKey(walletAddress);
 
-    // Example logic for fetching wallet info
+    // Validate walletAddress to ensure it's a valid Solana public key
+    let walletPublicKey: PublicKey;
+    try {
+      walletPublicKey = new PublicKey(walletAddress);
+    } catch (error) {
+      throw new Error("Invalid wallet address format.");
+    }
+
+    // Fetch the balance of the wallet
     const balance = await connection.getBalance(walletPublicKey);
 
+    // Return response with balance in SOL
     return {
       success: true,
       balance: balance / 1e9, // Convert lamports to SOL

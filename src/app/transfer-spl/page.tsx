@@ -7,7 +7,7 @@ import Link from "next/link";
 import { siteConfig } from "@/config/site";
 import { useEffect, useState } from "react";
 
-export default function Pages() {
+export default function TransferSPLPage() {
   // Define the API path for transferring SPL tokens
   const apiPath = "/api/actions/transfer-spl";
   const [apiEndpoint, setApiEndpoint] = useState<string | null>(null);
@@ -17,7 +17,7 @@ export default function Pages() {
   useEffect(() => {
     try {
       // Construct the full API endpoint URL
-      const endpoint = new URL(apiPath, window.location.href).toString();
+      const endpoint = new URL(apiPath, window.location.origin).toString();
       setApiEndpoint(endpoint);
     } catch (err) {
       console.error("Error constructing API URL:", err);
@@ -30,7 +30,7 @@ export default function Pages() {
   if (loading) {
     return (
       <section
-        id="action"
+        id="transfer-spl"
         className="container flex items-center justify-center py-8 dark:bg-transparent"
       >
         <p className="text-muted-foreground text-lg">Loading...</p>
@@ -41,7 +41,7 @@ export default function Pages() {
   if (error) {
     return (
       <section
-        id="action"
+        id="transfer-spl"
         className="container flex items-center justify-center py-8 dark:bg-transparent"
       >
         <p className="text-red-500 text-lg">{error}</p>
@@ -51,7 +51,7 @@ export default function Pages() {
 
   return (
     <section
-      id="action"
+      id="transfer-spl"
       className="container space-y-12 bg-slate-50 py-8 dark:bg-transparent md:py-12 lg:py-24"
     >
       <div className="mx-auto flex max-w-[58rem] flex-col items-center space-y-6 text-center">
@@ -59,7 +59,8 @@ export default function Pages() {
           Transfer SPL Tokens
         </h2>
         <p className="max-w-[85%] leading-normal text-muted-foreground sm:text-lg sm:leading-7">
-          This example demonstrates how to transfer SPL tokens using an Action and the SPL Token program.
+          This example demonstrates how to transfer SPL tokens using an Action and the SPL Token program. 
+          Use the QR code below to access the endpoint for token transfer.
         </p>
       </div>
 
@@ -85,7 +86,7 @@ export default function Pages() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              source code for this sample Action
+              source code for this transfer Action
             </Link>
           </Button>{" "}
           on GitHub.

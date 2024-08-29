@@ -23,6 +23,10 @@ export function validateDonationRequest(request: DonationRequest): ValidationErr
   }
 
   // Validate donation amount
+  if (typeof request.amount !== 'number' || isNaN(request.amount)) {
+    return "Donation amount must be a valid number.";
+  }
+
   if (request.amount <= 0) {
     return "Donation amount must be greater than zero.";
   }

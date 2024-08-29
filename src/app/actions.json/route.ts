@@ -1,26 +1,53 @@
-import { createActionHeaders, type ActionsJson } from "@solana/actions";
+import { ActionsJson } from "./types"; // Adjust import if necessary
+import { ACTIONS_CORS_HEADERS } from "./const"; // Adjust import if necessary
 
+// Handle GET requests to provide action metadata
 export const GET = async () => {
   const payload: ActionsJson = {
     rules: [
-      // map all root level routes to an action
       {
-        pathPattern: "/*",
-        apiPath: "/api/actions/*",
+        pathPattern: "/pay/*",
+        apiPath: "/api/actions/pay/*",
       },
-      // idempotent rule as the fallback
       {
-        pathPattern: "/api/actions/**",
-        apiPath: "/api/actions/**",
+        pathPattern: "/create",
+        apiPath: "/api/actions/create",
+      },
+      {
+        pathPattern: "/mint",
+        apiPath: "/api/actions/mint",
+      },
+      {
+        pathPattern: "/transfer-spl",
+        apiPath: "/api/actions/transfer-spl",
+      },
+      {
+        pathPattern: "/donate",
+        apiPath: "/api/actions/donate",
+      },
+      {
+        pathPattern: "/stake",
+        apiPath: "/api/actions/stake",
+      },
+      {
+        pathPattern: "/vote",
+        apiPath: "/api/actions/vote",
+      },
+      {
+        pathPattern: "/wallet",
+        apiPath: "/api/actions/wallet",
+      },
+      {
+        pathPattern: "/memo",
+        apiPath: "/api/actions/memo",
       },
     ],
   };
 
-  return Response.json(payload, {
-    headers: createActionHeaders(),
+  return new Response(JSON.stringify(payload), {
+    headers: ACTIONS_CORS_HEADERS,
   });
 };
 
-// DO NOT FORGET TO INCLUDE THE `OPTIONS` HTTP METHOD
-// THIS WILL ENSURE CORS WORKS FOR BLINKS
+// Handle OPTIONS requests to support CORS
 export const OPTIONS = GET;

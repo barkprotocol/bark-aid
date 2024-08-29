@@ -47,8 +47,8 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <div className="flex min-h-screen flex-col">
             {/* Header Section */}
-            <header className="container z-40" style={{ backgroundColor: colors.white }}>
-              <div className="flex h-20 items-center justify-between py-6" style={{ color: colors.black }}>
+            <header className="container z-40 bg-white text-black">
+              <div className="flex h-20 items-center justify-between py-6">
                 {/* Main Navigation */}
                 <MainNav items={marketingConfig.mainNav} />
 

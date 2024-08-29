@@ -1,9 +1,7 @@
-// app/page.tsx (or pages/index.tsx)
-
 "use client";
 
 import Link from "next/link";
-import HeroSection from "@/components/HeroSection";
+import HeroSection from "@/components/ui/hero-section";
 import { cn } from "@/lib/utils";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -34,68 +32,68 @@ const actionCards = [
     title: "On-chain Memo",
     href: "/memo",
     description: "Send and record simple messages on the Solana blockchain using SPL Memo, ensuring transparent communication.",
-    icon: <FileTextIcon className="size-12" />,
+    icon: <FileTextIcon className="w-12 h-12" />,
     badge: "New",
   },
   {
     title: "Staking SOL",
     href: "/stake",
     description: "Contribute to the security and efficiency of the Solana network by staking SOL with validators.",
-    icon: <ShieldIcon className="size-12" />,
+    icon: <ShieldIcon className="w-12 h-12" />,
     badge: "Popular",
   },
   {
     title: "Transfer SOL",
     href: "/transfer-sol",
     description: "Seamlessly transfer native SOL tokens between Solana wallets for quick and secure transactions.",
-    icon: <WalletIcon className="size-12" />,
+    icon: <WalletIcon className="w-12 h-12" />,
     badge: "Essential",
   },
   {
     title: "Transfer BARK",
     href: "/transfer-bark",
     description: "Transfer BARK tokens between Solana wallets to manage and move your assets with ease.",
-    icon: <CoinsIcon className="size-12" />,
+    icon: <CoinsIcon className="w-12 h-12" />,
     badge: "Essential",
   },
   {
     title: "Mint an NFT",
     href: "/mint",
     description: "Create and distribute unique digital collectibles on the Solana blockchain, enabling digital ownership and creativity.",
-    icon: <ImageIcon className="size-12" />,
+    icon: <ImageIcon className="w-12 h-12" />,
     badge: "New",
   },
   {
     title: "Donate",
     href: "/donate",
     description: "Support causes and projects by making donations through the Solana blockchain, fostering community and growth.",
-    icon: <HeartIcon className="size-12" />,
+    icon: <HeartIcon className="w-12 h-12" />,
     badge: "Support",
   },
   {
     title: "Payments",
     href: "/payments",
     description: "Manage and process payments for various services using secure Solana-based transactions.",
-    icon: <CreditCardIcon className="size-12" />,
+    icon: <CreditCardIcon className="w-12 h-12" />,
     badge: "New",
   },
   {
     title: "Vote",
     href: "/vote",
     description: "Engage in governance by casting your vote on proposals and decisions within the Solana ecosystem.",
-    icon: <CheckCircleIcon className="size-12" />,
+    icon: <CheckCircleIcon className="w-12 h-12" />,
     badge: "Governance",
   },
   {
     title: "Manage Wallet",
     href: "/wallet",
     description: "View and configure your wallet settings, track your assets, and ensure the security of your holdings.",
-    icon: <SettingsIcon className="size-12" />,
+    icon: <SettingsIcon className="w-12 h-12" />,
     badge: "Essential",
   },
 ];
 
-export default function Pages() {
+export default function Page() {
   return (
     <>
       {/* Hero Section */}

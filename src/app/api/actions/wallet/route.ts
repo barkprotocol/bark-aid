@@ -1,7 +1,3 @@
-/**
- * Solana Wallet Example
- */
-
 import {
   ActionPostResponse,
   createPostResponse,
@@ -12,12 +8,17 @@ import {
   clusterApiUrl,
   Connection,
   PublicKey,
+  LAMPORTS_PER_SOL,
 } from "@solana/web3.js";
 import { DEFAULT_WALLET_ADDRESS } from "./const";
 
 // Create standard headers for this route (including CORS)
 const headers = createActionHeaders();
 
+/**
+ * GET handler to retrieve wallet details
+ * Provides balance information for the specified Solana wallet.
+ */
 export const GET = async (req: Request) => {
   try {
     const requestUrl = new URL(req.url);
@@ -27,8 +28,11 @@ export const GET = async (req: Request) => {
       process.env.SOLANA_RPC || clusterApiUrl("devnet"),
     );
 
-    const balance = await connection.getBalance(walletPubkey);
+    // Get the balance of the wallet in lamports
+    const balanceLamports = await connection.getBalance(walletPubkey);
+    const balanceSOL = balanceLamports / LAMPORTS_PER_SOL; // Convert lamports to SOL
 
+    // Prepare the response payload with wallet details
     const payload: ActionGetResponse = {
       type: "action",
       title: "Action - Wallet Details",
@@ -44,36 +48,38 @@ export const GET = async (req: Request) => {
         ],
       },
       details: {
-        balance: balance / 1e9, // Convert lamports to SOL
+        balance: balanceSOL.toFixed(6), // Show balance with precision
       },
     };
 
-    return new Response(JSON.stringify(payload), {
-      headers,
-    });
+    return new Response(JSON.stringify(payload), { headers });
   } catch (err) {
-    console.error(err);
-    const message = (err instanceof Error) ? err.message : "An unknown error occurred";
-    return new Response(message, {
-      status: 400,
-      headers,
-    });
+    console.error("Error in GET handler:", err);
+    const message = err instanceof Error ? err.message : "An unknown error occurred";
+    return new Response(message, { status: 400, headers });
   }
 };
 
-// DO NOT FORGET TO INCLUDE THE `OPTIONS` HTTP METHOD
-// THIS WILL ENSURE CORS WORKS FOR BLINKS
-export const OPTIONS = async (req: Request) => {
+/**
+ * OPTIONS handler to handle CORS preflight requests.
+ */
+export const OPTIONS = async () => {
   return new Response(null, { headers });
 };
 
-// POST method can be used to add additional functionality if needed
-export const POST = async (req: Request) => {
-  // This endpoint is not implemented yet; add functionality if needed
+/**
+ * POST handler - Not implemented
+ * This endpoint can be used to add additional functionality if needed.
+ */
+export const POST = async () => {
   return new Response("POST method is not implemented", { status: 501, headers });
 };
 
-// Helper function to validate query parameters
+/**
+ * Helper function to validate and parse query parameters
+ * @param requestUrl - The request URL containing query parameters
+ * @returns - An object containing the validated wallet public key
+ */
 function validatedQueryParams(requestUrl: URL) {
   let walletPubkey: PublicKey = DEFAULT_WALLET_ADDRESS;
 

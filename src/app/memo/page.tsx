@@ -36,11 +36,12 @@ export default function Pages() {
 
       <Card className="group-hover:border-primary max-w-[80vw] md:max-w-[400px] aspect-square rounded overflow-clip text-center flex items-center justify-center mx-auto">
         <SolanaQRCode
-          url={apiPath}
+          url={apiEndpoint}
           color="white"
           background="black"
           size={400}
           className="rounded-lg aspect-square [&>svg]:scale-75 md:[&>svg]:scale-100"
+          aria-label="QR code for memo action endpoint"
         />
       </Card>
 
@@ -51,6 +52,7 @@ export default function Pages() {
             <Link
               href={`${siteConfig.links.github}/src/app${apiPath}/route.ts`}
               target="_blank"
+              rel="noopener noreferrer"
             >
               source code for this sample Action
             </Link>
@@ -69,7 +71,8 @@ export default function Pages() {
               href={apiEndpoint}
               target="_blank"
               className="underline hover:text-primary"
-              legacyBehavior>
+              rel="noopener noreferrer"
+            >
               {apiEndpoint}
             </Link>
           </p>

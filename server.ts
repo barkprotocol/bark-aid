@@ -24,14 +24,22 @@ const app = express();
 const port = process.env.PORT || 3000; // Use environment variable or default to 3000
 
 // Middleware
-app.use(cors()); // Enable CORS
+app.use(cors({
+  // Example CORS configuration, adjust as needed
+  origin: '*', // Adjust to specific origins if needed
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed methods
+}));
+
 app.use(bodyParser.json()); // Parse JSON bodies
 app.use(bodyParser.urlencoded({ extended: true })); // Parse URL-encoded bodies
 app.use(morgan('dev')); // Logging middleware
 app.use(helmet()); // Set security-related HTTP headers
+
+// Rate Limiting
 app.use(rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100 // Limit each IP to 100 requests per windowMs
+  windowMs: parseInt(process.env.RATE_LIMIT_WINDOW_MS, 10) || 15 * 60 * 1000, // Default 15 minutes
+  max: parseInt(process.env.RATE_LIMIT_MAX_REQUESTS, 10) || 100, // Default max 100 requests
+  message: 'Too many requests from this IP, please try again later.', // Optional message
 }));
 
 // Use route handlers
