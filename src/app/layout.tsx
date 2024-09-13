@@ -26,7 +26,7 @@ export const viewport = {
 };
 
 // Wallet adapter configuration
-const endpoint = "https://api.devnet.solana.com";
+const endpoint = process.env.NEXT_PUBLIC_SOLANA_RPC_URL || "https://api.devnet.solana.com";
 
 // List of supported wallets
 const wallets = [

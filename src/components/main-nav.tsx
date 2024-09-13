@@ -4,6 +4,7 @@ import * as React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useSelectedLayoutSegment } from "next/navigation";
+import { useTheme } from "next-themes"; // Add this import for theme management
 
 import { MainNavItem } from "@/types";
 import { siteConfig } from "@/config/site";
@@ -18,6 +19,7 @@ interface MainNavProps {
 }
 
 export function MainNav({ items = [], children }: MainNavProps) {
+  const { theme } = useTheme(); // Get the current theme
   const segment = useSelectedLayoutSegment();
   const [showMobileMenu, setShowMobileMenu] = React.useState<boolean>(false);
 
@@ -34,10 +36,10 @@ export function MainNav({ items = [], children }: MainNavProps) {
         aria-label={`Go to ${siteConfig.name}`}
       >
         <Image
-          src={siteConfig.logoUrl || "/icon.png"}
+          src={theme === 'dark' ? siteConfig.logoUrlDark : siteConfig.logoUrlLight}
           alt={`${siteConfig.name} Logo`}
-          width={34}
-          height={34}
+          width={120}
+          height={60}
           className="rounded-full"
         />
         <span className="hidden font-bold sm:inline-block">
@@ -72,7 +74,7 @@ export function MainNav({ items = [], children }: MainNavProps) {
       <button
         className="flex items-center space-x-2 md:hidden"
         onClick={handleMenuToggle}
-        aria-label={showMobileMenu ? "Close menu" : "Open menu"}
+        aria-label={showMobileMenu ? "Close mobile menu" : "Open mobile menu"}
         aria-expanded={showMobileMenu}
       >
         {showMobileMenu ? <Icons.close /> : <Icons.menu />}

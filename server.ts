@@ -25,7 +25,6 @@ const port = process.env.PORT || 3000; // Use environment variable or default to
 
 // Middleware
 app.use(cors({
-  // Example CORS configuration, adjust as needed
   origin: '*', // Adjust to specific origins if needed
   methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed methods
 }));
@@ -39,7 +38,7 @@ app.use(helmet()); // Set security-related HTTP headers
 app.use(rateLimit({
   windowMs: parseInt(process.env.RATE_LIMIT_WINDOW_MS, 10) || 15 * 60 * 1000, // Default 15 minutes
   max: parseInt(process.env.RATE_LIMIT_MAX_REQUESTS, 10) || 100, // Default max 100 requests
-  message: 'Too many requests from this IP, please try again later.', // Optional message
+  message: 'Too many requests from this IP, please try again later.',
 }));
 
 // Use route handlers

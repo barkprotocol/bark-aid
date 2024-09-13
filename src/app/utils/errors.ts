@@ -58,11 +58,14 @@ export class InternalServerError extends HttpError {
 
 // Utility function to handle errors
 export function handleError(err: Error, req: Request, res: Response, next: NextFunction) {
+  const isDevelopment = process.env.NODE_ENV === 'development';
+
   if (err instanceof HttpError) {
     // Handle HTTP errors
     res.status(err.statusCode).json({
       status: 'error',
       message: err.message,
+      ...(isDevelopment && { stack: err.stack }), // Include stack trace in development
     });
   } else {
     // Handle general errors
@@ -70,6 +73,7 @@ export function handleError(err: Error, req: Request, res: Response, next: NextF
     res.status(500).json({
       status: 'error',
       message: 'Internal Server Error',
+      ...(isDevelopment && { stack: err.stack }), // Include stack trace in development
     });
   }
 }

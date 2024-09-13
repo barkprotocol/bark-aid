@@ -23,7 +23,8 @@ export default function WalletButton() {
         await connect();
       }
     } catch (err) {
-      console.error(err);
+      console.error("Failed to toggle wallet connection", err);
+      // Optionally display an error message or feedback to the user
     }
   };
 
@@ -32,10 +33,11 @@ export default function WalletButton() {
       className={walletButtonStyles} 
       onClick={handleClick}
       disabled={connecting || disconnecting}
+      aria-label={connected ? "Disconnect Wallet" : "Connect Wallet"}
     >
       {connecting || disconnecting ? (
         <svg className="w-5 h-5 animate-spin" viewBox="0 0 24 24">
-          <path d="M12 4v4l4-4-4-4v4h4v4h-4z" fill="currentColor" />
+          <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" strokeDasharray="62" strokeDashoffset="31" className="animate-spin" />
         </svg>
       ) : (
         buttonText
