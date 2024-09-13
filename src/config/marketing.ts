@@ -9,19 +9,19 @@ export const marketingConfig: MarketingConfig = {
     },
     {
       title: "Assets",
-      href: "/assets",
+      href: "/pages/assets",
     },
     {
       title: "Payments",
-      href: "/pay",
+      href: "/pages/payments",
     },
     {
       title: "About",
-      href: "/about",
+      href: "/pages/about",
     },
     {
       title: "FAQ",
-      href: "/faq",
+      href: "/pages/faq",
     },
   ],
 };

@@ -6,37 +6,33 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { siteConfig } from "@/config/site";
 import { useEffect, useState } from "react";
-import { DEFAULT_VALIDATOR_VOTE_PUBKEY } from "../api/actions/stake/const";
 
-export default function StakeSOLPage() {
-  const apiPath = "/api/actions/stake";
-  const [apiEndpoint, setApiEndpoint] = useState<string | null>(null);
+export default function PaymentsPage() {
+  const apiPath = "/api/actions/payments";
+  const [apiEndpoint, setApiEndpoint] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-
-  // Initialize the validator; allow updates via UI if needed
-  const validator = DEFAULT_VALIDATOR_VOTE_PUBKEY.toBase58();
 
   useEffect(() => {
     const constructApiUrl = () => {
       try {
-        const fullApiUrl = new URL(apiPath, window.location.origin).toString() + `?validator=${validator}`;
-        setApiEndpoint(fullApiUrl);
+        const endpoint = new URL(apiPath, window.location.origin).toString();
+        setApiEndpoint(endpoint);
       } catch (err) {
         console.error("Error constructing API URL:", err);
-        setError("Failed to construct the staking API URL.");
+        setError("Failed to construct the payments API URL.");
       } finally {
         setLoading(false);
       }
     };
 
     constructApiUrl();
-  }, [validator]);
+  }, [apiPath]);
 
   if (loading) {
     return (
       <section
-        id="stake-sol"
+        id="payments"
         className="container flex items-center justify-center py-8 dark:bg-transparent"
       >
         <p className="text-muted-foreground text-lg">Loading...</p>
@@ -47,7 +43,7 @@ export default function StakeSOLPage() {
   if (error) {
     return (
       <section
-        id="stake-sol"
+        id="payments"
         className="container flex items-center justify-center py-8 dark:bg-transparent"
       >
         <p className="text-red-500 text-lg">{error}</p>
@@ -57,15 +53,15 @@ export default function StakeSOLPage() {
 
   return (
     <section
-      id="stake-sol"
-      className="container space-y-12 bg-slate-50 py-8 dark:bg-transparent md:py-12 lg:py-24"
+      id="payments"
+      className="container space-y-12 py-8 dark:bg-transparent md:py-12 lg:py-24"
     >
       <div className="mx-auto flex max-w-[58rem] flex-col items-center space-y-6 text-center">
         <h2 className="font-heading text-3xl leading-tight sm:text-3xl md:text-6xl">
-          Staking SOL
+          Payments
         </h2>
         <p className="max-w-[85%] leading-normal text-muted-foreground sm:text-lg sm:leading-7">
-          This example demonstrates how to stake SOL to the Solana network using an Action.
+          Easily manage and execute payments directly on the Solana blockchain.
         </p>
       </div>
 
@@ -76,8 +72,8 @@ export default function StakeSOLPage() {
             color="white"
             background="black"
             size={400}
-            className="rounded-lg min-w-[400px]"
-            aria-label="QR code for staking endpoint"
+            className="rounded-lg"
+            aria-label="QR code for payments endpoint"
           />
         </Card>
       )}
@@ -91,7 +87,7 @@ export default function StakeSOLPage() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              source code for this staking Action
+              source code for this payments action
             </Link>
           </Button>{" "}
           on GitHub.
@@ -110,7 +106,6 @@ export default function StakeSOLPage() {
                 target="_blank"
                 className="underline hover:text-primary"
                 rel="noopener noreferrer"
-                aria-label="API endpoint URL"
               >
                 {apiEndpoint}
               </Link>

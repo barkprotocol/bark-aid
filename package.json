@@ -1,7 +1,7 @@
 {
   "name": "bark-blinks",
   "description": "Solana Actions and Blinks",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -19,8 +19,12 @@
     "@radix-ui/react-navigation-menu": "^1.2.0",
     "@radix-ui/react-slot": "^1.1.0",
     "@solana/actions": "^1.6.4",
+    "@solana/pay": "^0.2.5",
     "@solana/qr-code-styling": "^1.6.0",
-    "@solana/spl-token": "0.4.8",
+    "@solana/spl-token": "^0.4.8",
+    "@solana/wallet-adapter-react": "^0.15.35",
+    "@solana/wallet-adapter-react-ui": "^0.9.35",
+    "@solana/wallet-adapter-wallets": "^0.19.32",
     "@solana/web3.js": "^1.95.3",
     "@types/mongoose": "^5.11.97",
     "axios": "^1.7.5",
@@ -40,6 +44,7 @@
     "morgan": "^1.10.0",
     "next": "^14.2.7",
     "next-themes": "^0.3.0",
+    "pino-pretty": "^11.2.2",
     "prettier": "^3.3.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -51,6 +56,8 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/morgan": "^1.9.9",
     "@types/next": "^9.0.0",
     "@types/node": "^22.5.1",
     "@types/react": "^18.3.4",

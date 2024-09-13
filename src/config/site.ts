@@ -8,7 +8,7 @@ export const siteConfig: SiteConfig = {
   logoUrl: "https://ucarecdn.com/74392932-2ff5-4237-a1fa-e0fd15725ecc/bark.svg",
   links: {
     twitter: "https://twitter.com/bark_protocol",
-    github: "https://github.com/barkprotocol/bark-blinks-tools",
+    github: "https://github.com/barkprotocol/bark-blinks",
     docs: "https://docs.barkprotocol.net/actions",
     medium: "https://medium.com/@barkprotocol",
     instagram: "https://instagram.com/bark.protocol",

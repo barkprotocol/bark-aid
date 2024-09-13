@@ -2,7 +2,7 @@ import { PublicKey } from "@solana/web3.js";
 
 // Default SOL wallet address for development
 export const DEFAULT_SOL_ADDRESS: PublicKey = new PublicKey(
-  "nick6zJc6HpW3kfBm4xS2dmbuVRyb5F3AnUvj5ymzR5" // devnet wallet
+  "gEb7nD9yLkau1P4uyMdke9byJNrat61suH4vYiPUuiR" // devnet wallet
 );
 
 // Default amount of SOL (in SOL)

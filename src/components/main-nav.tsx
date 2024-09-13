@@ -26,15 +26,15 @@ export function MainNav({ items = [], children }: MainNavProps) {
   };
 
   return (
-    <div className="flex gap-6 md:gap-10">
+    <div className="flex gap-6 md:gap-10 items-center">
       {/* Desktop Logo and Site Name */}
       <Link
         href="/"
-        className="hidden items-center space-x-2 text-lg md:flex hover:text-foreground/80"
+        className="hidden md:flex items-center space-x-2 text-lg hover:text-foreground/80"
         aria-label={`Go to ${siteConfig.name}`}
       >
         <Image
-          src={siteConfig.logoUrl || "/icon.png"}  // Use the site's logo URL or fallback to a default
+          src={siteConfig.logoUrl || "/icon.png"}
           alt={`${siteConfig.name} Logo`}
           width={34}
           height={34}
@@ -47,7 +47,7 @@ export function MainNav({ items = [], children }: MainNavProps) {
 
       {/* Desktop Navigation */}
       {items.length > 0 && (
-        <nav className="hidden gap-2 md:flex">
+        <nav className="hidden md:flex gap-2">
           {items.map((item) => (
             <Button key={item.href} variant="link" asChild>
               <Link
@@ -73,6 +73,7 @@ export function MainNav({ items = [], children }: MainNavProps) {
         className="flex items-center space-x-2 md:hidden"
         onClick={handleMenuToggle}
         aria-label={showMobileMenu ? "Close menu" : "Open menu"}
+        aria-expanded={showMobileMenu}
       >
         {showMobileMenu ? <Icons.close /> : <Icons.menu />}
         <span className="font-bold sr-only">Menu</span>

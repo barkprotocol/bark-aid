@@ -5,11 +5,11 @@ export const dashboardConfig: DashboardConfig = {
   mainNav: [
     {
       title: "Documentation",
-      href: "/docs",
+      href: "/dashboard/docs",
     },
     {
       title: "Support",
-      href: "/support",
+      href: "/dashboard/support",
       disabled: true, // This can be enabled when support functionality is added
     },
   ],
@@ -20,7 +20,7 @@ export const dashboardConfig: DashboardConfig = {
       icon: "payments", // Ensure this icon exists in your icon set
     },
     {
-      title: "Donations",
+      title: "Charity",
       href: "/dashboard/donate",
       icon: "donate", // Ensure this icon exists in your icon set
     },
