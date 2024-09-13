@@ -8,7 +8,6 @@ import { siteConfig } from "@/config/site";
 import { useEffect, useState } from "react";
 
 export default function MintPage() {
-  // Define the API path for minting functionality
   const apiPath = "/api/actions/mint";
   const [apiEndpoint, setApiEndpoint] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -16,16 +15,15 @@ export default function MintPage() {
 
   useEffect(() => {
     try {
-      // Construct the full API endpoint URL
       const endpoint = new URL(apiPath, window.location.origin).toString();
       setApiEndpoint(endpoint);
     } catch (err) {
       console.error("Error constructing API URL:", err);
-      setError("Failed to construct the minting API URL.");
+      setError("Failed to construct the minting API URL. Please try again later.");
     } finally {
       setLoading(false);
     }
-  }, [apiPath]);
+  }, []);
 
   if (loading) {
     return (
@@ -85,7 +83,7 @@ export default function MintPage() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              source code for this minting Action
+              source code for this minting action
             </Link>
           </Button>{" "}
           on GitHub.

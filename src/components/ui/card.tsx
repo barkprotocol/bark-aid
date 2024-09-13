@@ -9,7 +9,8 @@ const Card = React.forwardRef<HTMLDivElement, React.HTMLProps<HTMLDivElement>>(
     <div
       ref={ref}
       className={cn(
-        "rounded-lg border bg-card text-card-foreground shadow-sm",
+        "rounded-lg border bg-card text-card-foreground shadow-sm flex flex-col justify-between",
+        "w-full h-64", // Ensuring fixed height for uniform size
         className
       )}
       {...props}
@@ -25,7 +26,7 @@ const CardHeader = React.forwardRef<HTMLDivElement, React.HTMLProps<HTMLDivEleme
   ({ className, ...props }, ref) => (
     <div
       ref={ref}
-      className={cn("flex flex-col space-y-1.5 p-6", className)}
+      className={cn("flex flex-col space-y-1.5 p-4", className)}
       {...props}
     />
   )
@@ -40,7 +41,7 @@ const CardTitle = React.forwardRef<HTMLHeadingElement, React.HTMLProps<HTMLHeadi
     <h3
       ref={ref}
       className={cn(
-        "text-2xl font-semibold leading-none tracking-tight",
+        "text-xl font-semibold leading-none tracking-tight",
         className
       )}
       {...props}
@@ -70,7 +71,7 @@ const CardContent = React.forwardRef<HTMLDivElement, React.HTMLProps<HTMLDivElem
   ({ className, ...props }, ref) => (
     <div
       ref={ref}
-      className={cn("p-6 pt-0", className)}
+      className={cn("flex-1 p-4", className)} // Flex-grow to fill available space
       {...props}
     />
   )
@@ -84,7 +85,7 @@ const CardFooter = React.forwardRef<HTMLDivElement, React.HTMLProps<HTMLDivEleme
   ({ className, ...props }, ref) => (
     <div
       ref={ref}
-      className={cn("flex items-center p-6 pt-0", className)}
+      className={cn("p-4", className)}
       {...props}
     />
   )

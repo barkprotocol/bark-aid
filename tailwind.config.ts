@@ -1,25 +1,25 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
-  darkMode: ["class"], // Dark mode using class strategy
+  darkMode: ["class"],
   content: [
-    "./pages/**/*.{ts,tsx}", // Scan these directories for class names
+    "./pages/**/*.{ts,tsx}",
     "./components/**/*.{ts,tsx}",
     "./app/**/*.{ts,tsx}",
     "./src/**/*.{ts,tsx}",
   ],
   theme: {
     container: {
-      center: true, // Center the container
+      center: true,
       padding: {
-        DEFAULT: "2rem", // Set default padding
+        DEFAULT: "2rem",
         sm: "1.5rem",
         md: "2rem",
         lg: "2.5rem",
         xl: "3rem",
       },
       screens: {
-        "2xl": "1400px", // Max width for extra-large screens
+        "2xl": "1400px",
       },
     },
     extend: {
@@ -32,7 +32,7 @@ const config: Config = {
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
-          dark: "hsl(var(--primary-dark))", // Ensure this variable is in your CSS
+          dark: "hsl(var(--primary-dark))",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
@@ -62,16 +62,20 @@ const config: Config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        customColor: "#D0BFB4", // Example custom color
+        sand: {
+          300: "#D0BFB4", // Light sand color
+          400: "#CBB5A7", // Medium sand color
+          500: "#BBA597", // Darker sand color
+        },
       },
       fontFamily: {
-        poppins: ['Poppins', 'sans-serif'], // Add Poppins font
-        syne: ['Syne', 'sans-serif'], // Add Syne font
+        poppins: ['Poppins', 'sans-serif'],
+        syne: ['Syne', 'sans-serif'],
       },
       borderRadius: {
-        lg: "var(--radius)", // Use CSS variable for large radius
-        md: "calc(var(--radius) - 2px)", // Medium radius
-        sm: "calc(var(--radius) - 4px)", // Small radius
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
       },
       keyframes: {
         "accordion-down": {
@@ -84,14 +88,48 @@ const config: Config = {
         },
       },
       animation: {
-        "accordion-down": "accordion-down 0.2s ease-out", // Accordion down animation
-        "accordion-up": "accordion-up 0.2s ease-out", // Accordion up animation
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
+      },
+      boxShadow: {
+        sm: "0 1px 2px rgba(0, 0, 0, 0.05)",
+        md: "0 4px 6px rgba(0, 0, 0, 0.1)",
+        lg: "0 10px 15px rgba(0, 0, 0, 0.1)",
+        xl: "0 20px 25px rgba(0, 0, 0, 0.1)",
+        "2xl": "0 25px 50px rgba(0, 0, 0, 0.2)",
+        inner: "inset 0 2px 4px rgba(0, 0, 0, 0.05)",
+        none: "none",
+      },
+      textShadow: {
+        sm: "1px 1px 2px rgba(0, 0, 0, 0.1)",
+        md: "2px 2px 4px rgba(0, 0, 0, 0.1)",
+        lg: "3px 3px 6px rgba(0, 0, 0, 0.2)",
+        xl: "4px 4px 8px rgba(0, 0, 0, 0.3)",
       },
     },
   },
   plugins: [
-    require("tailwindcss-animate"), // Plugin for animations
-    // Add more plugins here if needed
+    require("tailwindcss-animate"),
+    require("@tailwindcss/forms"),
+    function({ addUtilities }) {
+      addUtilities(
+        {
+          ".text-shadow-sm": {
+            textShadow: "1px 1px 2px rgba(0, 0, 0, 0.1)",
+          },
+          ".text-shadow-md": {
+            textShadow: "2px 2px 4px rgba(0, 0, 0, 0.1)",
+          },
+          ".text-shadow-lg": {
+            textShadow: "3px 3px 6px rgba(0, 0, 0, 0.2)",
+          },
+          ".text-shadow-xl": {
+            textShadow: "4px 4px 8px rgba(0, 0, 0, 0.3)",
+          },
+        },
+        ["responsive", "hover"]
+      );
+    },
   ],
 };
 

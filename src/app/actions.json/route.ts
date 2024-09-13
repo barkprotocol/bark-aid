@@ -1,5 +1,5 @@
-import { ActionsJson } from "./types"; // Adjust import if necessary
-import { ACTIONS_CORS_HEADERS } from "./const"; // Adjust import if necessary
+import { ActionsJson } from "./types";
+import { ACTIONS_CORS_HEADERS } from "./const";
 
 // Handle GET requests to provide action metadata
 export const GET = async () => {

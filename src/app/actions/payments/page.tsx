@@ -7,8 +7,9 @@ import Link from "next/link";
 import { siteConfig } from "@/config/site";
 import { useEffect, useState } from "react";
 
+const API_PATH = "/api/actions/payments";
+
 export default function PaymentsPage() {
-  const apiPath = "/api/actions/payments";
   const [apiEndpoint, setApiEndpoint] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -16,18 +17,18 @@ export default function PaymentsPage() {
   useEffect(() => {
     const constructApiUrl = () => {
       try {
-        const endpoint = new URL(apiPath, window.location.origin).toString();
+        const endpoint = new URL(API_PATH, window.location.origin).toString();
         setApiEndpoint(endpoint);
       } catch (err) {
         console.error("Error constructing API URL:", err);
-        setError("Failed to construct the payments API URL.");
+        setError("Unable to construct the payments API URL. Please try again later.");
       } finally {
         setLoading(false);
       }
     };
 
     constructApiUrl();
-  }, [apiPath]);
+  }, []);
 
   if (loading) {
     return (
@@ -83,7 +84,7 @@ export default function PaymentsPage() {
           View the{" "}
           <Button variant="link" asChild>
             <Link
-              href={`${siteConfig.links.github}/src/app${apiPath}/route.ts`}
+              href={`${siteConfig.links.github}/src/app${API_PATH}/route.ts`}
               target="_blank"
               rel="noopener noreferrer"
             >

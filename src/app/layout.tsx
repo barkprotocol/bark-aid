@@ -25,14 +25,6 @@ export const viewport = {
   maximumScale: 1,
 };
 
-// Color variables for consistent styling
-const colors = {
-  grey: "#6B7280", // Modern grey
-  white: "#FFFFFF", // Pure white
-  black: "#000000", // Pure black
-  sand: "#CBB5A7", // Sand color
-};
-
 // Wallet adapter configuration
 const endpoint = "https://api.devnet.solana.com";
 
@@ -45,13 +37,13 @@ const wallets = [
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={inter.className} style={{ backgroundColor: colors.sand }}>
+      <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <ConnectionProvider endpoint={endpoint}>
             <WalletProvider wallets={wallets} autoConnect>
-              <div className="flex min-h-screen flex-col">
+              <div className="flex min-h-screen flex-col bg-sand dark:bg-grey-900">
                 {/* Header Section */}
-                <header className="container z-40 bg-white text-black">
+                <header className="container z-40 bg-transparent text-black dark:text-white">
                   <div className="flex h-20 items-center justify-between py-6">
                     {/* Main Navigation */}
                     <MainNav items={marketingConfig.mainNav} />
@@ -71,16 +63,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   className={cn(
                     "before:absolute z-[-1] before:h-[300px] before:w-full before:translate-x-1/4 before:translate-y-52 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-5 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]"
                   )}
-                  style={{ backgroundColor: colors.grey }}
                 ></div>
 
                 {/* Main Content */}
-                <main className="flex-1 space-y-10 max-w-screen-xl mx-auto">
+                <main className="flex-1 space-y-10 max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
                   {children}
                 </main>
 
                 {/* Footer Section */}
-                <SiteFooter style={{ backgroundColor: colors.white, color: colors.black }} />
+                <SiteFooter className="bg-white text-black" />
               </div>
             </WalletProvider>
           </ConnectionProvider>

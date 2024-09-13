@@ -102,15 +102,15 @@ export default function Page() {
       {/* About Section */}
       <section
         id="about"
-        className="container flex flex-col items-center space-y-6 py-16 text-center dark:bg-black dark:text-white md:py-24"
+        className="container flex flex-col items-center space-y-8 py-16 text-center dark:bg-black dark:text-white md:py-24"
       >
         <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-black dark:text-white">
           About Us
         </h2>
-        <p className="max-w-2xl text-lg leading-relaxed text-grey sm:text-xl sm:leading-8">
+        <p className="max-w-3xl text-lg leading-relaxed text-grey dark:text-sand sm:text-xl sm:leading-8">
           We are dedicated to leveraging the full potential of the Solana blockchain to deliver innovative solutions and features. Our goal is to offer a seamless experience for managing assets, participating in governance, and more. Join us as we support the growth and adoption of the Solana ecosystem.
         </p>
-        <div className="flex gap-4">
+        <div className="flex gap-4 justify-center">
           <Link href="/services" className={cn(buttonVariants({ size: "lg", variant: "primary" }))}>
             Services
           </Link>
@@ -123,20 +123,13 @@ export default function Page() {
       {/* Features Section */}
       <section
         id="features"
-        className="container space-y-12 py-8 dark:bg-black dark:text-white md:py-12 lg:py-24"
+        className="container space-y-12 py-16 dark:bg-black dark:text-white md:py-24"
       >
         <div className="text-center">
-          <h3 className="text-4xl sm:text-5xl md:text-6xl font-bold text-black dark:text-white">
+          <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold text-black dark:text-white">
             Features
           </h3>
-        </div>
-
-        {/* Subtitle */}
-        <div className="text-center max-w-3xl mx-auto">
-          <h4 className="text-3xl sm:text-4xl font-semibold text-sand">
-            Explore Innovative Solutions
-          </h4>
-          <p className="text-lg leading-relaxed text-grey dark:text-sand sm:text-xl sm:leading-8">
+          <p className="text-lg leading-relaxed text-grey dark:text-sand max-w-2xl mx-auto sm:text-xl sm:leading-8 mt-4">
             Discover various functionalities and actions that showcase the versatility of Solana. Each action is designed to provide seamless interaction with blockchain technology, enhancing your digital experience. From creating NFTs to managing your assets, our features are designed to make blockchain interaction smooth and intuitive.
           </p>
         </div>
@@ -153,7 +146,7 @@ export default function Page() {
                       {item.title}
                     </span>
                     {item.badge && (
-                      <span className="ml-2 inline-block rounded-full bg-orange px-2 py-1 text-xs font-medium text-white">
+                      <span className={`ml-2 inline-block rounded-full bg-${item.badge.toLowerCase()} px-2 py-1 text-xs font-medium text-white`}>
                         {item.badge}
                       </span>
                     )}
@@ -167,8 +160,8 @@ export default function Page() {
           ))}
         </div>
 
-        <div className="text-center md:max-w-3xl mx-auto">
-          <p className="text-grey dark:text-sand text-lg leading-relaxed sm:text-xl sm:leading-8">
+        <div className="text-center md:max-w-3xl mx-auto mt-12">
+          <p className="text-grey dark:text-sand text-base leading-relaxed sm:text-lg sm:leading-7">
             Powered by{" "}
             <Button variant={"link"} asChild>
               <Link href="https://solana.com" target="_blank" className="text-sand">
