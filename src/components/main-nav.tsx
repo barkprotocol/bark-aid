@@ -1,90 +1,101 @@
-"use client";
+'use client'
 
-import * as React from "react";
-import Link from "next/link";
-import Image from "next/image";
-import { useSelectedLayoutSegment } from "next/navigation";
-import { useTheme } from "next-themes"; // Add this import for theme management
+import * as React from "react"
+import Link from "next/link"
+import Image from "next/image"
+import { usePathname } from "next/navigation"
+import { cn } from "@/lib/utils"
+import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger, navigationMenuTriggerStyle } from "@/components/ui/navigation-menu"
 
-import { MainNavItem } from "@/types";
-import { siteConfig } from "@/config/site";
-import { cn } from "@/lib/utils";
-import { Icons } from "@/components/icons";
-import { MobileNav } from "@/components/mobile-nav";
-import { Button } from "@/components/ui/button";
-
-interface MainNavProps {
-  items?: MainNavItem[];
-  children?: React.ReactNode;
+interface NavItem {
+  title: string
+  href: string
+  description?: string
 }
 
-export function MainNav({ items = [], children }: MainNavProps) {
-  const { theme } = useTheme(); // Get the current theme
-  const segment = useSelectedLayoutSegment();
-  const [showMobileMenu, setShowMobileMenu] = React.useState<boolean>(false);
+interface MainNavProps {
+  items?: NavItem[]
+}
 
-  const handleMenuToggle = () => {
-    setShowMobileMenu(prevState => !prevState);
-  };
+const logoUrl = "https://ucarecdn.com/f242e5dc-8813-47b4-af80-6e6dd43945a9/barkicon.png"
+
+function BlinkingLogo() {
+  return (
+    <span className="font-bold">
+      B
+      <span className="animate-pulse">Li</span>
+      NK
+    </span>
+  )
+}
+
+export function MainNav({ items }: MainNavProps) {
+  const pathname = usePathname()
 
   return (
-    <div className="flex gap-6 md:gap-10 items-center">
-      {/* Desktop Logo and Site Name */}
+    <NavigationMenu>
+      <NavigationMenuList>
+        <NavigationMenuItem>
+          <Link href="/" legacyBehavior passHref>
+            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+              <Image
+                src={logoUrl}
+                alt="Logo"
+                width={32}
+                height={32}
+                className="mr-2"
+              />
+              <BlinkingLogo />
+            </NavigationMenuLink>
+          </Link>
+        </NavigationMenuItem>
+        {items?.map((item) => (
+          <NavigationMenuItem key={item.href}>
+            <Link href={item.href} legacyBehavior passHref>
+              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                {item.title}
+              </NavigationMenuLink>
+            </Link>
+          </NavigationMenuItem>
+        ))}
+      </NavigationMenuList>
+    </NavigationMenu>
+  )
+}
+
+export function MobileNav({ items }: MainNavProps) {
+  const pathname = usePathname()
+
+  return (
+    <div className="flex flex-col space-y-3">
       <Link
         href="/"
-        className="hidden md:flex items-center space-x-2 text-lg hover:text-foreground/80"
-        aria-label={`Go to ${siteConfig.name}`}
+        className={cn(
+          "flex items-center text-sm font-medium transition-colors hover:text-primary",
+          pathname === "/" ? "text-black dark:text-white" : "text-muted-foreground"
+        )}
       >
         <Image
-          src={theme === 'dark' ? siteConfig.logoUrlDark : siteConfig.logoUrlLight}
-          alt={`${siteConfig.name} Logo`}
-          width={120}
-          height={60}
-          className="rounded-full"
+          src={logoUrl}
+          alt="Logo"
+          width={24}
+          height={24}
+          className="mr-2"
         />
-        <span className="hidden font-bold sm:inline-block">
-          {siteConfig.name}
-        </span>
+        <BlinkingLogo />
       </Link>
-
-      {/* Desktop Navigation */}
-      {items.length > 0 && (
-        <nav className="hidden md:flex gap-2">
-          {items.map((item) => (
-            <Button key={item.href} variant="link" asChild>
-              <Link
-                href={item.disabled ? "#" : item.href}
-                className={cn(
-                  "flex items-center text-lg font-medium transition-colors",
-                  item.href.startsWith(`/${segment}`)
-                    ? "text-foreground"
-                    : "text-foreground/60",
-                  item.disabled && "cursor-not-allowed opacity-80"
-                )}
-                aria-disabled={item.disabled}
-              >
-                {item.title}
-              </Link>
-            </Button>
-          ))}
-        </nav>
-      )}
-
-      {/* Mobile Menu Toggle */}
-      <button
-        className="flex items-center space-x-2 md:hidden"
-        onClick={handleMenuToggle}
-        aria-label={showMobileMenu ? "Close mobile menu" : "Open mobile menu"}
-        aria-expanded={showMobileMenu}
-      >
-        {showMobileMenu ? <Icons.close /> : <Icons.menu />}
-        <span className="font-bold sr-only">Menu</span>
-      </button>
-
-      {/* Mobile Navigation Menu */}
-      {showMobileMenu && items.length > 0 && (
-        <MobileNav items={items}>{children}</MobileNav>
-      )}
+      {items?.map((item) => (
+        <Link
+          key={item.href}
+          href={item.href}
+          className={cn(
+            "text-sm font-medium transition-colors hover:text-primary",
+            pathname === item.href ? "text-black dark:text-white" : "text-muted-foreground"
+          )}
+        >
+          {item.title}
+        </Link>
+      ))}
     </div>
-  );
+  )
 }

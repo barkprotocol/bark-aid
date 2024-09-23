@@ -1,4 +1,4 @@
-// components/HeroSection.tsx
+"use client";
 
 import Link from "next/link";
 import { cn } from "@/lib/utils";
@@ -18,17 +18,17 @@ export default function HeroSection() {
       id="hero"
       className={`container flex flex-col items-center justify-center space-y-6 py-16 text-center md:py-24 ${colors.sand} dark:bg-transparent`}
     >
-      <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight text-black dark:text-white drop-shadow-lg">
+      <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight text-black dark:text-white drop-shadow-md">
         Unlock the Power of Solana with BARK Actions & Blinks
       </h1>
       <p className="max-w-2xl text-lg leading-relaxed text-grey sm:text-xl sm:leading-8 dark:text-white">
         Dive into a wide range of actions that leverage the speed and security of the Solana blockchain. From managing tokens to participating in governance, explore how BARK Actions and Blinks can enhance your blockchain experience.
       </p>
       <div className="flex gap-4">
-        <Link href="/get-started" className={cn(buttonVariants({ size: "lg", variant: "primary" }))}>
+        <Link href="/pages/get-started" className={cn(buttonVariants({ size: "lg", variant: "primary" }))}>
           Get Started
         </Link>
-        <Link href="/learn-more" className={cn(buttonVariants({ size: "lg", variant: "outline" }))}>
+        <Link href="/pages/learn-more" className={cn(buttonVariants({ size: "lg", variant: "outline" }))}>
           Learn More
         </Link>
       </div>

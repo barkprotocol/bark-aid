@@ -1,50 +1,45 @@
-"use client";
-
-import { Inter } from "next/font/google";
-import "./globals.css";
-import { marketingConfig } from "@/config/marketing";
-import { cn } from "@/lib/utils";
-import { MainNav } from "@/components/main-nav";
-import { SiteFooter } from "@/components/site-footer";
-import { ThemeProvider } from "@/components/theme-provider";
-import { ThemeModeToggle } from "@/components/theme-mode-toggle";
-import {
-  ConnectionProvider,
-  WalletProvider,
-} from "@solana/wallet-adapter-react";
-import { PhantomWalletAdapter, SolflareWalletAdapter } from "@solana/wallet-adapter-wallets";
-import WalletButton from "@/components/ui/wallet-button";
+import { Inter } from "next/font/google"
+import "./globals.css"
+import { marketingConfig } from "@/config/marketing"
+import { cn } from "@/lib/utils"
+import { MainNav } from "@/components/main-nav"
+import { SiteFooter } from "@/components/site-footer"
+import { ThemeProvider } from "@/components/theme-provider"
+import { ThemeModeToggle } from "@/components/theme-mode-toggle"
+import dynamic from "next/dynamic"
 
 // Import Inter font
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin"] })
 
 // Define viewport settings
 export const viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 1,
-};
+}
 
-// Wallet adapter configuration
-const endpoint = process.env.NEXT_PUBLIC_SOLANA_RPC_URL || "https://api.devnet.solana.com";
+// Dynamically import wallet components to avoid SSR issues
+const SolanaWalletProviderWrapper = dynamic(
+  () => import("@/components/wallet-providers"),
+  { ssr: false }
+)
 
-// List of supported wallets
-const wallets = [
-  new PhantomWalletAdapter(),
-  new SolflareWalletAdapter(),
-];
+const WalletButton = dynamic(
+  () => import("@/components/ui/wallet-button"),
+  { ssr: false }
+)
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
+    <html lang="en" className="h-full">
+      <body className={cn(inter.className, "h-full")}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <ConnectionProvider endpoint={endpoint}>
-            <WalletProvider wallets={wallets} autoConnect>
-              <div className="flex min-h-screen flex-col bg-sand dark:bg-grey-900">
-                {/* Header Section */}
-                <header className="container z-40 bg-transparent text-black dark:text-white">
-                  <div className="flex h-20 items-center justify-between py-6">
+          <SolanaWalletProviderWrapper>
+            <div className="flex flex-col min-h-screen bg-gray-100 dark:bg-gray-900 transition-colors duration-200">
+              {/* Header Section */}
+              <header className="sticky top-0 z-40 w-full bg-white dark:bg-gray-800 shadow-sm">
+                <div className="container mx-auto px-4">
+                  <div className="flex h-16 items-center justify-between">
                     {/* Main Navigation */}
                     <MainNav items={marketingConfig.mainNav} />
 
@@ -56,27 +51,22 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                       <ThemeModeToggle />
                     </nav>
                   </div>
-                </header>
+                </div>
+              </header>
 
-                {/* Background Effects */}
-                <div
-                  className={cn(
-                    "before:absolute z-[-1] before:h-[300px] before:w-full before:translate-x-1/4 before:translate-y-52 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-5 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]"
-                  )}
-                ></div>
-
-                {/* Main Content */}
-                <main className="flex-1 space-y-10 max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
+              {/* Main Content */}
+              <main className="flex-grow">
+                <div className="container mx-auto py-8 px-4 sm:px-6 lg:px-8">
                   {children}
-                </main>
+                </div>
+              </main>
 
-                {/* Footer Section */}
-                <SiteFooter className="bg-white text-black" />
-              </div>
-            </WalletProvider>
-          </ConnectionProvider>
+              {/* Footer Section */}
+              <SiteFooter className="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700" />
+            </div>
+          </SolanaWalletProviderWrapper>
         </ThemeProvider>
       </body>
     </html>
-  );
+  )
 }

@@ -1,11 +1,16 @@
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useEffect, useState } from "react";
+import { useConnection, useWallet } from '@solana/wallet-adapter-react';
+import { PublicKey, Transaction, SystemProgram, LAMPORTS_PER_SOL } from '@solana/web3.js';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { SolanaQRCode } from "@/components/qr-code";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { toast } from "@/components/ui/use-toast";
 import Link from "next/link";
-import { siteConfig } from "@/config/site";
-import { useEffect, useState } from "react";
+import { Loader2, Send, QrCode, ExternalLink } from "lucide-react";
 
 const API_PATH = "/api/actions/payments";
 
@@ -13,6 +18,13 @@ export default function PaymentsPage() {
   const [apiEndpoint, setApiEndpoint] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [recipient, setRecipient] = useState('');
+  const [amount, setAmount] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showQR, setShowQR] = useState(false);
+
+  const { connection } = useConnection();
+  const { publicKey, sendTransaction } = useWallet();
 
   useEffect(() => {
     const constructApiUrl = () => {
@@ -30,90 +42,179 @@ export default function PaymentsPage() {
     constructApiUrl();
   }, []);
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!publicKey || !connection) {
+      toast({
+        title: "Wallet not connected",
+        description: "Please connect your wallet to make a payment.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const recipientPubKey = new PublicKey(recipient);
+      const lamports = parseFloat(amount) * LAMPORTS_PER_SOL;
+
+      const transaction = new Transaction().add(
+        SystemProgram.transfer({
+          fromPubkey: publicKey,
+          toPubkey: recipientPubKey,
+          lamports,
+        })
+      );
+
+      const {
+        context: { slot: minContextSlot },
+        value: { blockhash, lastValidBlockHeight }
+      } = await connection.getLatestBlockhashAndContext();
+
+      const signature = await sendTransaction(transaction, connection, { minContextSlot });
+
+      const confirmation = await connection.confirmTransaction({
+        blockhash,
+        lastValidBlockHeight,
+        signature
+      });
+
+      if (confirmation.value.err) {
+        throw new Error('Transaction failed');
+      }
+
+      toast({
+        title: "Payment sent successfully",
+        description: `${amount} SOL sent to ${recipient}`,
+      });
+
+      setRecipient('');
+      setAmount('');
+    } catch (error) {
+      console.error('Error:', error);
+      toast({
+        title: "Payment failed",
+        description: "There was an error processing your payment. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   if (loading) {
     return (
-      <section
-        id="payments"
-        className="container flex items-center justify-center py-8 dark:bg-transparent"
-      >
-        <p className="text-muted-foreground text-lg">Loading...</p>
-      </section>
+      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
     );
   }
 
   if (error) {
     return (
-      <section
-        id="payments"
-        className="container flex items-center justify-center py-8 dark:bg-transparent"
-      >
-        <p className="text-red-500 text-lg">{error}</p>
-      </section>
+      <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
+        <Card className="w-full max-w-md">
+          <CardHeader>
+            <CardTitle className="text-destructive">Error</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-destructive">{error}</p>
+          </CardContent>
+        </Card>
+      </div>
     );
   }
 
   return (
-    <section
-      id="payments"
-      className="container space-y-12 py-8 dark:bg-transparent md:py-12 lg:py-24"
-    >
-      <div className="mx-auto flex max-w-[58rem] flex-col items-center space-y-6 text-center">
-        <h2 className="font-heading text-3xl leading-tight sm:text-3xl md:text-6xl">
-          Payments
-        </h2>
-        <p className="max-w-[85%] leading-normal text-muted-foreground sm:text-lg sm:leading-7">
-          Easily manage and execute payments directly on the Solana blockchain.
-        </p>
-      </div>
-
-      {apiEndpoint && (
-        <Card className="rounded overflow-hidden text-center flex items-center justify-center mx-auto w-[400px]">
-          <SolanaQRCode
-            url={apiEndpoint}
-            color="white"
-            background="black"
-            size={400}
-            className="rounded-lg"
-            aria-label="QR code for payments endpoint"
-          />
-        </Card>
-      )}
-
-      <div className="mx-auto text-center md:max-w-[58rem]">
-        <p className="leading-normal text-muted-foreground sm:text-lg sm:leading-7">
-          View the{" "}
-          <Button variant="link" asChild>
-            <Link
-              href={`${siteConfig.links.github}/src/app${API_PATH}/route.ts`}
-              target="_blank"
-              rel="noopener noreferrer"
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
+      <Card className="w-full max-w-md bg-white shadow-xl">
+        <CardHeader className="text-center">
+          <CardTitle className="text-2xl font-bold">BARK Payments</CardTitle>
+          <CardDescription>Send and receive payments on the Solana blockchain</CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="recipient">Recipient Address</Label>
+              <Input
+                id="recipient"
+                placeholder="Enter Solana address"
+                value={recipient}
+                onChange={(e) => setRecipient(e.target.value)}
+                required
+                className="bg-gray-50"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="amount">Amount (SOL)</Label>
+              <Input
+                id="amount"
+                type="number"
+                step="0.000000001"
+                min="0"
+                placeholder="Enter amount in SOL"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+                required
+                className="bg-gray-50"
+              />
+            </div>
+            <Button 
+              type="submit" 
+              className="w-full bg-primary hover:bg-primary/90" 
+              disabled={isSubmitting || !publicKey}
             >
-              source code for this payments action
-            </Link>
-          </Button>{" "}
-          on GitHub.
-        </p>
-      </div>
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Sending...
+                </>
+              ) : (
+                <>
+                  <Send className="mr-2 h-4 w-4" />
+                  Send Payment
+                </>
+              )}
+            </Button>
+          </form>
+          
+          <div className="pt-4 border-t border-gray-200">
+            <Button 
+              variant="outline" 
+              onClick={() => setShowQR(!showQR)} 
+              className="w-full"
+            >
+              <QrCode className="mr-2 h-4 w-4" />
+              {showQR ? "Hide" : "Show"} QR Code
+            </Button>
+          </div>
 
-      {apiEndpoint && (
-        <Card className="rounded">
-          <CardHeader>
-            <CardTitle className="space-y-3">Action Endpoint</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-2">
-            <p className="text-muted-foreground">
-              <Link
-                href={apiEndpoint}
-                target="_blank"
-                className="underline hover:text-primary"
-                rel="noopener noreferrer"
-              >
-                {apiEndpoint}
-              </Link>
-            </p>
-          </CardContent>
-        </Card>
-      )}
-    </section>
+          {showQR && (
+            <div className="mt-4 bg-white p-4 rounded-lg shadow-inner">
+              <SolanaQRCode
+                url={apiEndpoint}
+                size={300}
+                color="black"
+                background="white"
+                className="mx-auto"
+              />
+            </div>
+          )}
+        </CardContent>
+        <CardFooter className="flex justify-between text-sm text-muted-foreground">
+          <Link
+            href={apiEndpoint}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center hover:text-primary transition-colors"
+          >
+            <ExternalLink className="mr-1 h-4 w-4" />
+            API Endpoint
+          </Link>
+          <span>Powered by Solana</span>
+        </CardFooter>
+      </Card>
+    </div>
   );
 }
